@@ -76,7 +76,6 @@ class Home : AppCompatActivity() {
         hostContainer.removeAllViews()
         hostContainer.addView(newLayout)
     }
-
     private fun openBottomSheet() {
 
         val dialog = BottomSheetDialog(this)
