@@ -22,15 +22,15 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-
+        homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
+        replaceLayout(homeLayout)
         homeScreenBottomSheet = layoutInflater.inflate(R.layout.home_screen_bottom_sheet, null)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
-        homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
-        val addFolder: ImageView = findViewById(R.id.addFolder)
+        val addFolder: ImageView = homeLayout.findViewById(R.id.addFolder)
         val btnHome : ImageView = findViewById(R.id.btnHome)
         val btnSettings: ImageView = findViewById(R.id.btnSettings)
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
-        val btnDocument : ImageView = findViewById(R.id.btnDocument)
+        val btnDocument : ImageView = homeLayout.findViewById(R.id.btnDocument)
         val btnPhotos : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
         hostContainer = findViewById(R.id.hostContainer)
         addFolder.setOnClickListener {
@@ -60,7 +60,7 @@ class Home : AppCompatActivity() {
     }
 
     private fun openAddFolderDialog() {
-        var dialog = Dialog(this)
+        val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.custom_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

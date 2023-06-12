@@ -23,6 +23,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="59dp"
@@ -133,6 +134,7 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/rotateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/rotate_icon"/>
@@ -203,8 +205,10 @@
             android:layout_height="1dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/retakeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="30dp"
             android:background="@drawable/button_design"
             android:fontFamily="@font/rubik_regular"
             android:text="Retake"

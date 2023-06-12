@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="420dp"
         android:fontFamily="@font/rubik_medium"
-        android:text="Cam Scanner"
+        android:text="Cam"
         android:textColor="@color/light_black"
         android:textSize="20sp"
         android:textStyle="bold"
