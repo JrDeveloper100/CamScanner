@@ -75,7 +75,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/rectangle_1"/>
+            android:src="@drawable/original_selected"/>
 
         <View
             android:layout_width="5dp"

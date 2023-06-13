@@ -26,10 +26,9 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="59dp"
         android:layout_marginTop="22dp"
-        android:layout_marginEnd="59dp"
         android:src="@drawable/camera_image"
+        android:scaleType="fitStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
@@ -59,9 +58,11 @@
         app:layout_constraintTop_toTopOf="@+id/imageView22" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/brightnessSeekBar"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:max="200"
+        android:progress="100"
         android:layout_marginStart="4dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView15"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,19 +78,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2">
+        app:layout_constraintTop_toBottomOf="@+id/brightnessSeekBar">
 
         <ImageView
-            android:id="@+id/imageView23"
+            android:id="@+id/revertButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/rectangle_1"
+            app:srcCompat="@drawable/original_selected"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="733dp" />
 
         <ImageView
-            android:id="@+id/imageView24"
+            android:id="@+id/improveColorsButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,7 +99,7 @@
             tools:layout_editor_absoluteY="733dp" />
 
         <ImageView
-            android:id="@+id/imageView25"
+            android:id="@+id/sharpBlackButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -107,7 +108,7 @@
             tools:layout_editor_absoluteY="733dp" />
 
         <ImageView
-            android:id="@+id/imageView26"
+            android:id="@+id/ocvBlackButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -160,6 +161,7 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageView
+                android:id="@+id/btnNoCrop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/no_crop_icon"/>
@@ -201,7 +203,7 @@
         </LinearLayout>
 
         <View
-            android:layout_width="110dp"
+            android:layout_width="70dp"
             android:layout_height="1dp"/>
 
         <androidx.appcompat.widget.AppCompatButton

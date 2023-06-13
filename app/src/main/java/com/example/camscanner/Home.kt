@@ -22,6 +22,7 @@ class Home : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        hostContainer = findViewById(R.id.hostContainer)
         homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
         replaceLayout(homeLayout)
         homeScreenBottomSheet = layoutInflater.inflate(R.layout.home_screen_bottom_sheet, null)
@@ -32,7 +33,6 @@ class Home : AppCompatActivity() {
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
         val btnDocument : ImageView = homeLayout.findViewById(R.id.btnDocument)
         val btnPhotos : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
-        hostContainer = findViewById(R.id.hostContainer)
         addFolder.setOnClickListener {
             openAddFolderDialog()
         }
