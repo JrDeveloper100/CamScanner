@@ -7,9 +7,13 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.Toast
+import com.google.android.material.appbar.MaterialToolbar
 
 class OnCaptureClick2 : AppCompatActivity() {
 
@@ -29,6 +33,10 @@ class OnCaptureClick2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_capture_click2)
+
+        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val rotateButton = findViewById<ImageView>(R.id.rotateButton)
         retakeButton = findViewById(R.id.retakeButton)
@@ -88,6 +96,7 @@ class OnCaptureClick2 : AppCompatActivity() {
     private fun revertToOriginal() {
         imageView.colorFilter = null
         brightnessSeekBar.progress = 100
+        buttonSelectionLogic(1)
     }
 
     private fun applyOcvBlack() {
@@ -103,7 +112,7 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         val filter = ColorMatrixColorFilter(matrix)
         imageView.colorFilter = filter
-        ocvBlackButton.setImageResource(R.drawable.ocv_black_color_selected)
+        buttonSelectionLogic(4)
     }
 
     private fun applySharpBlack() {
@@ -119,7 +128,7 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         val filter = ColorMatrixColorFilter(matrix)
         imageView.colorFilter = filter
-        sharpBlackButton.setImageResource(R.drawable.sharp_black_color_selected)
+        buttonSelectionLogic(3)
     }
 
     private fun applyImprovementColors() {
@@ -135,7 +144,7 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         val filter = ColorMatrixColorFilter(matrix)
         imageView.colorFilter = filter
-        improveColorsButton.setImageResource(R.drawable.improve_colors_selected)
+        buttonSelectionLogic(2)
     }
 
     private fun adjustBrightness(brightness: Int) {
@@ -166,5 +175,57 @@ class OnCaptureClick2 : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.imageView)
         imageView.setImageBitmap(rotatedBitmap)
         currentRotationIndex = (currentRotationIndex + 1) % rotationAngles.size
+    }
+
+    private fun buttonSelectionLogic(button: Int){
+        when (button) {
+            1 -> {
+                revertButton.setImageResource(R.drawable.original_selected)
+                improveColorsButton.setImageResource(R.drawable.rectangle_2)
+                sharpBlackButton.setImageResource(R.drawable.rectangle_3)
+                ocvBlackButton.setImageResource(R.drawable.rectangle_4)
+            }
+            2 -> {
+                revertButton.setImageResource(R.drawable.rectangle_1)
+                improveColorsButton.setImageResource(R.drawable.improve_colors_selected)
+                sharpBlackButton.setImageResource(R.drawable.rectangle_3)
+                ocvBlackButton.setImageResource(R.drawable.rectangle_4)
+            }
+            3 -> {
+                revertButton.setImageResource(R.drawable.rectangle_1)
+                improveColorsButton.setImageResource(R.drawable.rectangle_2)
+                sharpBlackButton.setImageResource(R.drawable.sharp_black_color_selected)
+                ocvBlackButton.setImageResource(R.drawable.rectangle_4)
+            }
+            else -> {
+                revertButton.setImageResource(R.drawable.rectangle_1)
+                improveColorsButton.setImageResource(R.drawable.rectangle_2)
+                sharpBlackButton.setImageResource(R.drawable.rectangle_3)
+                ocvBlackButton.setImageResource(R.drawable.ocv_black_color_selected)
+            }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.top_app_bar_2, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed() // Go back to the previous activity
+                true
+            }
+            R.id.done -> {
+                showToast("Feature not available right now") // Show toast when top_app_bar menu item is clicked
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showToast(msg: String) {
+        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show()
     }
 }

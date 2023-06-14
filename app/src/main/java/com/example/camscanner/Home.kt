@@ -4,15 +4,16 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.ScrollView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.get
 import com.google.android.material.bottomsheet.BottomSheetDialog
+
 
 class Home : AppCompatActivity() {
     private lateinit var homeScreenBottomSheet : View
@@ -79,6 +80,9 @@ class Home : AppCompatActivity() {
     private fun openBottomSheet() {
 
         val dialog = BottomSheetDialog(this)
+        if (homeScreenBottomSheet.parent != null) {
+            (homeScreenBottomSheet.parent as ViewGroup).removeView(homeScreenBottomSheet)
+        }
         dialog.setContentView(homeScreenBottomSheet)
         dialog.setCancelable(true)
         dialog.show()

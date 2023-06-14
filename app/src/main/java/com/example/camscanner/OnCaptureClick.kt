@@ -1,17 +1,23 @@
 package com.example.camscanner
 
 import android.Manifest
+import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.camera2.CameraAccessException
+import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -27,13 +33,16 @@ import java.util.Date
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import com.google.android.material.appbar.MaterialToolbar
 
 class OnCaptureClick : AppCompatActivity() {
+
 
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageCapture: ImageCapture
     private lateinit var imageView: ImageView
     private lateinit var captureButton: ImageView
+    private lateinit var btnSwitchCamera: ImageView
     private lateinit var viewFinder : PreviewView
     private lateinit var btnFlashOn : ImageView
     private lateinit var btnFlashOff : ImageView
@@ -42,12 +51,21 @@ class OnCaptureClick : AppCompatActivity() {
     private var cameraId: String? = null
     private val REQUEST_IMAGE_SELECTION = 1
     private val imageUri = "extra_image_uri"
+    private var currentCameraLensFacing = CameraSelector.LENS_FACING_BACK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_capture_click)
+
+        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        cameraId = getCameraId()
          viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         captureButton = findViewById(R.id.btnCapture)
+        btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
         btnFlashOn = findViewById(R.id.btnFlashOn)
         btnFlashOff = findViewById(R.id.btnFlashOff)
         selectImageButton = findViewById(R.id.selectImageButton)
@@ -72,7 +90,7 @@ class OnCaptureClick : AppCompatActivity() {
             e.printStackTrace()
         }
         btnFlashOn.setOnClickListener {
-            Log.d("TAG","Button is Workinggggggg")
+            Toast.makeText(this,"Flash is On",Toast.LENGTH_SHORT).show()
             turnFlashOn()
         }
         btnFlashOff.setOnClickListener {
@@ -81,13 +99,40 @@ class OnCaptureClick : AppCompatActivity() {
         selectImageButton.setOnClickListener {
             openGallery()
         }
+        btnSwitchCamera.setOnClickListener {
+            switchCamera()
+        }
 
+    }
+
+    private fun getCameraId(): String? {
+        val cameraIds = cameraManager.cameraIdList
+        for (id in cameraIds) {
+            val characteristics = cameraManager.getCameraCharacteristics(id)
+            val flashAvailable = characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE)
+            val lensFacing = characteristics.get(CameraCharacteristics.LENS_FACING)
+            if (flashAvailable == true && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                return id
+            }
+        }
+        return null
+    }
+
+    private fun switchCamera() {
+        currentCameraLensFacing = when (currentCameraLensFacing) {
+            CameraSelector.LENS_FACING_BACK -> CameraSelector.LENS_FACING_FRONT
+            CameraSelector.LENS_FACING_FRONT -> CameraSelector.LENS_FACING_BACK
+            else -> currentCameraLensFacing
+        }
+
+        startCamera()
     }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, REQUEST_IMAGE_SELECTION)
     }
+
 
     private fun turnFlashOff() {
         cameraId?.let { id ->
@@ -121,7 +166,9 @@ class OnCaptureClick : AppCompatActivity() {
 
             imageCapture = ImageCapture.Builder().build()
 
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+            val cameraSelector = CameraSelector.Builder()
+                .requireLensFacing(currentCameraLensFacing)
+                .build()
 
             try {
                 cameraProvider.unbindAll()
@@ -194,12 +241,49 @@ class OnCaptureClick : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        val selectedImageUri: Uri? = data?.data
+        if (selectedImageUri != null) {
+            val contentResolver = contentResolver
+            val contentValues = ContentValues().apply {
+                put(MediaStore.Images.Media.DISPLAY_NAME, "Image.jpg")
+                put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+            }
+            val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            imageUri?.let {
+                contentResolver.openOutputStream(it)?.use { outputStream ->
+                    contentResolver.openInputStream(selectedImageUri)?.use { inputStream ->
+                        inputStream.copyTo(outputStream)
+                    }
+                }
+                val intent = Intent(this, OnCaptureClick2::class.java)
+                intent.putExtra("imageUri", imageUri.toString())
+                startActivity(intent)
+            } ?: showToast("Failed to create image file")
+        } else {
+            showToast("No Image Selected")
+        }
+    }
 
-        if (requestCode == REQUEST_IMAGE_SELECTION && resultCode == RESULT_OK && data != null) {
-            val selectedImageUri: Uri? = data.data
-            val intent = Intent(this, OnCaptureClick2::class.java)
-            intent.putExtra(imageUri, selectedImageUri.toString())
-            startActivity(intent)
+    private fun showToast(msg: String) {
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.top_app_bar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed() // Go back to the previous activity
+                true
+            }
+            R.id.flash_auto -> {
+                showToast("Feature not available right now") // Show toast when top_app_bar menu item is clicked
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
