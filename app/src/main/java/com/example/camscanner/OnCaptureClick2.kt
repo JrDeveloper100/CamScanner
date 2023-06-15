@@ -1,4 +1,5 @@
 package com.example.camscanner
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -218,7 +219,8 @@ class OnCaptureClick2 : AppCompatActivity() {
                 true
             }
             R.id.done -> {
-                showToast("Feature not available right now") // Show toast when top_app_bar menu item is clicked
+                val intent = Intent(this,Export::class.java)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
