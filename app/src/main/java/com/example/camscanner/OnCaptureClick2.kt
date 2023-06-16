@@ -4,8 +4,8 @@ import android.graphics.Bitmap
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
@@ -14,7 +14,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
+import java.io.File
+import java.io.FileOutputStream
+
 
 class OnCaptureClick2 : AppCompatActivity() {
 
@@ -219,12 +223,31 @@ class OnCaptureClick2 : AppCompatActivity() {
                 true
             }
             R.id.done -> {
-                val intent = Intent(this,Export::class.java)
-                startActivity(intent)
+                goToActivity()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun goToActivity() {
+        val drawable = imageView.drawable as BitmapDrawable
+        val originalBitmap = drawable.bitmap
+        var outputStream: FileOutputStream
+        try {
+            val outputFile = File(filesDir, "filtered_image.jpg")
+            outputStream = FileOutputStream(outputFile)
+            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.close()
+
+            // Pass the file path as an extra in the Intent
+            val intent = Intent(this, Export::class.java)
+            intent.putExtra("filteredImagePath", outputFile.absolutePath)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     private fun showToast(msg: String) {

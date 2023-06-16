@@ -51,7 +51,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView28"
+                android:id="@+id/fullScreenImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -72,7 +72,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView28" />
+                app:layout_constraintTop_toBottomOf="@+id/fullScreenImageView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
