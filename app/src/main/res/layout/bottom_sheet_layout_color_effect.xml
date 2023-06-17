@@ -56,7 +56,7 @@
             android:src="@drawable/original_selected" />
 
         <View
-            android:layout_width="5dp"
+            android:layout_width="4dp"
             android:layout_height="1dp" />
 
         <ImageView
@@ -65,7 +65,7 @@
             android:src="@drawable/rectangle_2" />
 
         <View
-            android:layout_width="5dp"
+            android:layout_width="4dp"
             android:layout_height="1dp" />
 
         <ImageView
@@ -74,7 +74,7 @@
             android:src="@drawable/rectangle_3" />
 
         <View
-            android:layout_width="5dp"
+            android:layout_width="4dp"
             android:layout_height="1dp" />
 
         <ImageView

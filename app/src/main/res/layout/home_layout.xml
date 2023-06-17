@@ -87,7 +87,7 @@
             app:layout_constraintTop_toBottomOf="@+id/addFolder" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/btnBusinessCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -96,26 +96,26 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/btnIDCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
             android:layout_marginEnd="60dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-            app:layout_constraintEnd_toStartOf="@+id/imageView6"
-            app:layout_constraintStart_toEndOf="@+id/imageView7"
-            app:layout_constraintTop_toTopOf="@+id/imageView7"
+            app:layout_constraintBottom_toBottomOf="@+id/btnBusinessCard"
+            app:layout_constraintEnd_toStartOf="@+id/btnAcademicCard"
+            app:layout_constraintStart_toEndOf="@+id/btnBusinessCard"
+            app:layout_constraintTop_toTopOf="@+id/btnBusinessCard"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/id_card" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/btnAcademicCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="21dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+            app:layout_constraintBottom_toBottomOf="@+id/btnIDCard"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView5"
+            app:layout_constraintTop_toTopOf="@+id/btnIDCard"
             app:srcCompat="@drawable/academic_card" />
 
         <TextView
@@ -126,8 +126,8 @@
             android:fontFamily="@font/rubik_regular"
             android:text="Business Card"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView7"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+            app:layout_constraintStart_toStartOf="@+id/btnBusinessCard"
+            app:layout_constraintTop_toBottomOf="@+id/btnBusinessCard" />
 
         <TextView
             android:id="@+id/textView9"
@@ -137,8 +137,8 @@
             android:fontFamily="@font/rubik_regular"
             android:text="Academic Card"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView6"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintStart_toStartOf="@+id/btnAcademicCard"
+            app:layout_constraintTop_toBottomOf="@+id/btnAcademicCard" />
 
         <TextView
             android:id="@+id/textView8"
@@ -149,8 +149,8 @@
             android:fontFamily="@font/rubik_regular"
             android:text="ID Card"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+            app:layout_constraintStart_toStartOf="@+id/btnIDCard"
+            app:layout_constraintTop_toBottomOf="@+id/btnIDCard" />
 
         <ImageView
             android:id="@+id/btnDocument"
@@ -162,26 +162,26 @@
             app:srcCompat="@drawable/document" />
 
         <ImageView
-            android:id="@+id/imageView10"
+            android:id="@+id/btnBook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="70dp"
             android:layout_marginEnd="60dp"
             app:layout_constraintBottom_toBottomOf="@+id/btnDocument"
-            app:layout_constraintEnd_toStartOf="@+id/imageView11"
+            app:layout_constraintEnd_toStartOf="@+id/btnPhoto"
             app:layout_constraintStart_toEndOf="@+id/btnDocument"
             app:layout_constraintTop_toTopOf="@+id/btnDocument"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/book" />
 
         <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/btnPhoto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="21dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+            app:layout_constraintBottom_toBottomOf="@+id/btnBook"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView10"
+            app:layout_constraintTop_toTopOf="@+id/btnBook"
             app:srcCompat="@drawable/photos" />
 
         <TextView
@@ -205,8 +205,8 @@
             android:fontFamily="@font/rubik_regular"
             android:text="Book"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView10"
-            app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+            app:layout_constraintStart_toStartOf="@+id/btnBook"
+            app:layout_constraintTop_toBottomOf="@+id/btnBook" />
 
         <TextView
             android:id="@+id/textView12"
@@ -219,8 +219,8 @@
             android:text="Photos"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageView11"
-            app:layout_constraintTop_toBottomOf="@+id/imageView11" />
+            app:layout_constraintStart_toStartOf="@+id/btnPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/btnPhoto" />
 
         <TextView
             android:id="@+id/textView13"

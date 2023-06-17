@@ -100,25 +100,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_design_2"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/blue"
-            android:textSize="14sp"
             android:fontFamily="@font/rubik_regular"
-            android:text="Saved Signature"/>
+            android:paddingHorizontal="22dp"
+            android:text="Saved Signature"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
 
         <View
-            android:layout_width="10dp"
+            android:layout_width="8dp"
             android:layout_height="1dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_design"
-            android:paddingHorizontal="20dp"
-            android:textColor="@color/white"
-            android:textSize="14sp"
             android:fontFamily="@font/rubik_regular"
-            android:text="Create Signature"/>
+            android:paddingHorizontal="22dp"
+            android:text="Create Signature"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </LinearLayout>
 
 

@@ -33,6 +33,7 @@ class OnCaptureClick2 : AppCompatActivity() {
     private lateinit var improveColorsButton: ImageView
     private lateinit var sharpBlackButton: ImageView
     private lateinit var ocvBlackButton: ImageView
+    private lateinit var btnEdit : ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,11 @@ class OnCaptureClick2 : AppCompatActivity() {
         improveColorsButton = findViewById(R.id.improveColorsButton)
         sharpBlackButton = findViewById(R.id.sharpBlackButton)
         ocvBlackButton = findViewById(R.id.ocvBlackButton)
+        btnEdit = findViewById(R.id.btnEdit)
+        btnEdit.setOnClickListener {
+            val intent = Intent(this, EditDocument::class.java)
+            startActivity(intent)
+        }
 
         val imageUriString = intent.getStringExtra("imageUri")
         imageUri = Uri.parse(imageUriString)

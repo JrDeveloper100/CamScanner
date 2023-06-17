@@ -42,6 +42,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnBottomSheetBusinessCard"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/rounded_button">
@@ -79,6 +80,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnBottomSheetIDCard"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/rounded_button">
@@ -116,6 +118,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnBottomSheetAcademicCard"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/rounded_button">
@@ -162,6 +165,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnBottomSheetDocument"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/rounded_button">
@@ -199,6 +203,7 @@
                 android:orientation="vertical">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/btnBottomSheetBook"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:background="@drawable/rounded_button">

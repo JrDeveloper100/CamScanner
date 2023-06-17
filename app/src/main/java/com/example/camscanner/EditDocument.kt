@@ -1,10 +1,12 @@
 package com.example.camscanner
 
 import android.content.Intent
+import android.graphics.fonts.Font
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -13,12 +15,20 @@ import java.util.Stack
 class EditDocument : AppCompatActivity() {
     private lateinit var hostLayout : ConstraintLayout
     private val layoutStack : Stack<View> = Stack()
+    private lateinit var bottom_sheet_layout_watermark_2 : View
+    private lateinit var bottom_sheet_layout_watermark_3 : View
+    private lateinit var btnColor : ImageView
+    private lateinit var btnFont: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_document)
         val inflatedLayout = layoutInflater.inflate(R.layout.bottom_sheet_layout_color_filter, null)
         val btnCancel : ImageView = inflatedLayout.findViewById(R.id.btnCancel)
         hostLayout = findViewById<ConstraintLayout>(R.id.hostLayout)
+        bottom_sheet_layout_watermark_2 = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_2, null)
+        bottom_sheet_layout_watermark_3 = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_3, null)
+        btnColor = bottom_sheet_layout_watermark_2.findViewById(R.id.btnColor)
+        btnFont = bottom_sheet_layout_watermark_3.findViewById(R.id.btnFont)
 
         val btnColorFilter : ImageView = findViewById(R.id.btnColorFilter)
         val btnAdjust : ImageView = findViewById(R.id.btnAdjust)
@@ -69,6 +79,11 @@ class EditDocument : AppCompatActivity() {
             dialog.setContentView(view)
             dialog.show()
         }
+        btnText.setOnClickListener {
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(bottom_sheet_layout_watermark_2)
+            dialog.show()
+        }
         btnOverlay.setOnClickListener {
             val view : View = layoutInflater.inflate(R.layout.bottom_sheet_layout_overlay, null)
             val dialog = BottomSheetDialog(this)
@@ -77,6 +92,18 @@ class EditDocument : AppCompatActivity() {
         }
         btnColorEffect.setOnClickListener {
             val view : View = layoutInflater.inflate(R.layout.bottom_sheet_layout_color_effect, null)
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(view)
+            dialog.show()
+        }
+        btnColor.setOnClickListener {
+            val view : View = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_3, null)
+            val dialog = BottomSheetDialog(this)
+            dialog.setContentView(view)
+            dialog.show()
+        }
+        btnFont.setOnClickListener {
+            val view : View = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_4, null)
             val dialog = BottomSheetDialog(this)
             dialog.setContentView(view)
             dialog.show()

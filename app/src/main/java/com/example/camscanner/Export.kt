@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
@@ -13,10 +14,12 @@ import java.io.FileOutputStream
 
 class Export : AppCompatActivity() {
     private lateinit var imageView29 : ImageView
+    private lateinit var btnExport : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export)
 
+        btnExport = findViewById(R.id.btnExport)
         imageView29 = findViewById(R.id.imageView29)
         // Retrieve the file path from the extras
         // Retrieve the file path from the extras
@@ -33,6 +36,11 @@ class Export : AppCompatActivity() {
         imageView29.setImageBitmap(filteredImage)
         imageView29.setOnClickListener {
             fullScreenPreview()
+        }
+
+        btnExport.setOnClickListener {
+            val intent = Intent(this,Export2::class.java)
+            startActivity(intent)
         }
 
     }

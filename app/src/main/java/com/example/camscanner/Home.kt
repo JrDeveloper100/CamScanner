@@ -20,6 +20,7 @@ class Home : AppCompatActivity() {
     private lateinit var settingsLayout : View
     private lateinit var homeLayout : View
     private lateinit var hostContainer : ScrollView
+    private lateinit var btnPhoto : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -27,15 +28,56 @@ class Home : AppCompatActivity() {
         homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
         replaceLayout(homeLayout)
         homeScreenBottomSheet = layoutInflater.inflate(R.layout.home_screen_bottom_sheet, null)
+        val btnBottomSheetBook : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBook)
+        val btnBottomSheetDocument : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetDocument)
+        val btnBottomSheetAcademicCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetAcademicCard)
+        val btnBottomSheetIDCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
+        val btnBottomSheetBusinessCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
         val addFolder: ImageView = homeLayout.findViewById(R.id.addFolder)
+        val btnBusinessCard : ImageView = homeLayout.findViewById(R.id.btnBusinessCard)
+        val btnIDCard : ImageView = homeLayout.findViewById(R.id.btnIDCard)
+        val btnAcademicCard : ImageView = homeLayout.findViewById(R.id.btnAcademicCard)
+        val btnBook : ImageView = homeLayout.findViewById(R.id.btnBook)
         val btnHome : ImageView = findViewById(R.id.btnHome)
         val btnSettings: ImageView = findViewById(R.id.btnSettings)
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
         val btnDocument : ImageView = homeLayout.findViewById(R.id.btnDocument)
         val btnPhotos : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
+        btnPhoto = homeLayout.findViewById(R.id.btnPhoto)
+        btnPhoto.setOnClickListener {
+            val intent = Intent(this,OnCaptureClick::class.java)
+            startActivity(intent)
+        }
+        btnBottomSheetBook.setOnClickListener {
+            openCamera()
+        }
+        btnBottomSheetDocument.setOnClickListener {
+            openCamera()
+        }
+        btnBottomSheetAcademicCard.setOnClickListener {
+            openCamera()
+        }
+        btnBottomSheetIDCard.setOnClickListener {
+            openCamera()
+        }
+        btnBottomSheetBusinessCard.setOnClickListener {
+            openCamera()
+        }
         addFolder.setOnClickListener {
             openAddFolderDialog()
+        }
+        btnBusinessCard.setOnClickListener {
+            openCamera()
+        }
+        btnIDCard.setOnClickListener {
+            openCamera()
+        }
+        btnAcademicCard.setOnClickListener {
+            openCamera()
+        }
+        btnBook.setOnClickListener {
+            openCamera()
         }
         btnCaptureIcon.setOnClickListener {
             openBottomSheet()
@@ -51,13 +93,17 @@ class Home : AppCompatActivity() {
             replaceLayout(settingsLayout)
         }
         btnDocument.setOnClickListener {
-            val intent = Intent(this, EditDocument::class.java)
-            startActivity(intent)
+            openCamera()
         }
         btnPhotos.setOnClickListener {
             val intent = Intent(this, OnCaptureClick::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun openCamera() {
+        val intent = Intent(this, OnCaptureClick::class.java)
+        startActivity(intent)
     }
 
     private fun openAddFolderDialog() {
