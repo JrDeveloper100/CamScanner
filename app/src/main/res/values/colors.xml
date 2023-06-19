@@ -2,7 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bottom_sheet_background_color">#FFFFFF</color>
     <color name="grey">#D8D8D8</color>
+    <color name="app_background_color">#F8FBFE</color>
     <color name="light_black">#1C3B53</color>
     <color name="light_grey">#9CA5B4</color>
     <color name="light_grey2">#DFE7F9</color>

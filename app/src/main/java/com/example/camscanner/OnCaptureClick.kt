@@ -44,8 +44,8 @@ class OnCaptureClick : AppCompatActivity() {
     private lateinit var captureButton: ImageView
     private lateinit var btnSwitchCamera: ImageView
     private lateinit var viewFinder : PreviewView
-    private lateinit var btnFlashOn : ImageView
-    private lateinit var btnFlashOff : ImageView
+    //private lateinit var btnFlashOn : ImageView
+    //private lateinit var btnFlashOff : ImageView
     private lateinit var selectImageButton : ImageView
     private lateinit var cameraManager: CameraManager
     private var cameraId: String? = null
@@ -66,8 +66,8 @@ class OnCaptureClick : AppCompatActivity() {
          viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         captureButton = findViewById(R.id.btnCapture)
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
-        btnFlashOn = findViewById(R.id.btnFlashOn)
-        btnFlashOff = findViewById(R.id.btnFlashOff)
+        //btnFlashOn = findViewById(R.id.btnFlashOn)
+        //btnFlashOff = findViewById(R.id.btnFlashOff)
         selectImageButton = findViewById(R.id.selectImageButton)
         if (allPermissionsGranted()) {
             startCamera()
@@ -89,13 +89,13 @@ class OnCaptureClick : AppCompatActivity() {
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
-        btnFlashOn.setOnClickListener {
-            Toast.makeText(this,"Flash is On",Toast.LENGTH_SHORT).show()
-            turnFlashOn()
-        }
-        btnFlashOff.setOnClickListener {
-            turnFlashOff()
-        }
+//        btnFlashOn.setOnClickListener {
+//            Toast.makeText(this,"Flash is On",Toast.LENGTH_SHORT).show()
+//            turnFlashOn()
+//        }
+//        btnFlashOff.setOnClickListener {
+//            turnFlashOff()
+//        }
         selectImageButton.setOnClickListener {
             openGallery()
         }

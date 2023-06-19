@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@color/app_background_color"
     tools:context=".Export">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,7 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_app_bar_3"
             app:navigationIcon="@drawable/arrow_left_icon"
-            app:title="CamScanner_file1" />
+            app:title="CamScanner_file1"
+            app:titleTextAppearance="@style/toolbar_text"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <ImageView

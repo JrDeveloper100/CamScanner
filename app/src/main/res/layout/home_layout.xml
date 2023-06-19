@@ -21,7 +21,7 @@
             android:fontFamily="@font/rubik_medium"
             android:text="All Converter"
             android:textColor="@color/light_black"
-            android:textSize="20sp"
+            android:textSize="@dimen/_15ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
             android:fontFamily="@font/rubik_medium"
             android:text="Custom Folders"
             android:textColor="@color/light_black"
-            android:textSize="16sp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextText" />
@@ -230,7 +230,7 @@
             android:layout_marginTop="28dp"
             android:fontFamily="@font/rubik_medium"
             android:text="Other Folders"
-            android:textSize="16sp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -243,6 +243,16 @@
             app:layout_constraintStart_toStartOf="@+id/textView13"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@drawable/qr_reader" />
+
+        <ImageView
+            android:id="@+id/imageView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toEndOf="@+id/imageView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:srcCompat="@drawable/qr_reader_text_icon" />
 
         <ImageView
             android:id="@+id/imageView14"
@@ -263,15 +273,13 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView13"
             app:srcCompat="@drawable/qr_generator_text_icon" />
 
-        <ImageView
-            android:id="@+id/imageView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="13dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintStart_toEndOf="@+id/imageView12"
-            app:layout_constraintTop_toBottomOf="@+id/textView13"
-            app:srcCompat="@drawable/qr_reader_text_icon" />
+        <View
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="9dp"
+            app:layout_constraintStart_toStartOf="@+id/imageView14"
+            app:layout_constraintTop_toBottomOf="@+id/imageView14"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

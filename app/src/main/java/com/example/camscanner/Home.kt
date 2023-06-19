@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -21,10 +22,16 @@ class Home : AppCompatActivity() {
     private lateinit var homeLayout : View
     private lateinit var hostContainer : ScrollView
     private lateinit var btnPhoto : ImageView
+    private lateinit var btnHomeContainer : ConstraintLayout
+    private lateinit var btnSettingsContainer : ConstraintLayout
+    private lateinit var btnRateUs : LinearLayout
+    private lateinit var btnFeedback : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         hostContainer = findViewById(R.id.hostContainer)
+        btnHomeContainer = findViewById(R.id.btnHomeContainer)
+        btnSettingsContainer = findViewById(R.id.btnSettingsContainer)
         homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
         replaceLayout(homeLayout)
         homeScreenBottomSheet = layoutInflater.inflate(R.layout.home_screen_bottom_sheet, null)
@@ -34,6 +41,8 @@ class Home : AppCompatActivity() {
         val btnBottomSheetIDCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
         val btnBottomSheetBusinessCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
+        btnRateUs = settingsLayout.findViewById(R.id.btnRateUs)
+        btnFeedback = settingsLayout.findViewById(R.id.btnFeedback)
         val addFolder: ImageView = homeLayout.findViewById(R.id.addFolder)
         val btnBusinessCard : ImageView = homeLayout.findViewById(R.id.btnBusinessCard)
         val btnIDCard : ImageView = homeLayout.findViewById(R.id.btnIDCard)
@@ -82,12 +91,12 @@ class Home : AppCompatActivity() {
         btnCaptureIcon.setOnClickListener {
             openBottomSheet()
         }
-        btnHome.setOnClickListener {
+        btnHomeContainer.setOnClickListener {
             btnSettings.setImageResource(R.drawable.settings_icon)
             btnHome.setImageResource(R.drawable.home_selected_icon)
             replaceLayout(homeLayout)
         }
-        btnSettings.setOnClickListener {
+        btnSettingsContainer.setOnClickListener {
             btnSettings.setImageResource(R.drawable.settings_seleted_icon)
             btnHome.setImageResource(R.drawable.home_icon)
             replaceLayout(settingsLayout)
@@ -99,6 +108,34 @@ class Home : AppCompatActivity() {
             val intent = Intent(this, OnCaptureClick::class.java)
             startActivity(intent)
         }
+        btnRateUs.setOnClickListener {
+            openRateUsDialog()
+        }
+        btnFeedback.setOnClickListener {
+            openFeedbackDialog()
+        }
+    }
+
+    private fun openFeedbackDialog() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_dialog_feedback)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        dialog.show()
+
+    }
+
+    private fun openRateUsDialog() {
+
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_dialog_rate_us)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCancelable(true)
+        dialog.show()
+
     }
 
     private fun openCamera() {
