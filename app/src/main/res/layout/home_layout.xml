@@ -21,7 +21,7 @@
             android:fontFamily="@font/rubik_medium"
             android:text="All Converter"
             android:textColor="@color/light_black"
-            android:textSize="@dimen/_17ssp"
+            android:textSize="@dimen/_18ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -82,6 +82,7 @@
             android:layout_marginTop="31dp"
             android:fontFamily="@font/rubik_medium"
             android:text="Folders"
+            android:textStyle="bold"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="@+id/addFolder"
             app:layout_constraintTop_toBottomOf="@+id/addFolder" />
@@ -131,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:layout_marginHorizontal="@dimen/_26sdp">
+                    android:layout_marginHorizontal="@dimen/_35sdp">
 
                     <ImageView
                         android:id="@+id/btnIDCard"
@@ -210,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:gravity="center"
-                    android:layout_marginHorizontal="@dimen/_26sdp">
+                    android:layout_marginHorizontal="@dimen/_35sdp">
 
                     <ImageView
                         android:id="@+id/btnBook"
@@ -263,7 +264,7 @@
             android:layout_marginTop="28dp"
             android:fontFamily="@font/rubik_medium"
             android:text="Other Tools"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/midLinearLayout" />
