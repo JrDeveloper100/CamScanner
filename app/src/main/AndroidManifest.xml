@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.flash" />
 
@@ -18,16 +19,20 @@
         android:theme="@style/Theme.CamScanner"
         tools:targetApi="31">
         <activity
+            android:name=".BusinessCard2"
+            android:exported="false" />
+        <activity
+            android:name=".BusinessCard"
+            android:exported="false" />
+        <activity
             android:name=".OnCaptureClick3"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".Gallery"
             android:exported="false" />
         <activity
             android:name=".EditDocument"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".AfterExport"
             android:exported="true" />
@@ -48,7 +53,7 @@
             android:exported="true" />
         <activity
             android:name=".Home"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

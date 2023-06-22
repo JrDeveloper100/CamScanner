@@ -21,7 +21,7 @@
             android:fontFamily="@font/rubik_medium"
             android:text="All Converter"
             android:textColor="@color/light_black"
-            android:textSize="@dimen/_15ssp"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -81,147 +81,180 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="31dp"
             android:fontFamily="@font/rubik_medium"
-            android:text="Cam Scanner"
-            android:textSize="16sp"
+            android:text="Folders"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintStart_toStartOf="@+id/addFolder"
             app:layout_constraintTop_toBottomOf="@+id/addFolder" />
 
-        <ImageView
-            android:id="@+id/btnBusinessCard"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/midLinearLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/business_card"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-        <ImageView
-            android:id="@+id/btnIDCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginEnd="60dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnBusinessCard"
-            app:layout_constraintEnd_toStartOf="@+id/btnAcademicCard"
-            app:layout_constraintStart_toEndOf="@+id/btnBusinessCard"
-            app:layout_constraintTop_toTopOf="@+id/btnBusinessCard"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/id_card" />
-
-        <ImageView
-            android:id="@+id/btnAcademicCard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="21dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnIDCard"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnIDCard"
-            app:srcCompat="@drawable/academic_card" />
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="Business Card"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/btnBusinessCard"
-            app:layout_constraintTop_toBottomOf="@+id/btnBusinessCard" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/_20sdp">
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="Academic Card"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/btnAcademicCard"
-            app:layout_constraintTop_toBottomOf="@+id/btnAcademicCard" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="ID Card"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/btnIDCard"
-            app:layout_constraintTop_toBottomOf="@+id/btnIDCard" />
+                    <ImageView
+                        android:id="@+id/btnBusinessCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/business_card"/>
 
-        <ImageView
-            android:id="@+id/btnDocument"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView7"
-            app:srcCompat="@drawable/document" />
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="Business Card"
+                        android:textSize="@dimen/_10ssp"/>
 
-        <ImageView
-            android:id="@+id/btnBook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginEnd="60dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnDocument"
-            app:layout_constraintEnd_toStartOf="@+id/btnPhoto"
-            app:layout_constraintStart_toEndOf="@+id/btnDocument"
-            app:layout_constraintTop_toTopOf="@+id/btnDocument"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/book" />
+                </LinearLayout>
 
-        <ImageView
-            android:id="@+id/btnPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="21dp"
-            app:layout_constraintBottom_toBottomOf="@+id/btnBook"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/btnBook"
-            app:srcCompat="@drawable/photos" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/_26sdp">
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="11dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="Document"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/btnDocument"
-            app:layout_constraintTop_toBottomOf="@+id/btnDocument" />
+                    <ImageView
+                        android:id="@+id/btnIDCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/id_card"/>
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="15dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="Book"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/btnBook"
-            app:layout_constraintTop_toBottomOf="@+id/btnBook" />
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="ID Card"
+                        android:textSize="@dimen/_10ssp"/>
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="38dp"
-            android:fontFamily="@font/rubik_regular"
-            android:text="Photos"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btnPhoto"
-            app:layout_constraintTop_toBottomOf="@+id/btnPhoto" />
+                </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/btnAcademicCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/academic_card"/>
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="Academic Card"
+                        android:textSize="@dimen/_10ssp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/btnDocument"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/document"/>
+
+                    <TextView
+                        android:id="@+id/textView10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="Document"
+                        android:textSize="@dimen/_10ssp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/_26sdp">
+
+                    <ImageView
+                        android:id="@+id/btnBook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/book"/>
+
+                    <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="Book"
+                        android:textSize="@dimen/_10ssp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/btnPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/photos"/>
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rubik_regular"
+                        android:text="Photos"
+                        android:textSize="@dimen/_10ssp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
@@ -229,11 +262,11 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="28dp"
             android:fontFamily="@font/rubik_medium"
-            android:text="Other Folders"
-            android:textSize="@dimen/_12ssp"
+            android:text="Other Tools"
+            android:textSize="@dimen/_13ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+            app:layout_constraintTop_toBottomOf="@+id/midLinearLayout" />
 
         <ImageView
             android:id="@+id/imageView12"

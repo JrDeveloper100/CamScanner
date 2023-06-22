@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
+        android:layout_marginStart="@dimen/_10sdp"
         android:fontFamily="@font/rubik_medium"
         android:text="Choose Option to Scan"
         android:textSize="@dimen/_14ssp"
@@ -65,7 +66,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="Business Card"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -103,7 +104,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="ID Card"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -141,7 +142,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="Academic Card"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -188,7 +189,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="Document"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -226,7 +227,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="Book"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -264,7 +265,7 @@
                     android:layout_marginTop="10dp"
                     android:fontFamily="@font/rubik_regular"
                     android:text="Photos"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -273,7 +274,7 @@
 
         <View
             android:layout_width="1dp"
-            android:layout_height="10dp"/>
+            android:layout_height="15dp"/>
 
     </LinearLayout>
 

@@ -21,6 +21,12 @@
             app:navigationIcon="@drawable/arrow_left_icon"
             app:title="Edit Document"
             app:titleTextAppearance="@style/toolbar_text"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_grey_5"/>
+
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -39,7 +45,7 @@
         android:id="@+id/hostLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="25dp"
+
         android:background="@drawable/lower_bottom_cover"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +54,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingVertical="25dp"
             android:scrollbars="none">
 
             <LinearLayout

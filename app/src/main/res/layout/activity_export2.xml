@@ -21,6 +21,12 @@
                 app:navigationIcon="@drawable/arrow_left_icon"
                 app:title="CamScanner_file1"
                 app:titleTextAppearance="@style/toolbar_text"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/light_grey_5"/>
+
         </com.google.android.material.appbar.AppBarLayout>
 
         <ImageView

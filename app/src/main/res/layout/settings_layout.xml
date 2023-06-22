@@ -28,7 +28,7 @@
         android:fontFamily="@font/rubik_medium"
         android:text="Settings"
         android:textColor="@color/light_black"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_13ssp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/rename_ads_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
 
             <TextView
@@ -61,7 +61,7 @@
                 android:fontFamily="@font/rubik_regular"
                 android:text="Remove Ads"
                 android:textColor="@color/light_black"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_13ssp" />
         </LinearLayout>
         <View
             android:layout_width="1dp"
@@ -77,14 +77,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/rate_us_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Rate Us"
                 android:textColor="@color/light_black"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:fontFamily="@font/rubik_regular"/>
         </LinearLayout>
         <View
@@ -101,14 +101,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/feedback_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Feedback"
                 android:textColor="@color/light_black"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:fontFamily="@font/rubik_regular"/>
         </LinearLayout>
         <View
@@ -124,13 +124,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/privacy_policy_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Privacy Policy"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:textColor="@color/light_black"
                 android:fontFamily="@font/rubik_regular"/>
         </LinearLayout>
@@ -147,13 +147,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/share_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Share with friends"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:textColor="@color/light_black"
                 android:fontFamily="@font/rubik_regular"/>
         </LinearLayout>
@@ -170,13 +170,13 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/dark_mode_icon"/>
             <View
-                android:layout_width="15dp"
+                android:layout_width="20dp"
                 android:layout_height="1dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dark Mode"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_13ssp"
                 android:textColor="@color/light_black"
                 android:fontFamily="@font/rubik_regular"/>
         </LinearLayout>
@@ -188,7 +188,7 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="90dp"
         android:fontFamily="@font/rubik_regular"
         android:text="App Version 1.0"
         android:textColor="@color/light_grey3"

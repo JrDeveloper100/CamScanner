@@ -3,8 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/lower_bottom_cover">
+
+    <View
+        android:id="@+id/topEdgeSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/light_grey_5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/btnCancel"

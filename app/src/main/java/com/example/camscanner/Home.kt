@@ -77,7 +77,8 @@ class Home : AppCompatActivity() {
             openAddFolderDialog()
         }
         btnBusinessCard.setOnClickListener {
-            openCamera()
+            val intent = Intent(this, BusinessCard::class.java)
+            startActivity(intent)
         }
         btnIDCard.setOnClickListener {
             openCamera()
