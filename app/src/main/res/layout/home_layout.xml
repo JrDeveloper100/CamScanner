@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout3"
@@ -287,6 +288,17 @@
             app:layout_constraintStart_toEndOf="@+id/imageView12"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:srcCompat="@drawable/qr_reader_text_icon" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="@dimen/_195sdp"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/separator_color"
+            app:layout_constraintStart_toStartOf="@id/imageView13"
+            app:layout_constraintTop_toBottomOf="@id/imageView13"
+            app:layout_constraintBottom_toTopOf="@id/imageView15"
+            tools:layout_editor_absoluteX="106dp"
+            tools:layout_editor_absoluteY="166dp" />
 
         <ImageView
             android:id="@+id/imageView14"
