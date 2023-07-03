@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -21,11 +22,21 @@ class Home : AppCompatActivity() {
     private lateinit var settingsLayout : View
     private lateinit var homeLayout : View
     private lateinit var hostContainer : ScrollView
-    private lateinit var btnPhoto : ImageView
+    private lateinit var btnPhotos : ConstraintLayout
+    private lateinit var addFolder : ImageView
     private lateinit var btnHomeContainer : ConstraintLayout
     private lateinit var btnSettingsContainer : ConstraintLayout
     private lateinit var btnRateUs : LinearLayout
     private lateinit var btnFeedback : LinearLayout
+    private lateinit var btnDarkMode : LinearLayout
+    private lateinit var btnBusinessCard : LinearLayout
+    private lateinit var btnIDCard : LinearLayout
+    private lateinit var btnAcademicCard : LinearLayout
+    private lateinit var btnDocument : LinearLayout
+    private lateinit var btnBook : LinearLayout
+    private lateinit var btnPhoto : LinearLayout
+    private lateinit var linearLayout1 : LinearLayout
+    private var isDarkModeEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -41,19 +52,42 @@ class Home : AppCompatActivity() {
         val btnBottomSheetIDCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
         val btnBottomSheetBusinessCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
+        linearLayout1 = settingsLayout.findViewById(R.id.linearLayout1)
         btnRateUs = settingsLayout.findViewById(R.id.btnRateUs)
         btnFeedback = settingsLayout.findViewById(R.id.btnFeedback)
-        val addFolder: ImageView = homeLayout.findViewById(R.id.addFolder)
-        val btnBusinessCard : ImageView = homeLayout.findViewById(R.id.btnBusinessCard)
-        val btnIDCard : ImageView = homeLayout.findViewById(R.id.btnIDCard)
-        val btnAcademicCard : ImageView = homeLayout.findViewById(R.id.btnAcademicCard)
-        val btnBook : ImageView = homeLayout.findViewById(R.id.btnBook)
+        btnDarkMode = settingsLayout.findViewById(R.id.btnDarkMode)
+        addFolder = homeLayout.findViewById(R.id.addFolder)
+        btnBusinessCard = homeLayout.findViewById(R.id.btnBusinessCard)
+        btnIDCard = homeLayout.findViewById(R.id.btnIDCard)
+        btnAcademicCard = homeLayout.findViewById(R.id.btnAcademicCard)
+        btnBook = homeLayout.findViewById(R.id.btnBook)
         val btnHome : ImageView = findViewById(R.id.btnHome)
         val btnSettings: ImageView = findViewById(R.id.btnSettings)
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
-        val btnDocument : ImageView = homeLayout.findViewById(R.id.btnDocument)
-        val btnPhotos : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
+        btnDocument = homeLayout.findViewById(R.id.btnDocument)
+        btnPhotos = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
         btnPhoto = homeLayout.findViewById(R.id.btnPhoto)
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnIDCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnAcademicCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnDocument.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnBook.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnPhoto.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            addFolder.setImageResource(R.drawable.add_icon_dark_mode)
+            linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+        }else{
+            btnBusinessCard.setBackgroundResource(R.drawable.business_card_rounded_design_light_mode)
+            btnIDCard.setBackgroundResource(R.drawable.id_card_rounded_design_light_mode)
+            btnAcademicCard.setBackgroundResource(R.drawable.academic_card_rounded_design_light_mode)
+            btnDocument.setBackgroundResource(R.drawable.document_rounded_design_light_mode)
+            btnBook.setBackgroundResource(R.drawable.book_rounded_design_light_mode)
+            btnPhoto.setBackgroundResource(R.drawable.photos_rounded_design_light_mode)
+            linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+        }
+
         btnPhoto.setOnClickListener {
             val intent = Intent(this,OnCaptureClick::class.java)
             startActivity(intent)
@@ -114,6 +148,17 @@ class Home : AppCompatActivity() {
         }
         btnFeedback.setOnClickListener {
             openFeedbackDialog()
+        }
+        btnDarkMode.setOnClickListener {
+            isDarkModeEnabled = !isDarkModeEnabled
+
+            if (isDarkModeEnabled) {
+                // Enable dark mode
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                // Disable dark mode
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 
