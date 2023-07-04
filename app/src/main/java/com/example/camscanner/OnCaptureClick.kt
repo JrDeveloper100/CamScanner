@@ -1,7 +1,6 @@
 package com.example.camscanner
 
 import android.Manifest
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
@@ -52,12 +51,14 @@ class OnCaptureClick : AppCompatActivity() {
     private val REQUEST_IMAGE_SELECTION = 1
     private val imageUri = "extra_image_uri"
     private var currentCameraLensFacing = CameraSelector.LENS_FACING_BACK
+    private lateinit var toolbar: MaterialToolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_capture_click)
 
-        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
+
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -101,6 +102,14 @@ class OnCaptureClick : AppCompatActivity() {
         }
         btnSwitchCamera.setOnClickListener {
             switchCamera()
+        }
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+
+        }else{
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
     }

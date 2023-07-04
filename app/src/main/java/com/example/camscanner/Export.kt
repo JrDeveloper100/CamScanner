@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.appbar.MaterialToolbar
 import java.io.File
 import java.io.FileOutputStream
 
@@ -15,9 +16,14 @@ import java.io.FileOutputStream
 class Export : AppCompatActivity() {
     private lateinit var imageView29 : ImageView
     private lateinit var btnExport : Button
+    private lateinit var toolbar : MaterialToolbar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export)
+
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         btnExport = findViewById(R.id.btnExport)
         imageView29 = findViewById(R.id.imageView29)
@@ -41,6 +47,14 @@ class Export : AppCompatActivity() {
         btnExport.setOnClickListener {
             val intent = Intent(this,Export2::class.java)
             startActivity(intent)
+        }
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+
+        }else{
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
     }

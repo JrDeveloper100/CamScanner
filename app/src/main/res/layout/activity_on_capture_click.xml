@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_app_bar"
-            app:navigationIcon="@drawable/arrow_left_icon"
+            app:navigationIcon="@drawable/arrow_left_icon_light_mode"
             app:title="CamScanner"
             app:titleTextAppearance="@style/toolbar_text"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -44,10 +44,18 @@
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/white"
+        style="@style/background_theme_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            style="@style/separator_background_theme_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/selectImageButton"

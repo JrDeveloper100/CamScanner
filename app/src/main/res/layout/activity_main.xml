@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background_color"
+    style="@style/background_theme_color"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,7 +14,6 @@
         android:layout_marginTop="420dp"
         android:fontFamily="@font/rubik_medium"
         android:text="Cam Scanner"
-        android:textColor="@color/light_black"
         android:textSize="@dimen/_15ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background_color"
+    style="@style/background_theme_color"
     tools:context=".Export">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -15,17 +15,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/top_app_bar_3"
-            app:navigationIcon="@drawable/arrow_left_icon"
+            app:navigationIcon="@drawable/arrow_left_icon_light_mode"
             app:title="CamScanner_file1"
             app:titleTextAppearance="@style/toolbar_text"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/light_grey_5"/>
+            style="@style/separator_background_theme_color"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -92,10 +93,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="@drawable/lower_bottom_cover"
+        style="@style/background_theme_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            style="@style/separator_background_theme_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnExport"

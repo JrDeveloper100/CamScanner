@@ -23,4 +23,5 @@
     <color name="black_color">#282828</color>
     <color name="dark_mode_textColor">#F6FBFF</color>
     <color name="text_background_color">#3D73DD</color>
+    <color name="foreground_color">#303031</color>
 </resources>

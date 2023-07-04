@@ -34,13 +34,14 @@ class OnCaptureClick2 : AppCompatActivity() {
     private lateinit var sharpBlackButton: ImageView
     private lateinit var ocvBlackButton: ImageView
     private lateinit var btnEdit : ImageView
+    private lateinit var toolbar: MaterialToolbar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_capture_click2)
 
-        val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
+        toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -100,6 +101,14 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         ocvBlackButton.setOnClickListener {
             applyOcvBlack()
+        }
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+
+        }else{
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
     }

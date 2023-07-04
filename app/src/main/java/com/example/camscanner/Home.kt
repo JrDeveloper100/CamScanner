@@ -14,6 +14,7 @@ import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -22,7 +23,7 @@ class Home : AppCompatActivity() {
     private lateinit var settingsLayout : View
     private lateinit var homeLayout : View
     private lateinit var hostContainer : ScrollView
-    private lateinit var btnPhotos : ConstraintLayout
+    private lateinit var btnPhotos : LinearLayout
     private lateinit var addFolder : ImageView
     private lateinit var btnHomeContainer : ConstraintLayout
     private lateinit var btnSettingsContainer : ConstraintLayout
@@ -35,7 +36,14 @@ class Home : AppCompatActivity() {
     private lateinit var btnDocument : LinearLayout
     private lateinit var btnBook : LinearLayout
     private lateinit var btnPhoto : LinearLayout
+    private lateinit var btnBottomSheetBook : LinearLayout
+    private lateinit var btnBottomSheetDocument : LinearLayout
+    private lateinit var btnBottomSheetAcademicCard : LinearLayout
+    private lateinit var btnBottomSheetIDCard : LinearLayout
+    private lateinit var btnBottomSheetBusinessCard : LinearLayout
     private lateinit var linearLayout1 : LinearLayout
+    private lateinit var cancelButton : ImageView
+    private lateinit var customDialog : View
     private var isDarkModeEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +54,11 @@ class Home : AppCompatActivity() {
         homeLayout = layoutInflater.inflate(R.layout.home_layout, null)
         replaceLayout(homeLayout)
         homeScreenBottomSheet = layoutInflater.inflate(R.layout.home_screen_bottom_sheet, null)
-        val btnBottomSheetBook : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBook)
-        val btnBottomSheetDocument : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetDocument)
-        val btnBottomSheetAcademicCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetAcademicCard)
-        val btnBottomSheetIDCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
-        val btnBottomSheetBusinessCard : ConstraintLayout = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
+        btnBottomSheetBook = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBook)
+        btnBottomSheetDocument = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetDocument)
+        btnBottomSheetAcademicCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetAcademicCard)
+        btnBottomSheetIDCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
+        btnBottomSheetBusinessCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
         linearLayout1 = settingsLayout.findViewById(R.id.linearLayout1)
         btnRateUs = settingsLayout.findViewById(R.id.btnRateUs)
@@ -67,7 +75,8 @@ class Home : AppCompatActivity() {
         btnDocument = homeLayout.findViewById(R.id.btnDocument)
         btnPhotos = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
         btnPhoto = homeLayout.findViewById(R.id.btnPhoto)
-
+        customDialog = layoutInflater.inflate(R.layout.custom_dialog,null)
+        cancelButton = customDialog.findViewById(R.id.cancelButton)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -78,6 +87,13 @@ class Home : AppCompatActivity() {
             btnPhoto.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             addFolder.setImageResource(R.drawable.add_icon_dark_mode)
             linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            btnBottomSheetBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnBottomSheetIDCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnBottomSheetAcademicCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnBottomSheetDocument.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnBottomSheetBook.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnPhotos.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            cancelButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.cancel_icon_dark_mode))
         }else{
             btnBusinessCard.setBackgroundResource(R.drawable.business_card_rounded_design_light_mode)
             btnIDCard.setBackgroundResource(R.drawable.id_card_rounded_design_light_mode)
@@ -86,6 +102,13 @@ class Home : AppCompatActivity() {
             btnBook.setBackgroundResource(R.drawable.book_rounded_design_light_mode)
             btnPhoto.setBackgroundResource(R.drawable.photos_rounded_design_light_mode)
             linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            btnBottomSheetBusinessCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            btnBottomSheetIDCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            btnBottomSheetAcademicCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            btnBottomSheetDocument.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            btnBottomSheetBook.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            btnPhotos.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
+            cancelButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.cancel_icon_light_mode))
         }
 
         btnPhoto.setOnClickListener {

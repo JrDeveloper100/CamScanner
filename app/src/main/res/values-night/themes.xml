@@ -4,6 +4,23 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModeStyle</item>
+    </style>
+
+    <style name="AppModeStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/home_screen_bottom_sheet_design_dark_mode</item>
+    </style>
+
+    <!-- Toolbar Text in Dark Mode -->
+
+    <style name="toolbar_text">
+        <item name="android:fontFamily">@font/rubik_medium</item>
+        <item name="android:textSize">@dimen/_15ssp</item>
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <!-- TextView Color in Light Mode -->
@@ -13,7 +30,7 @@
         <item name="android:textColor">#FFFFFF</item>
     </style>
 
-    <!-- Dark mode -->
+    <!-- Dark Mode Theme Color -->
 
     <style name="background_theme_color">
         <item name="android:background">@color/black_color</item>
@@ -31,11 +48,23 @@
         <item name="android:textColor">@color/dark_mode_textColor</item>
     </style>
 
+    <!-- Text Color of Activity After Export in Light Mode -->
+
+    <style name="text_after_export">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
     <!-- Button Design in Dark Mode -->
 
     <style name="BUTTON">
         <item name="android:background">#3D73DD</item>
         <item name="android:textColor">#FFF</item>
+    </style>
+
+    <!-- Giving Background Drawable in Dark Mode -->
+
+    <style name="EditTextBackground">
+        <item name="android:background">@drawable/password_field_design_dark_mode</item>
     </style>
 
 </resources>

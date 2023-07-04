@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="320dp"
     android:layout_height="265dp"
-    app:cardBackgroundColor="@color/white"
+    style="@style/background_theme_color"
     app:cardCornerRadius="20dp"
     android:layout_marginHorizontal="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/cancel_icon" />
+            android:src="@drawable/cancel_icon_light_mode"/>
 
         <TextView
             android:id="@+id/textView17"
@@ -29,7 +30,6 @@
             android:fontFamily="@font/rubik_regular"
             android:text="Create New Folder"
             android:textSize="17sp"
-            android:textColor="@color/light_black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             android:ems="10"
             android:hint="Folder Name"
             android:inputType="text"
-            android:background="@drawable/rounded_edittext"
+            style="@style/EditTextBackground"
             android:layout_marginHorizontal="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +55,7 @@
             android:layout_height="56dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
+            style="@style/ButtonNoShadow"
             android:background="@drawable/button_design"
             android:fontFamily="@font/rubik_regular"
             android:text="Create Folder"
