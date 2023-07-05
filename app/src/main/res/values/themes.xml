@@ -53,6 +53,18 @@
         <item name="android:background">@color/app_background_color</item>
     </style>
 
+    <!-- Edit Document Host Container Color in Light Mode -->
+
+    <style name="edit_document_container_color">
+        <item name="android:background">#F1F1F1</item>
+    </style>
+
+    <!-- Edit Document Bottom Menu Color in Light Mode -->
+
+    <style name="edit_document_bottom_menu_color">
+        <item name="android:background">#F2F5F8</item>
+    </style>
+
 
     <!-- Separator Color in Light mode -->
 
@@ -83,6 +95,12 @@
 
     <style name="EditTextBackground">
         <item name="android:background">@drawable/password_field_design_light_mode</item>
+    </style>
+
+    <!-- Search Field in Light Mode -->
+
+    <style name="SearchField">
+        <item name="android:background">@drawable/edittext_no_bottomline_light_mode</item>
     </style>
 
 </resources>

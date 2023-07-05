@@ -16,9 +16,10 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/background_theme_color"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_bar_3"
+            app:menu="@menu/top_app_bar_3_light_mode"
             app:navigationIcon="@drawable/arrow_left_icon_light_mode"
             app:title="CamScanner_file1"
             app:titleTextAppearance="@style/toolbar_text"/>

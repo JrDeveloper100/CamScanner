@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:paddingBottom="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/lower_bottom_cover">
+    style="@style/edit_document_bottom_menu_color">
 
     <View
         android:id="@+id/topEdgeSeparator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/light_grey_5"
+        style="@style/separator_background_theme_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/close"
+            android:src="@drawable/close_icon_light_mode"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,17 +34,17 @@
         android:text="Color Filter"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnCancel"
-        app:layout_constraintEnd_toStartOf="@+id/imageView36"
+        app:layout_constraintEnd_toStartOf="@+id/btnDone"
         app:layout_constraintStart_toEndOf="@+id/btnCancel"
         app:layout_constraintTop_toTopOf="@+id/btnCancel" />
 
         <ImageView
-            android:id="@+id/imageView36"
+            android:id="@+id/btnDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:src="@drawable/done_icon"
+            android:src="@drawable/done_icon_light_mode"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

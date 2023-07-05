@@ -1,10 +1,13 @@
 package com.example.camscanner
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -57,6 +60,22 @@ class Export : AppCompatActivity() {
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        if (isDarkModeEnabled(this)) {
+            inflater.inflate(R.menu.top_app_bar_3_dark_mode, menu)
+        } else {
+            inflater.inflate(R.menu.top_app_bar_3_light_mode, menu)
+        }
+        return true
+    }
+
+    // Function to check if dark mode is enabled
+    fun isDarkModeEnabled(context: Context): Boolean {
+        val configuration = context.resources.configuration
+        return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun fullScreenPreview() {

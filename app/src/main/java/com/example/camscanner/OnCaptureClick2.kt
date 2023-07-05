@@ -1,5 +1,8 @@
 package com.example.camscanner
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
@@ -12,6 +15,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -26,14 +30,15 @@ class OnCaptureClick2 : AppCompatActivity() {
     private var currentRotationIndex = 0
     private lateinit var imageView : ImageView
     private lateinit var retakeButton : Button
-    private lateinit var btnNoCrop : ImageView
+    private lateinit var btnNoCrop : LinearLayout
     private lateinit var imageUri: Uri
     private lateinit var brightnessSeekBar: SeekBar
     private lateinit var revertButton : ImageView
     private lateinit var improveColorsButton: ImageView
     private lateinit var sharpBlackButton: ImageView
     private lateinit var ocvBlackButton: ImageView
-    private lateinit var btnEdit : ImageView
+    private lateinit var btnEdit : LinearLayout
+    private lateinit var rotateButton : LinearLayout
     private lateinit var toolbar: MaterialToolbar
 
 
@@ -45,7 +50,7 @@ class OnCaptureClick2 : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val rotateButton = findViewById<ImageView>(R.id.rotateButton)
+        rotateButton = findViewById(R.id.rotateButton)
         retakeButton = findViewById(R.id.retakeButton)
         btnNoCrop = findViewById(R.id.btnNoCrop)
         brightnessSeekBar = findViewById(R.id.brightnessSeekBar)
@@ -106,9 +111,15 @@ class OnCaptureClick2 : AppCompatActivity() {
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+            rotateButton.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnEdit.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnNoCrop.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
 
         }else{
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
+            rotateButton.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+            btnEdit.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+            btnNoCrop.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
         }
 
     }
@@ -227,7 +238,12 @@ class OnCaptureClick2 : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.top_app_bar_2, menu)
+        val inflater = menuInflater
+        if (isDarkModeEnabled(this)) {
+            inflater.inflate(R.menu.top_app_bar_2_dark_mode, menu)
+        } else {
+            inflater.inflate(R.menu.top_app_bar_2_light_mode, menu)
+        }
         return true
     }
 
@@ -243,6 +259,12 @@ class OnCaptureClick2 : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    // Function to check if dark mode is enabled
+    fun isDarkModeEnabled(context: Context): Boolean {
+        val configuration = context.resources.configuration
+        return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun goToActivity() {

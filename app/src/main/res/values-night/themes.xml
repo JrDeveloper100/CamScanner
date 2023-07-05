@@ -36,6 +36,18 @@
         <item name="android:background">@color/black_color</item>
     </style>
 
+    <!-- Edit Document Host Container Color in Dark Mode -->
+
+    <style name="edit_document_container_color">
+        <item name="android:background">@color/edit_document_pic_container_color</item>
+    </style>
+
+    <!-- Edit Document Bottom Menu Color in Dark Mode -->
+
+    <style name="edit_document_bottom_menu_color">
+        <item name="android:background">@color/black_color</item>
+    </style>
+
     <!-- Separator Color in Dark mode -->
 
     <style name="separator_background_theme_color">
@@ -47,6 +59,7 @@
     <style name="TEXT">
         <item name="android:textColor">@color/dark_mode_textColor</item>
     </style>
+
 
     <!-- Text Color of Activity After Export in Light Mode -->
 
@@ -65,6 +78,12 @@
 
     <style name="EditTextBackground">
         <item name="android:background">@drawable/password_field_design_dark_mode</item>
+    </style>
+
+    <!-- Search Field in Dark Mode -->
+
+    <style name="SearchField">
+        <item name="android:background">@drawable/edittext_no_bottomline_dark_mode</item>
     </style>
 
 </resources>

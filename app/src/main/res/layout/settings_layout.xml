@@ -49,7 +49,13 @@
                 android:id="@+id/linearLayout1"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:orientation="horizontal"/>
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/remove_ads_icon_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>
@@ -70,10 +76,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/rate_us_icon"/>
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rate_us_icon_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>
@@ -93,10 +106,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/feedback_icon"/>
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/feedback_icon_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>
@@ -115,10 +135,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/privacy_policy_icon"/>
+            <LinearLayout
+                android:id="@+id/linearLayout4"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/privacy_policy_icon_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>
@@ -137,10 +164,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/share_icon"/>
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/share_with_friends_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>
@@ -160,10 +194,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/dark_mode_icon"/>
+            <LinearLayout
+                android:id="@+id/linearLayout6"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/dark_mode_icon_inner"/>
+            </LinearLayout>
             <View
                 android:layout_width="25dp"
                 android:layout_height="1dp"/>

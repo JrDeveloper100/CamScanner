@@ -1,8 +1,11 @@
 package com.example.camscanner
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.widget.Button
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -32,4 +35,21 @@ class Export2 : AppCompatActivity() {
         }
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        if (isDarkModeEnabled(this)) {
+            inflater.inflate(R.menu.top_app_bar_4_dark_mode, menu)
+        } else {
+            inflater.inflate(R.menu.top_app_bar_4_light_mode, menu)
+        }
+        return true
+    }
+
+    // Function to check if dark mode is enabled
+    fun isDarkModeEnabled(context: Context): Boolean {
+        val configuration = context.resources.configuration
+        return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
+
 }

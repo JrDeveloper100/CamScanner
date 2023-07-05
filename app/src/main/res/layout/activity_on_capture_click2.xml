@@ -16,9 +16,10 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
+            style="@style/background_theme_color"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_bar_2"
+            app:menu="@menu/top_app_bar_2_light_mode"
             app:navigationIcon="@drawable/arrow_left_icon_light_mode"
             app:title="CamScanner"
             app:titleTextAppearance="@style/toolbar_text"/>
@@ -39,16 +40,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/imageView22"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="210dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/edit_image"
+        style="@style/edit_document_bottom_menu_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            style="@style/separator_background_theme_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/textView15"
@@ -59,7 +68,7 @@
         android:fontFamily="@font/lexend_regular"
         android:text="Brightness"
         android:textAlignment="center"
-        android:textColor="@color/light_grey4"
+        style="@style/TEXT"
         android:textSize="@dimen/_10ssp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView22" />
@@ -143,11 +152,19 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
+            <LinearLayout
                 android:id="@+id/rotateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/rotate_icon"/>
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/rotate_icon_inner"/>
+
+            </LinearLayout>
             <View
                 android:layout_width="1dp"
                 android:layout_height="4dp"/>
@@ -156,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:text="Rotate"
                 android:textSize="@dimen/_8ssp"
-                android:textColor="@color/light_grey4"
+                style="@style/TEXT"
                 android:fontFamily="@font/lato_regular"/>
         </LinearLayout>
 
@@ -169,11 +186,19 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
+            <LinearLayout
                 android:id="@+id/btnNoCrop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/no_crop_icon"/>
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/no_crop_icon_inner"/>
+
+            </LinearLayout>
             <View
                 android:layout_width="1dp"
                 android:layout_height="4dp"/>
@@ -182,7 +207,7 @@
                 android:layout_height="wrap_content"
                 android:text="No Crop"
                 android:textSize="@dimen/_8ssp"
-                android:textColor="@color/light_grey4"
+                style="@style/TEXT"
                 android:fontFamily="@font/lato_regular"/>
         </LinearLayout>
 
@@ -195,11 +220,19 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
-            <ImageView
+            <LinearLayout
                 android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/edit_icon"/>
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/edit_icon_inner"/>
+
+            </LinearLayout>
             <View
                 android:layout_width="1dp"
                 android:layout_height="4dp"/>
@@ -208,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:text="Edit"
                 android:textSize="@dimen/_8ssp"
-                android:textColor="@color/light_grey4"
+                style="@style/TEXT"
                 android:fontFamily="@font/lato_regular"/>
         </LinearLayout>
 
@@ -231,5 +264,6 @@
 
     </LinearLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

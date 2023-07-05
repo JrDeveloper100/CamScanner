@@ -42,8 +42,14 @@ class Home : AppCompatActivity() {
     private lateinit var btnBottomSheetIDCard : LinearLayout
     private lateinit var btnBottomSheetBusinessCard : LinearLayout
     private lateinit var linearLayout1 : LinearLayout
+    private lateinit var linearLayout2 : LinearLayout
+    private lateinit var linearLayout3 : LinearLayout
+    private lateinit var linearLayout4 : LinearLayout
+    private lateinit var linearLayout5 : LinearLayout
+    private lateinit var linearLayout6 : LinearLayout
     private lateinit var cancelButton : ImageView
     private lateinit var customDialog : View
+    private lateinit var buttonCancel : LinearLayout
     private var isDarkModeEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +67,11 @@ class Home : AppCompatActivity() {
         btnBottomSheetBusinessCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
         settingsLayout = layoutInflater.inflate(R.layout.settings_layout, null)
         linearLayout1 = settingsLayout.findViewById(R.id.linearLayout1)
+        linearLayout2 = settingsLayout.findViewById(R.id.linearLayout2)
+        linearLayout3 = settingsLayout.findViewById(R.id.linearLayout3)
+        linearLayout4 = settingsLayout.findViewById(R.id.linearLayout4)
+        linearLayout5 = settingsLayout.findViewById(R.id.linearLayout5)
+        linearLayout6 = settingsLayout.findViewById(R.id.linearLayout6)
         btnRateUs = settingsLayout.findViewById(R.id.btnRateUs)
         btnFeedback = settingsLayout.findViewById(R.id.btnFeedback)
         btnDarkMode = settingsLayout.findViewById(R.id.btnDarkMode)
@@ -77,6 +88,7 @@ class Home : AppCompatActivity() {
         btnPhoto = homeLayout.findViewById(R.id.btnPhoto)
         customDialog = layoutInflater.inflate(R.layout.custom_dialog,null)
         cancelButton = customDialog.findViewById(R.id.cancelButton)
+        buttonCancel = customDialog.findViewById(R.id.buttonCancel)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -87,13 +99,17 @@ class Home : AppCompatActivity() {
             btnPhoto.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             addFolder.setImageResource(R.drawable.add_icon_dark_mode)
             linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            linearLayout2.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            linearLayout3.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            linearLayout4.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            linearLayout5.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
+            linearLayout6.setBackgroundResource(R.drawable.rounded_settings_icon_design_dark_mode)
             btnBottomSheetBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetIDCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetAcademicCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetDocument.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetBook.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnPhotos.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            cancelButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.cancel_icon_dark_mode))
         }else{
             btnBusinessCard.setBackgroundResource(R.drawable.business_card_rounded_design_light_mode)
             btnIDCard.setBackgroundResource(R.drawable.id_card_rounded_design_light_mode)
@@ -102,13 +118,18 @@ class Home : AppCompatActivity() {
             btnBook.setBackgroundResource(R.drawable.book_rounded_design_light_mode)
             btnPhoto.setBackgroundResource(R.drawable.photos_rounded_design_light_mode)
             linearLayout1.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            linearLayout2.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            linearLayout3.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            linearLayout4.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            linearLayout5.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
+            linearLayout6.setBackgroundResource(R.drawable.rounded_settings_icon_design_light_mode)
             btnBottomSheetBusinessCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
             btnBottomSheetIDCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
             btnBottomSheetAcademicCard.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
             btnBottomSheetDocument.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
             btnBottomSheetBook.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
             btnPhotos.setBackgroundResource(R.drawable.home_screen_bottom_sheet_icons_design_light_mode)
-            cancelButton.setImageDrawable(ContextCompat.getDrawable(this,R.drawable.cancel_icon_light_mode))
+            linearLayout1.setBackgroundResource(R.drawable.settings_screen_icon_design_light_mode)
         }
 
         btnPhoto.setOnClickListener {
@@ -217,12 +238,20 @@ class Home : AppCompatActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.custom_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val cancelButton : ImageView =   dialog.findViewById<ImageView>(R.id.cancelButton)
+        val buttonCancel : LinearLayout =   dialog.findViewById<LinearLayout>(R.id.buttonCancel)
         dialog.setCancelable(true)
         dialog.show()
-        cancelButton.setOnClickListener {
+        buttonCancel.setOnClickListener {
             dialog.dismiss()
         }
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            buttonCancel.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+        }else{
+            buttonCancel.setBackgroundResource(R.drawable.cancel_icon_design_light_mode)
+        }
+
     }
 
     private fun replaceLayout(newLayout: View) {

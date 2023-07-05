@@ -5,6 +5,6 @@
     <item
         android:id="@+id/flash_auto"
         android:title="Edit"
-        android:icon="@drawable/done_icon"
+        android:icon="@drawable/pageview_icon_light_mode"
         app:showAsAction="ifRoom"/>
 </menu>
