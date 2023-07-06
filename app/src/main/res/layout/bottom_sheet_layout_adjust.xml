@@ -6,6 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/edit_document_bottom_menu_color">
 
+    <View
+        android:id="@+id/topEdgeSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/separator_background_theme_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/imageView35"
         android:layout_width="wrap_content"
@@ -38,9 +47,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
@@ -48,6 +58,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView18">
+
+        <View
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_1sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -76,14 +90,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btnColorFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/brightness_icon" />
+            <LinearLayout
+                android:id="@+id/btnBrightness"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/brigtness_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,13 +118,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/contrast" />
+            <LinearLayout
+                android:id="@+id/btnContrast"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/contrast_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,13 +147,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/saturation_icon" />
+            <LinearLayout
+                android:id="@+id/btnSaturation"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/saturation_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -142,13 +176,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/exposure_icon" />
+            <LinearLayout
+                android:id="@+id/btnExposure"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/exposure_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

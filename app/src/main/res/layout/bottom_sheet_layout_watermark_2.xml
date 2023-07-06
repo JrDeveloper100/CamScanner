@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="15dp"
-    android:background="@drawable/lower_bottom_cover"
+    style="@style/background_theme_color"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        style="@style/background_theme_color"
         android:paddingVertical="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +54,7 @@
                         android:background="@drawable/button_design_2"
                         android:fontFamily="@font/rufina_regular"
                         android:text="Preview"
+                        android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:textSize="14sp" />
 
@@ -67,6 +68,7 @@
                         android:background="@drawable/button_design_2"
                         android:fontFamily="@font/rufina_regular"
                         android:text="Preview"
+                        android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:textSize="14sp" />
 
@@ -80,6 +82,7 @@
                         android:background="@drawable/button_design_2"
                         android:fontFamily="@font/rufina_regular"
                         android:text="Preview"
+                        android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:textSize="14sp" />
 
@@ -93,6 +96,7 @@
                         android:background="@drawable/button_design_2"
                         android:fontFamily="@font/rufina_regular"
                         android:text="Preview"
+                        android:textColor="@color/black"
                         android:textAllCaps="false"
                         android:textSize="14sp" />
                     <View
@@ -105,8 +109,25 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/topEdgeSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/separator_background_theme_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/separator_background_theme_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout4" />
+
     <ImageView
-        android:id="@+id/imageView35"
+        android:id="@+id/btnCross"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -121,15 +142,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/rubik_regular"
         android:text="Watermark"
-        android:textColor="@color/light_black"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView35"
-        app:layout_constraintEnd_toStartOf="@+id/imageView36"
-        app:layout_constraintStart_toEndOf="@+id/imageView35"
-        app:layout_constraintTop_toTopOf="@+id/imageView35" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnCross"
+        app:layout_constraintEnd_toStartOf="@+id/btnTick"
+        app:layout_constraintStart_toEndOf="@+id/btnCross"
+        app:layout_constraintTop_toTopOf="@+id/btnCross" />
 
     <ImageView
-        android:id="@+id/imageView36"
+        android:id="@+id/btnTick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -151,16 +171,24 @@
 
 
         <LinearLayout
+            android:id="@+id/btnFont"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/font_icon" />
+            <LinearLayout
+                android:id="@+id/btnWatermark2Fonts"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/font_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -173,17 +201,24 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/btnColor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/btnColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/color_icon" />
+            <LinearLayout
+                android:id="@+id/btnWatermark2Colors"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/color_lens_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -199,13 +234,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/opacity_icon" />
+            <LinearLayout
+                android:id="@+id/btnWatermark2Opacity"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/opacity_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"

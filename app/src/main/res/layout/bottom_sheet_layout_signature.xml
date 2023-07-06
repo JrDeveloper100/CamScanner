@@ -2,12 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/lower_bottom_cover">
+    style="@style/background_theme_color">
+
+    <View
+        android:id="@+id/topEdgeSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/separator_background_theme_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView35"
+        android:id="@+id/imageView353535"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -23,13 +31,13 @@
         android:fontFamily="@font/rubik_regular"
         android:text="Signature"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView35"
-        app:layout_constraintEnd_toStartOf="@+id/imageView36"
-        app:layout_constraintStart_toEndOf="@+id/imageView35"
-        app:layout_constraintTop_toTopOf="@+id/imageView35" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView353535"
+        app:layout_constraintEnd_toStartOf="@+id/imageView363636"
+        app:layout_constraintStart_toEndOf="@+id/imageView353535"
+        app:layout_constraintTop_toTopOf="@+id/imageView353535" />
 
     <ImageView
-        android:id="@+id/imageView36"
+        android:id="@+id/imageView363636"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,7 +48,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
@@ -48,6 +56,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView18">
+
+        <View
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_1sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +76,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
@@ -72,6 +84,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/linearLayout">
+
+        <View
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_1sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -91,6 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

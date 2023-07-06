@@ -4,10 +4,19 @@
     android:layout_height="wrap_content"
     android:paddingBottom="15dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/lower_bottom_cover">
+    style="@style/background_theme_color">
+
+    <View
+        android:id="@+id/topEdgeSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/separator_background_theme_color"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView35"
+        android:id="@+id/imageView3535"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -23,13 +32,13 @@
         android:fontFamily="@font/rubik_regular"
         android:text="Highlight"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView35"
-        app:layout_constraintEnd_toStartOf="@+id/imageView36"
-        app:layout_constraintStart_toEndOf="@+id/imageView35"
-        app:layout_constraintTop_toTopOf="@+id/imageView35" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3535"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3636"
+        app:layout_constraintStart_toEndOf="@+id/imageView3535"
+        app:layout_constraintTop_toTopOf="@+id/imageView3535" />
 
     <ImageView
-        android:id="@+id/imageView36"
+        android:id="@+id/imageView3636"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,7 +49,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
@@ -48,6 +57,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView18">
+
+        <View
+            android:layout_width="@dimen/_8sdp"
+            android:layout_height="@dimen/_1sdp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,13 +90,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/highlight_icon" />
+            <LinearLayout
+                android:id="@+id/btnHighlightInner"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/highlight_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -99,13 +119,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/eraser_icon" />
+            <LinearLayout
+                android:id="@+id/btnEraser"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/eraser_icon_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,13 +148,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_marginHorizontal="15dp"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="15dp"
-                android:src="@drawable/color_icon" />
+            <LinearLayout
+                android:id="@+id/btnColorInner"
+                android:layout_width="59dp"
+                android:layout_height="59dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/color_lens_inner"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
