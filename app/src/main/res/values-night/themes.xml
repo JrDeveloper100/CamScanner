@@ -86,4 +86,10 @@
         <item name="android:background">@drawable/edittext_no_bottomline_dark_mode</item>
     </style>
 
+    <!-- Text Color of Not Now in Dark Mode -->
+
+    <style name="not_now">
+        <item name="android:textColor">@color/not_now_text_color</item>
+    </style>
+
 </resources>

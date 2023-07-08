@@ -15,7 +15,9 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -41,17 +43,19 @@ class OnCaptureClick : AppCompatActivity() {
     private lateinit var imageCapture: ImageCapture
     private lateinit var imageView: ImageView
     private lateinit var captureButton: ImageView
-    private lateinit var btnSwitchCamera: ImageView
+    private lateinit var btnSwitchCamera: LinearLayout
     private lateinit var viewFinder : PreviewView
-    //private lateinit var btnFlashOn : ImageView
-    //private lateinit var btnFlashOff : ImageView
-    private lateinit var selectImageButton : ImageView
+    private lateinit var btnFlashOn : ImageView
+    private lateinit var btnFlashOff : ImageView
+    private lateinit var btnFlashAuto : ImageView
+    private lateinit var selectImageButton : LinearLayout
     private lateinit var cameraManager: CameraManager
     private var cameraId: String? = null
     private val REQUEST_IMAGE_SELECTION = 1
     private val imageUri = "extra_image_uri"
     private var currentCameraLensFacing = CameraSelector.LENS_FACING_BACK
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var flashOptionsBar : LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,14 +66,18 @@ class OnCaptureClick : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val menu: Menu = toolbar.menu
+
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         cameraId = getCameraId()
          viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         captureButton = findViewById(R.id.btnCapture)
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
-        //btnFlashOn = findViewById(R.id.btnFlashOn)
-        //btnFlashOff = findViewById(R.id.btnFlashOff)
+        btnFlashOn = findViewById(R.id.btnFlashOn)
+        btnFlashOff = findViewById(R.id.btnFlashOff)
+        btnFlashAuto = findViewById(R.id.btnFlashAuto)
         selectImageButton = findViewById(R.id.selectImageButton)
+        flashOptionsBar = findViewById(R.id.flashOptionsBar)
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -90,13 +98,32 @@ class OnCaptureClick : AppCompatActivity() {
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
-//        btnFlashOn.setOnClickListener {
+        btnFlashOn.setOnClickListener {
 //            Toast.makeText(this,"Flash is On",Toast.LENGTH_SHORT).show()
 //            turnFlashOn()
-//        }
-//        btnFlashOff.setOnClickListener {
+
+            // Handle btnFlashOn click
+            // Update the toolbar menu based on the selected flash mode
+            menu.findItem(R.id.menu_flash_on).isVisible = true
+            menu.findItem(R.id.menu_flash_off).isVisible = false
+            menu.findItem(R.id.menu_flash_auto).isVisible = false
+        }
+        btnFlashOff.setOnClickListener {
 //            turnFlashOff()
-//        }
+            // Handle btnFlashOff click
+            // Update the toolbar menu based on the selected flash mode
+            menu.findItem(R.id.menu_flash_off).isVisible = true
+            menu.findItem(R.id.menu_flash_on).isVisible = false
+            menu.findItem(R.id.menu_flash_auto).isVisible = false
+        }
+        btnFlashAuto.setOnClickListener {
+//            turnFlashOff()
+            // Handle btnFlashOff click
+            // Update the toolbar menu based on the selected flash mode
+            menu.findItem(R.id.menu_flash_off).isVisible = false
+            menu.findItem(R.id.menu_flash_on).isVisible = false
+            menu.findItem(R.id.menu_flash_auto).isVisible = true
+        }
         selectImageButton.setOnClickListener {
             openGallery()
         }
@@ -288,11 +315,27 @@ class OnCaptureClick : AppCompatActivity() {
                 onBackPressed() // Go back to the previous activity
                 true
             }
-            R.id.flash_auto -> {
-                showToast("Feature not available right now") // Show toast when top_app_bar menu item is clicked
+            R.id.menu_flash_auto -> {
+                toggleOptionsBar()
+                true
+            }
+            R.id.menu_flash_on -> {
+                toggleOptionsBar()
+                true
+            }
+            R.id.menu_flash_off -> {
+                toggleOptionsBar()
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun toggleOptionsBar() {
+        if (flashOptionsBar.visibility == View.VISIBLE){
+            flashOptionsBar.visibility = View.GONE
+        }else{
+            flashOptionsBar.visibility = View.VISIBLE
         }
     }
 }

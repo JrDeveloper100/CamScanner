@@ -25,4 +25,5 @@
     <color name="text_background_color">#3D73DD</color>
     <color name="foreground_color">#303031</color>
     <color name="edit_document_pic_container_color">#363636</color>
+    <color name="not_now_text_color">#5B5B5B</color>
 </resources>

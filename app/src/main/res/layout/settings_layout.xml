@@ -13,7 +13,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="42dp"
         android:fontFamily="@font/rubik_medium"
-        android:text="All Converter"
+        android:text="Fast Image Scanner"
         android:textSize="@dimen/_18ssp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"

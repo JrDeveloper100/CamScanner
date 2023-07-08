@@ -1,13 +1,18 @@
 package com.example.camscanner
 
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.CalendarContract.Colors
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -50,6 +55,10 @@ class Home : AppCompatActivity() {
     private lateinit var cancelButton : ImageView
     private lateinit var customDialog : View
     private lateinit var buttonCancel : LinearLayout
+    private lateinit var btnNotNow : Button
+    private lateinit var btnNotThisTime : Button
+    private lateinit var rateUsDialog : View
+    private lateinit var feedbackDialog : View
     private var isDarkModeEnabled = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,8 +96,12 @@ class Home : AppCompatActivity() {
         btnPhotos = homeScreenBottomSheet.findViewById(R.id.btnPhotos)
         btnPhoto = homeLayout.findViewById(R.id.btnPhoto)
         customDialog = layoutInflater.inflate(R.layout.custom_dialog,null)
+        rateUsDialog = layoutInflater.inflate(R.layout.custom_dialog_rate_us,null)
+        feedbackDialog = layoutInflater.inflate(R.layout.custom_dialog_feedback,null)
         cancelButton = customDialog.findViewById(R.id.cancelButton)
         buttonCancel = customDialog.findViewById(R.id.buttonCancel)
+        btnNotNow = rateUsDialog.findViewById(R.id.btnNotNow)
+        btnNotThisTime = feedbackDialog.findViewById(R.id.btnNotThisTime)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -212,8 +225,16 @@ class Home : AppCompatActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.custom_dialog_feedback)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnNotThisTime : Button =   dialog.findViewById<Button>(R.id.btnNotThisTime)
         dialog.setCancelable(true)
         dialog.show()
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            btnNotThisTime.setBackgroundResource(R.drawable.button_design_3_dark_mode)
+        }else{
+            btnNotThisTime.setBackgroundResource(R.drawable.button_design_3_light_mode)
+        }
 
     }
 
@@ -223,10 +244,19 @@ class Home : AppCompatActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.custom_dialog_rate_us)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnNotNow : Button =   dialog.findViewById<Button>(R.id.btnNotNow)
         dialog.setCancelable(true)
         dialog.show()
 
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            btnNotNow.setBackgroundResource(R.drawable.button_design_3_dark_mode)
+        }else{
+            btnNotNow.setBackgroundResource(R.drawable.button_design_3_light_mode)
+        }
+
     }
+
 
     private fun openCamera() {
         val intent = Intent(this, OnCaptureClick::class.java)
@@ -239,6 +269,7 @@ class Home : AppCompatActivity() {
         dialog.setContentView(R.layout.custom_dialog)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val buttonCancel : LinearLayout =   dialog.findViewById<LinearLayout>(R.id.buttonCancel)
+        val editTextText2 : EditText =   dialog.findViewById<EditText>(R.id.editTextText2)
         dialog.setCancelable(true)
         dialog.show()
         buttonCancel.setOnClickListener {
@@ -248,6 +279,7 @@ class Home : AppCompatActivity() {
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             buttonCancel.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            editTextText2.setHintTextColor(resources.getColor(R.color.white))
         }else{
             buttonCancel.setBackgroundResource(R.drawable.cancel_icon_design_light_mode)
         }

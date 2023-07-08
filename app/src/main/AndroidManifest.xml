@@ -19,6 +19,9 @@
         android:theme="@style/Theme.CamScanner"
         tools:targetApi="31">
         <activity
+            android:name=".RemoveImages"
+            android:exported="false" />
+        <activity
             android:name=".BusinessCard2"
             android:exported="false" />
         <activity

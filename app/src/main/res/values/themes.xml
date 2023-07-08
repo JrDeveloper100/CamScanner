@@ -103,4 +103,10 @@
         <item name="android:background">@drawable/edittext_no_bottomline_light_mode</item>
     </style>
 
+    <!-- Text Color of Not Now in Light Mode -->
+
+    <style name="not_now">
+        <item name="android:textColor">@color/light_black</item>
+    </style>
+
 </resources>
