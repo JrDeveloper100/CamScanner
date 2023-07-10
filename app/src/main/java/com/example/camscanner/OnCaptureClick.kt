@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
@@ -15,7 +16,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -45,9 +45,6 @@ class OnCaptureClick : AppCompatActivity() {
     private lateinit var captureButton: ImageView
     private lateinit var btnSwitchCamera: LinearLayout
     private lateinit var viewFinder : PreviewView
-    private lateinit var btnFlashOn : ImageView
-    private lateinit var btnFlashOff : ImageView
-    private lateinit var btnFlashAuto : ImageView
     private lateinit var selectImageButton : LinearLayout
     private lateinit var cameraManager: CameraManager
     private var cameraId: String? = null
@@ -55,7 +52,7 @@ class OnCaptureClick : AppCompatActivity() {
     private val imageUri = "extra_image_uri"
     private var currentCameraLensFacing = CameraSelector.LENS_FACING_BACK
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var flashOptionsBar : LinearLayout
+    private lateinit var menu : Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,18 +63,14 @@ class OnCaptureClick : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val menu: Menu = toolbar.menu
+        menu= toolbar.menu
 
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         cameraId = getCameraId()
          viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         captureButton = findViewById(R.id.btnCapture)
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
-        btnFlashOn = findViewById(R.id.btnFlashOn)
-        btnFlashOff = findViewById(R.id.btnFlashOff)
-        btnFlashAuto = findViewById(R.id.btnFlashAuto)
         selectImageButton = findViewById(R.id.selectImageButton)
-        flashOptionsBar = findViewById(R.id.flashOptionsBar)
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -97,32 +90,6 @@ class OnCaptureClick : AppCompatActivity() {
             cameraId = cameraManager.cameraIdList[0]
         } catch (e: CameraAccessException) {
             e.printStackTrace()
-        }
-        btnFlashOn.setOnClickListener {
-//            Toast.makeText(this,"Flash is On",Toast.LENGTH_SHORT).show()
-//            turnFlashOn()
-
-            // Handle btnFlashOn click
-            // Update the toolbar menu based on the selected flash mode
-            menu.findItem(R.id.menu_flash_on).isVisible = true
-            menu.findItem(R.id.menu_flash_off).isVisible = false
-            menu.findItem(R.id.menu_flash_auto).isVisible = false
-        }
-        btnFlashOff.setOnClickListener {
-//            turnFlashOff()
-            // Handle btnFlashOff click
-            // Update the toolbar menu based on the selected flash mode
-            menu.findItem(R.id.menu_flash_off).isVisible = true
-            menu.findItem(R.id.menu_flash_on).isVisible = false
-            menu.findItem(R.id.menu_flash_auto).isVisible = false
-        }
-        btnFlashAuto.setOnClickListener {
-//            turnFlashOff()
-            // Handle btnFlashOff click
-            // Update the toolbar menu based on the selected flash mode
-            menu.findItem(R.id.menu_flash_off).isVisible = false
-            menu.findItem(R.id.menu_flash_on).isVisible = false
-            menu.findItem(R.id.menu_flash_auto).isVisible = true
         }
         selectImageButton.setOnClickListener {
             openGallery()
@@ -305,7 +272,12 @@ class OnCaptureClick : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.top_app_bar, menu)
+        val inflater = menuInflater
+        if (isDarkModeEnabled(this)) {
+            inflater.inflate(R.menu.top_app_bar_dark_mode, menu)
+        } else {
+            inflater.inflate(R.menu.top_app_bar_light_mode, menu)
+        }
         return true
     }
 
@@ -316,26 +288,40 @@ class OnCaptureClick : AppCompatActivity() {
                 true
             }
             R.id.menu_flash_auto -> {
-                toggleOptionsBar()
+                toggleFlashIcon(1)
                 true
             }
             R.id.menu_flash_on -> {
-                toggleOptionsBar()
+                toggleFlashIcon(2)
                 true
             }
             R.id.menu_flash_off -> {
-                toggleOptionsBar()
+                toggleFlashIcon(3)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun toggleOptionsBar() {
-        if (flashOptionsBar.visibility == View.VISIBLE){
-            flashOptionsBar.visibility = View.GONE
+    private fun toggleFlashIcon(value : Int) {
+        if(value==1){
+            menu.findItem(R.id.menu_flash_on).isVisible = true
+            menu.findItem(R.id.menu_flash_off).isVisible = false
+            menu.findItem(R.id.menu_flash_auto).isVisible = false
+        }else if (value==2){
+            menu.findItem(R.id.menu_flash_on).isVisible = false
+            menu.findItem(R.id.menu_flash_off).isVisible = true
+            menu.findItem(R.id.menu_flash_auto).isVisible = false
         }else{
-            flashOptionsBar.visibility = View.VISIBLE
+            menu.findItem(R.id.menu_flash_on).isVisible = false
+            menu.findItem(R.id.menu_flash_off).isVisible = false
+            menu.findItem(R.id.menu_flash_auto).isVisible = true
         }
     }
+
+    fun isDarkModeEnabled(context: Context): Boolean {
+        val configuration = context.resources.configuration
+        return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+    }
+
 }

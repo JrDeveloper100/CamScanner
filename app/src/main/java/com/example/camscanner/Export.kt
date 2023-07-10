@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import java.io.File
@@ -17,9 +18,18 @@ import java.io.FileOutputStream
 
 
 class Export : AppCompatActivity() {
-    private lateinit var imageView29 : ImageView
+    private lateinit var imageHost : ImageView
+    private lateinit var imageHost2 : ImageView
+    private lateinit var imageHost3 : ImageView
+    private lateinit var imageHost4 : ImageView
+    private lateinit var imageHost5 : ImageView
     private lateinit var btnExport : Button
     private lateinit var toolbar : MaterialToolbar
+    private lateinit var btnSingleImagePreview1 : ImageView
+    private lateinit var btnSingleImagePreview2 : ImageView
+    private lateinit var btnSingleImagePreview3 : ImageView
+    private lateinit var btnSingleImagePreview4 : ImageView
+    private lateinit var btnSingleImagePreview5 : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export)
@@ -29,7 +39,16 @@ class Export : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         btnExport = findViewById(R.id.btnExport)
-        imageView29 = findViewById(R.id.imageView29)
+        imageHost = findViewById(R.id.imageHost)
+        imageHost2 = findViewById(R.id.imageHost2)
+        imageHost3 = findViewById(R.id.imageHost3)
+        imageHost4 = findViewById(R.id.imageHost4)
+        imageHost5 = findViewById(R.id.imageHost5)
+        btnSingleImagePreview1 = findViewById(R.id.btnSingleImagePreview1)
+        btnSingleImagePreview2 = findViewById(R.id.btnSingleImagePreview2)
+        btnSingleImagePreview3 = findViewById(R.id.btnSingleImagePreview3)
+        btnSingleImagePreview4 = findViewById(R.id.btnSingleImagePreview4)
+        btnSingleImagePreview5 = findViewById(R.id.btnSingleImagePreview5)
         // Retrieve the file path from the extras
         // Retrieve the file path from the extras
         val filteredImagePath = intent.getStringExtra("filteredImagePath")
@@ -42,13 +61,99 @@ class Export : AppCompatActivity() {
         // Display the filtered image in the ImageView
 
         // Display the filtered image in the ImageView
-        imageView29.setImageBitmap(filteredImage)
-        imageView29.setOnClickListener {
+        imageHost.setImageBitmap(filteredImage)
+        imageHost.setOnClickListener {
             fullScreenPreview()
+        }
+        imageHost.setOnLongClickListener {
+            // Handle long-press event here
+            // Return true if the event is consumed and should not be propagated further
+            // Return false if you want to allow the long-press event to be propagated further
+
+            // Example: Show a toast message
+            val intent = Intent(this,RemoveImages::class.java)
+            startActivity(intent)
+            true // Event consumed
+        }
+        imageHost2.setOnClickListener {
+            val intent = Intent(this,Preview::class.java)
+            startActivity(intent)
+        }
+        imageHost2.setOnLongClickListener {
+            // Handle long-press event here
+            // Return true if the event is consumed and should not be propagated further
+            // Return false if you want to allow the long-press event to be propagated further
+
+            // Example: Show a toast message
+            val intent = Intent(this,RemoveImages::class.java)
+            startActivity(intent)
+            true // Event consumed
+        }
+        imageHost3.setOnClickListener {
+            val intent = Intent(this,Preview::class.java)
+            startActivity(intent)
+        }
+        imageHost3.setOnLongClickListener {
+            // Handle long-press event here
+            // Return true if the event is consumed and should not be propagated further
+            // Return false if you want to allow the long-press event to be propagated further
+
+            // Example: Show a toast message
+            val intent = Intent(this,RemoveImages::class.java)
+            startActivity(intent)
+            true // Event consumed
+        }
+        imageHost4.setOnClickListener {
+            val intent = Intent(this,Preview::class.java)
+            startActivity(intent)
+        }
+        imageHost4.setOnLongClickListener {
+            // Handle long-press event here
+            // Return true if the event is consumed and should not be propagated further
+            // Return false if you want to allow the long-press event to be propagated further
+
+            // Example: Show a toast message
+            val intent = Intent(this,RemoveImages::class.java)
+            startActivity(intent)
+            true // Event consumed
+        }
+        imageHost5.setOnClickListener {
+            val intent = Intent(this,Preview::class.java)
+            startActivity(intent)
+        }
+        imageHost5.setOnLongClickListener {
+            // Handle long-press event here
+            // Return true if the event is consumed and should not be propagated further
+            // Return false if you want to allow the long-press event to be propagated further
+
+            // Example: Show a toast message
+            val intent = Intent(this,RemoveImages::class.java)
+            startActivity(intent)
+            true // Event consumed
         }
 
         btnExport.setOnClickListener {
             val intent = Intent(this,Export2::class.java)
+            startActivity(intent)
+        }
+        btnSingleImagePreview1.setOnClickListener {
+            val intent = Intent(this,SingleImagePreview::class.java)
+            startActivity(intent)
+        }
+        btnSingleImagePreview2.setOnClickListener {
+            val intent = Intent(this,SingleImagePreview::class.java)
+            startActivity(intent)
+        }
+        btnSingleImagePreview3.setOnClickListener {
+            val intent = Intent(this,SingleImagePreview::class.java)
+            startActivity(intent)
+        }
+        btnSingleImagePreview4.setOnClickListener {
+            val intent = Intent(this,SingleImagePreview::class.java)
+            startActivity(intent)
+        }
+        btnSingleImagePreview5.setOnClickListener {
+            val intent = Intent(this,SingleImagePreview::class.java)
             startActivity(intent)
         }
 
@@ -79,7 +184,7 @@ class Export : AppCompatActivity() {
     }
 
     private fun fullScreenPreview() {
-        val drawable = imageView29.drawable as BitmapDrawable
+        val drawable = imageHost.drawable as BitmapDrawable
         val originalBitmap = drawable.bitmap
         var outputStream: FileOutputStream
         try {

@@ -60,6 +60,7 @@ class Home : AppCompatActivity() {
     private lateinit var rateUsDialog : View
     private lateinit var feedbackDialog : View
     private var isDarkModeEnabled = false
+    private lateinit var feedbackIcon : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -102,6 +103,7 @@ class Home : AppCompatActivity() {
         buttonCancel = customDialog.findViewById(R.id.buttonCancel)
         btnNotNow = rateUsDialog.findViewById(R.id.btnNotNow)
         btnNotThisTime = feedbackDialog.findViewById(R.id.btnNotThisTime)
+        feedbackIcon = settingsLayout.findViewById(R.id.feedbackIcon)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -123,6 +125,7 @@ class Home : AppCompatActivity() {
             btnBottomSheetDocument.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetBook.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnPhotos.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            feedbackIcon.setImageResource(R.drawable.feedback_icon_inner_dark_mode)
         }else{
             btnBusinessCard.setBackgroundResource(R.drawable.business_card_rounded_design_light_mode)
             btnIDCard.setBackgroundResource(R.drawable.id_card_rounded_design_light_mode)
@@ -245,12 +248,14 @@ class Home : AppCompatActivity() {
         dialog.setContentView(R.layout.custom_dialog_rate_us)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         val btnNotNow : Button =   dialog.findViewById<Button>(R.id.btnNotNow)
+        val starIcon : ImageView =   dialog.findViewById<ImageView>(R.id.starIcon)
         dialog.setCancelable(true)
         dialog.show()
 
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnNotNow.setBackgroundResource(R.drawable.button_design_3_dark_mode)
+            starIcon.setImageResource(R.drawable.rate_us_icon_bar_dark_mode)
         }else{
             btnNotNow.setBackgroundResource(R.drawable.button_design_3_light_mode)
         }

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="420dp"
         android:fontFamily="@font/rubik_medium"
-        android:text="Fast Image Scanner"
+        android:text="Camscanner Fast Image Scanner"
         android:textSize="@dimen/_15ssp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,18 +3,14 @@ package com.example.camscanner
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.fonts.Font
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.util.Stack
 
 class EditDocument : AppCompatActivity() {
@@ -201,15 +197,15 @@ class EditDocument : AppCompatActivity() {
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
-            btnColorFilter.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnAdjust.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnHighlight.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnPicture.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnSignature.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnText.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnOverlay.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnColorEffect.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
             btnDone.setImageResource(R.drawable.done_icon_dark_mode)
             btnCancel.setImageResource(R.drawable.close_icon_dark_mode)
             imageView35.setImageResource(R.drawable.close_icon_dark_mode)
@@ -252,15 +248,15 @@ class EditDocument : AppCompatActivity() {
 
         }else{
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
-            btnColorFilter.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnAdjust.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnHighlight.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnPicture.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnSignature.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnText.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnOverlay.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnColorEffect.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
             btnBrightness.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
             btnContrast.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
             btnSaturation.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
