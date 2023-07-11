@@ -52,6 +52,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/removeAdsIcons"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/remove_ads_icon_inner"/>
@@ -83,6 +84,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/rateUsIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/rate_us_icon_inner"/>
@@ -143,6 +145,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/privacyPolicyIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/privacy_policy_icon_inner"/>
@@ -172,6 +175,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/shareIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/share_with_friends_inner"/>
@@ -202,6 +206,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/darkModeIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/dark_mode_icon_inner"/>

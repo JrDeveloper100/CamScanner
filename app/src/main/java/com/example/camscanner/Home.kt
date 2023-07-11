@@ -61,6 +61,11 @@ class Home : AppCompatActivity() {
     private lateinit var feedbackDialog : View
     private var isDarkModeEnabled = false
     private lateinit var feedbackIcon : ImageView
+    private lateinit var removeAdsIcons : ImageView
+    private lateinit var rateUsIcon : ImageView
+    private lateinit var privacyPolicyIcon : ImageView
+    private lateinit var shareIcon : ImageView
+    private lateinit var darkModeIcon : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -104,6 +109,11 @@ class Home : AppCompatActivity() {
         btnNotNow = rateUsDialog.findViewById(R.id.btnNotNow)
         btnNotThisTime = feedbackDialog.findViewById(R.id.btnNotThisTime)
         feedbackIcon = settingsLayout.findViewById(R.id.feedbackIcon)
+        removeAdsIcons = settingsLayout.findViewById(R.id.removeAdsIcons)
+        rateUsIcon = settingsLayout.findViewById(R.id.rateUsIcon)
+        privacyPolicyIcon = settingsLayout.findViewById(R.id.privacyPolicyIcon)
+        shareIcon = settingsLayout.findViewById(R.id.shareIcon)
+        darkModeIcon = settingsLayout.findViewById(R.id.darkModeIcon)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -126,6 +136,11 @@ class Home : AppCompatActivity() {
             btnBottomSheetBook.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnPhotos.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             feedbackIcon.setImageResource(R.drawable.feedback_icon_inner_dark_mode)
+            removeAdsIcons.setImageResource(R.drawable.remove_ads_icon_inner_dark_mode)
+            rateUsIcon.setImageResource(R.drawable.rate_us_icon_inner_dark_mode)
+            privacyPolicyIcon.setImageResource(R.drawable.privacy_policy_icon_dark_mode)
+            shareIcon.setImageResource(R.drawable.share_icon_inner_dark_mode)
+            darkModeIcon.setImageResource(R.drawable.dark_mode_icon_inner_dark_mode)
         }else{
             btnBusinessCard.setBackgroundResource(R.drawable.business_card_rounded_design_light_mode)
             btnIDCard.setBackgroundResource(R.drawable.id_card_rounded_design_light_mode)
