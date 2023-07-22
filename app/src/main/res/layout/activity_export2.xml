@@ -35,8 +35,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +68,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView29"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView21"
             app:layout_constraintEnd_toStartOf="@+id/imageView30"
             app:layout_constraintStart_toEndOf="@+id/imageView21"
@@ -101,8 +101,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView30"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView29"
             app:layout_constraintEnd_toEndOf="parent"
@@ -134,8 +134,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView31"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -167,8 +167,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView32"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView31"
             app:layout_constraintEnd_toStartOf="@+id/imageView33"
             app:layout_constraintStart_toEndOf="@+id/imageView31"
@@ -200,8 +200,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/imageView33"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="104dp"
+            android:layout_height="104dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView32"
             app:layout_constraintEnd_toEndOf="parent"

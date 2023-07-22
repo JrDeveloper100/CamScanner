@@ -16,8 +16,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -53,6 +55,9 @@ class OnCaptureClick : AppCompatActivity() {
     private var currentCameraLensFacing = CameraSelector.LENS_FACING_BACK
     private lateinit var toolbar: MaterialToolbar
     private lateinit var menu : Menu
+    private lateinit var progressBar : ProgressBar
+    private var isFlashOn = false
+    private var flashAuto = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +76,7 @@ class OnCaptureClick : AppCompatActivity() {
         captureButton = findViewById(R.id.btnCapture)
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
         selectImageButton = findViewById(R.id.selectImageButton)
+        progressBar = findViewById(R.id.progressBar)
         if (allPermissionsGranted()) {
             startCamera()
         } else {
@@ -188,12 +194,20 @@ class OnCaptureClick : AppCompatActivity() {
     }
 
     private fun takePhoto() {
+        progressBar.visibility = View.VISIBLE
         val imageCapture = imageCapture ?: return
 
         val photoFile = createImageFile()
 
         val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
 
+        if (flashAuto){
+            imageCapture.flashMode = ImageCapture.FLASH_MODE_AUTO
+        }else{
+            // Initialize imageCapture and add flash mode option
+            imageCapture.flashMode = if (isFlashOn) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
+
+        }
         imageCapture.takePicture(
             outputOptions,
             ContextCompat.getMainExecutor(this),
@@ -202,10 +216,12 @@ class OnCaptureClick : AppCompatActivity() {
                     val savedUri = outputFileResults.savedUri ?: photoFile.toUri()
                     val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
                     intent.putExtra("imageUri", savedUri.toString())
+                    progressBar.visibility = View.GONE
                     startActivity(intent)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
+                    progressBar.visibility = View.GONE
                     Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
                 }
             }
@@ -308,14 +324,17 @@ class OnCaptureClick : AppCompatActivity() {
             menu.findItem(R.id.menu_flash_on).isVisible = true
             menu.findItem(R.id.menu_flash_off).isVisible = false
             menu.findItem(R.id.menu_flash_auto).isVisible = false
+            isFlashOn = true
         }else if (value==2){
             menu.findItem(R.id.menu_flash_on).isVisible = false
             menu.findItem(R.id.menu_flash_off).isVisible = true
             menu.findItem(R.id.menu_flash_auto).isVisible = false
+            isFlashOn = false
         }else{
             menu.findItem(R.id.menu_flash_on).isVisible = false
             menu.findItem(R.id.menu_flash_off).isVisible = false
             menu.findItem(R.id.menu_flash_auto).isVisible = true
+            flashAuto = true
         }
     }
 

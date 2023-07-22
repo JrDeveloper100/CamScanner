@@ -133,8 +133,9 @@ class Export : AppCompatActivity() {
         }
 
         btnExport.setOnClickListener {
-            val intent = Intent(this,Export2::class.java)
-            startActivity(intent)
+
+            goToActivity()
+
         }
         btnSingleImagePreview1.setOnClickListener {
             val intent = Intent(this,SingleImagePreview::class.java)
@@ -165,6 +166,25 @@ class Export : AppCompatActivity() {
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
+    }
+
+    private fun goToActivity() {
+        val drawable = imageHost.drawable as BitmapDrawable
+        val originalBitmap = drawable.bitmap
+        var outputStream: FileOutputStream
+        try {
+            val outputFile = File(filesDir, "filtered_image.jpg")
+            outputStream = FileOutputStream(outputFile)
+            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.close()
+
+            // Pass the file path as an extra in the Intent
+            val intent = Intent(this, Export2::class.java)
+            intent.putExtra("filteredImagePath", outputFile.absolutePath)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
