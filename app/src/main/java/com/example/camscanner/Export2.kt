@@ -88,7 +88,7 @@ class Export2 : AppCompatActivity() {
                 // Start the next activity and pass the PDF URI as an extra
                 val intent = Intent(this, AfterExport::class.java)
                 intent.putExtra("pdfUri", pdfUri)
-                intent.putExtra("filteredImage", filteredImage)
+                intent.putExtra("filteredImage", filteredImagePath)
                 startActivity(intent)
             }
 

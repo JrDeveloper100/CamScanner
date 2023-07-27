@@ -4,18 +4,24 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
+import com.github.barteksc.pdfviewer.BuildConfig
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.itextpdf.text.Document
@@ -41,6 +47,7 @@ class AfterExport : AppCompatActivity() {
     private lateinit var share : LinearLayout
     private lateinit var preview : LinearLayout
     private lateinit var btnPreview : LinearLayout
+    private var showPassword = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +67,10 @@ class AfterExport : AppCompatActivity() {
         mail = findViewById(R.id.mail)
         share = findViewById(R.id.share)
         preview = findViewById(R.id.preview)
-
         btnShare = findViewById(R.id.btnShare)
+        val filteredImagePath = intent.getStringExtra("filteredImage")
+        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
+        val imageByteArray = bitmapToByteArray(bitmapImage)
         btnShare.setOnClickListener {
             openBottomSheet()
         }
@@ -69,10 +78,8 @@ class AfterExport : AppCompatActivity() {
             openPasswordBottomSheet()
         }
         btnShareAsImage.setOnClickListener {
-            val imageUri = intent.getParcelableExtra<Uri>("filteredImage")
-            imageUri?.let {
-                shareImage(it)
-            }
+//            val imageUri = intent.getParcelableExtra<Uri>("filteredImage")
+            shareImage(imageByteArray)
         }
         btnShareAsPdf.setOnClickListener {
             val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
@@ -111,10 +118,36 @@ class AfterExport : AppCompatActivity() {
 
     }
 
-    private fun shareImage(imageUri: Uri) {
+    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    private fun convertBitmapToUri(bitmap: Bitmap?): Uri? {
+
+        val contentResolver: ContentResolver = contentResolver
+
+        // Save the bitmap as an image file using the cache directory
+        val imageFile = File(cacheDir, "filtered_image.jpg")
+        try {
+            val outputStream = FileOutputStream(imageFile)
+            bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        // Generate a content URI for the image file using FileProvider
+        return FileProvider.getUriForFile(this, "${BuildConfig.APPLICATION_ID}.fileprovider", imageFile)
+
+    }
+
+    private fun shareImage(imageByteArray: ByteArray) {
         val intent = Intent(Intent.ACTION_SEND)
         intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_STREAM, imageUri)
+        intent.putExtra(Intent.EXTRA_STREAM, imageByteArray)
         startActivity(Intent.createChooser(intent, "Share Image"))
     }
 
@@ -138,33 +171,50 @@ class AfterExport : AppCompatActivity() {
         }
         dialog.setContentView(passwordBottomSheet)
         dialog.setCancelable(true)
-
         val password = dialog.findViewById<EditText>(R.id.password)
         val confirmPassword = dialog.findViewById<EditText>(R.id.confirmPassword)
-        val imageUri = intent.getParcelableExtra<Bitmap>("filteredImage")
+        password?.setText("")
+        confirmPassword?.setText("")
         dialog.findViewById<Button>(R.id.btnSetPassword)?.setOnClickListener {
-            val pass = password?.text.toString()
-            val confirmPass = confirmPassword?.text.toString()
-            if (pass.isEmpty()) {
-                Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show()
-            } else {
-                // Convert the filtered image to a password-protected PDF
-                val pdfFileWithPassword =
-                    imageUri?.let { it1 -> convertToPasswordProtectedPdf(it1, pass) }
+            // Retrieve the file path from the extras
+            val filteredImagePath = intent.getStringExtra("filteredImage")
+            Toast.makeText(this, filteredImagePath, Toast.LENGTH_SHORT).show()
+            // Load the image from the file
+            val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
+                val pass = password?.text.toString()
+                val confirmPass = confirmPassword?.text.toString()
+                if (pass.isEmpty() || confirmPass.isEmpty()) {
+                    Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show()
+                } else if (pass!=confirmPass){
+                    Toast.makeText(this, "Password Doesn't Match", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    // Convert the filtered image to a password-protected PDF
+                    val pdfFileWithPassword =
+                        bitmapImage?.let { it1 -> convertToPasswordProtectedPdf(it1, pass) }
 
-                if (pdfFileWithPassword != null) {
-                    // Save the password-protected PDF file using MediaStore
-                    val pdfUri = savePdfToMediaStore(pdfFileWithPassword)
+                    if (pdfFileWithPassword != null) {
+                        // Save the password-protected PDF file using MediaStore
+                        val pdfUri = savePdfToMediaStore(pdfFileWithPassword)
+                        // Start the next activity and pass the PDF URI as an extra
+                        val intent = Intent(Intent.ACTION_SEND)
+                        intent.type = "application/pdf"
+                        intent.putExtra(Intent.EXTRA_STREAM, pdfUri)
+                        startActivity(Intent.createChooser(intent, "Share PDF"))
+                    }
 
-                    // Start the next activity and pass the PDF URI as an extra
-                    val intent = Intent(this, AfterExport::class.java)
-                    intent.putExtra("pdfUri", pdfUri)
-                    startActivity(intent)
+                    dialog.dismiss()
                 }
 
-                dialog.dismiss()
-            }
-
+        }
+        dialog.findViewById<TextView>(R.id.btnNotNow)?.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.findViewById<ImageView>(R.id.passOneShowHide)?.setOnClickListener {
+            toggleVisibilityOne()
+        }
+        dialog.findViewById<ImageView>(R.id.confirmPassShowHide)?.setOnClickListener {
+            toggleVisibilityTwo()
         }
         dialog.show()
 
@@ -177,6 +227,30 @@ class AfterExport : AppCompatActivity() {
                 ?.setHintTextColor(resources.getColor(R.color.white))
         }
 
+    }
+
+    private fun toggleVisibilityTwo() {
+        if (showPassword){
+            passwordBottomSheet.findViewById<ImageView>(R.id.confirmPassShowHide).setImageResource(R.drawable.visibility_off_icon)
+            passwordBottomSheet.findViewById<EditText>(R.id.confirmPassword).inputType = 129
+            showPassword = false
+        }else{
+            passwordBottomSheet.findViewById<ImageView>(R.id.confirmPassShowHide).setImageResource(R.drawable.visibility_on_icon)
+            passwordBottomSheet.findViewById<EditText>(R.id.confirmPassword).inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            showPassword = true
+        }
+    }
+
+    private fun toggleVisibilityOne() {
+        if (showPassword){
+            passwordBottomSheet.findViewById<ImageView>(R.id.passOneShowHide).setImageResource(R.drawable.visibility_off_icon)
+            passwordBottomSheet.findViewById<EditText>(R.id.password).inputType = 129
+            showPassword = false
+        }else{
+            passwordBottomSheet.findViewById<ImageView>(R.id.passOneShowHide).setImageResource(R.drawable.visibility_on_icon)
+            passwordBottomSheet.findViewById<EditText>(R.id.password).inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            showPassword = true
+        }
     }
 
     private fun savePdfToMediaStore(pdfFile: File): Uri? {
@@ -219,12 +293,17 @@ class AfterExport : AppCompatActivity() {
     private fun convertToPasswordProtectedPdf(bitmap: Bitmap, password: String?): File? {
         val pdfFile = File(filesDir, "filtered_image_with_password.pdf")
         val document = Document()
+        val byteArrayOutputStream = ByteArrayOutputStream()
 
         return try {
             PdfWriter.getInstance(document, FileOutputStream(pdfFile)).apply {
                 if (password != null) {
-                    setEncryption(password.toByteArray(), password.toByteArray(),
-                        PdfWriter.ALLOW_PRINTING or PdfWriter.ALLOW_COPY, PdfWriter.ENCRYPTION_AES_128)
+                    setEncryption(
+                        password.toByteArray(),
+                        password.toByteArray(),
+                        2052,
+                        2
+                    )
                 }
             }
 
@@ -249,15 +328,16 @@ class AfterExport : AppCompatActivity() {
             val scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true)
 
             // Add the scaled image to the PDF
-            val byteArrayOutputStream = ByteArrayOutputStream()
             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
             val byteArray = byteArrayOutputStream.toByteArray()
             val image = Image.getInstance(byteArray)
-            image.setAbsolutePosition(offsetX.toFloat(), offsetY.toFloat())
-            image.scaleToFit(scaledWidth.toFloat(), scaledHeight.toFloat())
+            image.setAbsolutePosition(0f, 0f) // Set the image position to (0, 0)
+            image.scaleToFit(pageWidth, pageHeight) // Scale the image to fit the entire page
 
             document.add(image)
             document.close()
+
+            byteArrayOutputStream.close() // Close the ByteArrayOutputStream to release resources
 
             pdfFile
         } catch (e: Exception) {

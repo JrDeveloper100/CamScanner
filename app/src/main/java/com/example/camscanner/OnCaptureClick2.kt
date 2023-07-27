@@ -60,8 +60,7 @@ class OnCaptureClick2 : AppCompatActivity() {
         ocvBlackButton = findViewById(R.id.ocvBlackButton)
         btnEdit = findViewById(R.id.btnEdit)
         btnEdit.setOnClickListener {
-            val intent = Intent(this, EditDocument::class.java)
-            startActivity(intent)
+            goToEditDocumentActivity()
         }
 
         val imageUriString = intent.getStringExtra("imageUri")
@@ -279,6 +278,26 @@ class OnCaptureClick2 : AppCompatActivity() {
 
             // Pass the file path as an extra in the Intent
             val intent = Intent(this, Export::class.java)
+            intent.putExtra("filteredImagePath", outputFile.absolutePath)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun goToEditDocumentActivity() {
+        val drawable = imageView.drawable as BitmapDrawable
+        val originalBitmap = drawable.bitmap
+        var outputStream: FileOutputStream
+        try {
+            val outputFile = File(filesDir, "filtered_image.jpg")
+            outputStream = FileOutputStream(outputFile)
+            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.close()
+
+            // Pass the file path as an extra in the Intent
+            val intent = Intent(this, EditDocument::class.java)
             intent.putExtra("filteredImagePath", outputFile.absolutePath)
             startActivity(intent)
         } catch (e: Exception) {

@@ -3,14 +3,18 @@ package com.example.camscanner
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
+import ja.burhanrashid52.photoeditor.PhotoEditorView
 import java.util.Stack
 
 class EditDocument : AppCompatActivity() {
@@ -79,6 +83,7 @@ class EditDocument : AppCompatActivity() {
     private lateinit var btnWatermark4Fonts : LinearLayout
     private lateinit var btnWatermark4Colors : LinearLayout
     private lateinit var btnWatermark4Opacity : LinearLayout
+    private lateinit var photoEditorView : PhotoEditorView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_document)
@@ -86,6 +91,9 @@ class EditDocument : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val filteredImagePath = intent.getStringExtra("filteredImagePath")
+        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
 
         bottomSheetLayoutColorFilter = layoutInflater.inflate(R.layout.bottom_sheet_layout_color_filter, null)
         bottomSheetLayoutColorAdjust = layoutInflater.inflate(R.layout.bottom_sheet_layout_adjust, null)
@@ -97,7 +105,7 @@ class EditDocument : AppCompatActivity() {
         bottomSheetLayoutColorEffect = layoutInflater.inflate(R.layout.bottom_sheet_layout_color_effect, null)
         btnCancel = bottomSheetLayoutColorFilter.findViewById(R.id.btnCancel)
         btnDone = bottomSheetLayoutColorFilter.findViewById(R.id.btnDone)
-        hostLayout = findViewById<ConstraintLayout>(R.id.hostLayout)
+//        hostLayout = findViewById<ConstraintLayout>(R.id.hostLayout)
         bottom_sheet_layout_watermark_2 = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_2, null)
         bottom_sheet_layout_watermark_3 = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_3, null)
         bottom_sheet_layout_watermark_4 = layoutInflater.inflate(R.layout.bottom_sheet_layout_watermark_4, null)
@@ -141,142 +149,149 @@ class EditDocument : AppCompatActivity() {
         btnHighlightInner = bottomSheetLayoutColorHighlight.findViewById(R.id.btnHighlightInner)
         btnEraser = bottomSheetLayoutColorHighlight.findViewById(R.id.btnEraser)
         btnColorInner = bottomSheetLayoutColorHighlight.findViewById(R.id.btnColorInner)
+        photoEditorView = findViewById(R.id.photoEditorView)
+        photoEditorView.source.setImageBitmap(bitmapImage)
 
-        btnColorFilter = findViewById(R.id.btnColorFilter)
-        btnAdjust = findViewById(R.id.btnAdjust)
-        btnHighlight = findViewById(R.id.btnHighlight)
-        btnPicture = findViewById(R.id.btnPicture)
-        btnSignature = findViewById(R.id.btnSignature)
-        btnWatermark = findViewById(R.id.btnWatermark)
-        btnText = findViewById(R.id.btnText)
-        btnOverlay = findViewById(R.id.btnOverlay)
-        btnColorEffect = findViewById(R.id.btnColorEffect)
+//        btnColorFilter = findViewById(R.id.btnColorFilter)
+//        btnAdjust = findViewById(R.id.btnAdjust)
+//        btnHighlight = findViewById(R.id.btnHighlight)
+//        btnPicture = findViewById(R.id.btnPicture)
+//        btnSignature = findViewById(R.id.btnSignature)
+//        btnWatermark = findViewById(R.id.btnWatermark)
+//        btnText = findViewById(R.id.btnText)
+//        btnOverlay = findViewById(R.id.btnOverlay)
+//        btnColorEffect = findViewById(R.id.btnColorEffect)
 
-        btnColorFilter.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorFilter)
-        }
-        btnCancel.setOnClickListener {
-            if (layoutStack.size > 1){
-                layoutStack.pop()
-                val previousLayout = layoutStack.peek()
-                replaceLayout(previousLayout)
-            }
-        }
-        btnAdjust.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorAdjust)
-        }
-        btnHighlight.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorHighlight)
-        }
-        btnPicture.setOnClickListener {
-            val intent = Intent(this, Gallery::class.java)
-            startActivity(intent)
-        }
-        btnSignature.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorSignature)
-        }
-        btnWatermark.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorWatermark)
-        }
-        btnText.setOnClickListener {
-            replaceLayout(bottom_sheet_layout_watermark_2)
-        }
-        btnOverlay.setOnClickListener {
-            replaceLayout(bottomSheetLayoutOverlay)
-        }
-        btnColorEffect.setOnClickListener {
-            replaceLayout(bottomSheetLayoutColorEffect)
-        }
-        btnColor.setOnClickListener {
-            replaceLayout(bottom_sheet_layout_watermark_3)
-        }
-        btnFont.setOnClickListener {
-            replaceLayout(bottom_sheet_layout_watermark_4)
-        }
+//        btnColorFilter.setOnClickListener {
+////            replaceLayout(bottomSheetLayoutColorFilter)
+//            replaceFragments(savedInstanceState, ColorFilterFragment())
+//        }
+//        btnCancel.setOnClickListener {
+//            if (layoutStack.size > 1){
+//                layoutStack.pop()
+//                val previousLayout = layoutStack.peek()
+//                replaceLayout(previousLayout)
+//            }
+//        }
+//        btnAdjust.setOnClickListener {
+////            replaceLayout(bottomSheetLayoutColorAdjust)
+//            replaceFragments(savedInstanceState, AdjustFragment())
+//        }
+//        btnHighlight.setOnClickListener {
+////            replaceLayout(bottomSheetLayoutColorHighlight)
+//            replaceFragments(savedInstanceState, HighlightFragment())
+//        }
+//        btnPicture.setOnClickListener {
+//            val intent = Intent(this, Gallery::class.java)
+//            startActivity(intent)
+//        }
+//        btnSignature.setOnClickListener {
+////            replaceLayout(bottomSheetLayoutColorSignature)
+//            replaceFragments(savedInstanceState, SignatureFragment())
+//        }
+//        btnWatermark.setOnClickListener {
+////            replaceLayout(bottomSheetLayoutColorWatermark)
+//            replaceFragments(savedInstanceState, WatermarkFragment())
+//        }
+//        btnText.setOnClickListener {
+//            replaceLayout(bottom_sheet_layout_watermark_2)
+//        }
+//        btnOverlay.setOnClickListener {
+//            replaceLayout(bottomSheetLayoutOverlay)
+//        }
+//        btnColorEffect.setOnClickListener {
+//            replaceLayout(bottomSheetLayoutColorEffect)
+//        }
+//        btnColor.setOnClickListener {
+//            replaceLayout(bottom_sheet_layout_watermark_3)
+//        }
+//        btnFont.setOnClickListener {
+//            replaceLayout(bottom_sheet_layout_watermark_4)
+//        }
 
-        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
-        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
-            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
-            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
-            btnDone.setImageResource(R.drawable.done_icon_dark_mode)
-            btnCancel.setImageResource(R.drawable.close_icon_dark_mode)
-            imageView35.setImageResource(R.drawable.close_icon_dark_mode)
-            imageView36.setImageResource(R.drawable.done_icon_dark_mode)
-            btnBrightness.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnContrast.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnSaturation.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnExposure.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnHighlightInner.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnEraser.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnColorInner.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            imageView3535.setImageResource(R.drawable.close_icon_dark_mode)
-            imageView3636.setImageResource(R.drawable.done_icon_dark_mode)
-            imageView353535.setImageResource(R.drawable.close_icon_dark_mode)
-            imageView363636.setImageResource(R.drawable.done_icon_dark_mode)
-            imageView35353535.setImageResource(R.drawable.close_icon_dark_mode)
-            imageView36363636.setImageResource(R.drawable.done_icon_dark_mode)
-            btnTick.setImageResource(R.drawable.done_icon_dark_mode)
-            btnCross.setImageResource(R.drawable.close_icon_dark_mode)
-            btnWatermark3Tick.setImageResource(R.drawable.done_icon_dark_mode)
-            btnWatermark3Cross.setImageResource(R.drawable.close_icon_dark_mode)
-            btnWatermark4Tick.setImageResource(R.drawable.done_icon_dark_mode)
-            btnWatermark4Cross.setImageResource(R.drawable.close_icon_dark_mode)
-            btnOverlayTick.setImageResource(R.drawable.done_icon_dark_mode)
-            btnOverlayCross.setImageResource(R.drawable.close_icon_dark_mode)
-            btnColorEffectTick.setImageResource(R.drawable.done_icon_dark_mode)
-            btnColorEffectCross.setImageResource(R.drawable.close_icon_dark_mode)
-            btnFonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnColors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnOpacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark2Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark2Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark2Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark3Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark3Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark3Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark4Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark4Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-            btnWatermark4Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
-
-        }else{
-            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
-            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
-            btnBrightness.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnContrast.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnSaturation.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnExposure.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnHighlightInner.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnEraser.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnColorInner.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnFonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnColors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnOpacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark2Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark2Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark2Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark3Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark3Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark3Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark4Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark4Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-            btnWatermark4Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-        }
+//        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+//        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+//            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+//            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
+//            btnDone.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnCancel.setImageResource(R.drawable.close_icon_dark_mode)
+//            imageView35.setImageResource(R.drawable.close_icon_dark_mode)
+//            imageView36.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnBrightness.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnContrast.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnSaturation.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnExposure.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnHighlightInner.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnEraser.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnColorInner.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            imageView3535.setImageResource(R.drawable.close_icon_dark_mode)
+//            imageView3636.setImageResource(R.drawable.done_icon_dark_mode)
+//            imageView353535.setImageResource(R.drawable.close_icon_dark_mode)
+//            imageView363636.setImageResource(R.drawable.done_icon_dark_mode)
+//            imageView35353535.setImageResource(R.drawable.close_icon_dark_mode)
+//            imageView36363636.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnTick.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnCross.setImageResource(R.drawable.close_icon_dark_mode)
+//            btnWatermark3Tick.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnWatermark3Cross.setImageResource(R.drawable.close_icon_dark_mode)
+//            btnWatermark4Tick.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnWatermark4Cross.setImageResource(R.drawable.close_icon_dark_mode)
+//            btnOverlayTick.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnOverlayCross.setImageResource(R.drawable.close_icon_dark_mode)
+//            btnColorEffectTick.setImageResource(R.drawable.done_icon_dark_mode)
+//            btnColorEffectCross.setImageResource(R.drawable.close_icon_dark_mode)
+//            btnFonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnColors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnOpacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark2Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark2Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark2Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark3Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark3Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark3Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark4Fonts.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark4Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//            btnWatermark4Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+//
+//        }else{
+//            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
+//            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnPicture.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnSignature.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnWatermark.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnText.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnOverlay.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnColorEffect.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
+//            btnBrightness.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnContrast.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnSaturation.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnExposure.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnHighlightInner.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnEraser.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnColorInner.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnFonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnColors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnOpacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark2Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark2Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark2Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark3Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark3Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark3Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark4Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark4Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//            btnWatermark4Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
+//        }
 
     }
 
