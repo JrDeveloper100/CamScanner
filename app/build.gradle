@@ -45,6 +45,16 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'com.burhanrashid52:photoeditor:3.0.0'
+    implementation 'com.github.QuadFlask:colorpicker:0.0.15'
+    implementation 'com.flying.xiaopo:sticker:1.6.0'
+    implementation 'com.kyanogen.signatureview:signature-view:1.2'
+    implementation 'com.divyanshu.colorseekbar:colorseekbar:1.0.2'
+    implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.huangyz0918:androidwm-light:0.1.2'
+    implementation 'com.github.nguyenhoanglam:ImagePicker:1.4.3'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
     implementation 'com.intuit.ssp:ssp-android:1.1.0'
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'

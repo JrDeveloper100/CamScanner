@@ -33,17 +33,155 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <ja.burhanrashid52.photoeditor.PhotoEditorView
-        android:id="@+id/photoEditorView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/imageLayout"
         android:layout_width="330dp"
         android:layout_height="457dp"
         android:layout_marginTop="10dp"
-        style="@style/edit_document_container_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+        <ja.burhanrashid52.photoeditor.PhotoEditorView
+            android:id="@+id/photoEditorView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            style="@style/edit_document_container_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_overlayImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.3"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+
+            <com.xiaopo.flying.sticker.StickerView
+                android:id="@+id/stickerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:showBorder="true"
+                app:showIcons="true" />
+
+        </ja.burhanrashid52.photoeditor.PhotoEditorView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_overlayImg"-->
+<!--        android:layout_width="330dp"-->
+<!--        android:layout_height="457dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:alpha="0.3"-->
+<!--        android:scaleType="fitXY"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.493"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/signatureLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintBottom_toTopOf="@id/container">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/clearSignature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_design_2"
+            android:fontFamily="@font/rubik_regular"
+            android:text="Clear"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.96"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.04000002" />
+
+        <com.kyanogen.signatureview.SignatureView
+            android:id="@+id/signatureView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:backgroundColor="#00000000"
+            app:enableSignature="true"
+            app:penColor="@color/black"
+            app:penSize="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/signatureRecyclerView"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/signatureRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvNoSignatureFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Signature Found"
+            android:textSize="@dimen/_14sdp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/signatureRecyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/signatureRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/signatureRecyclerView"
+            app:layout_constraintTop_toBottomOf="@+id/signatureView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/watermarkLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintBottom_toTopOf="@id/container">
+
+        <EditText
+            android:id="@+id/watermarkText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_110sdp"
+            android:cursorVisible="true"
+            android:focusable="true"
+            android:imeOptions="actionDone"
+            android:background="@drawable/white_bg"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:inputType="text"
+            android:gravity="top|left|center_vertical|center_horizontal|center|start"
+            android:padding="@dimen/_10sdp"
+            android:textSize="@dimen/_15sdp"
+            android:hint="Enter Text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"

@@ -26,4 +26,11 @@
     <color name="foreground_color">#303031</color>
     <color name="edit_document_pic_container_color">#363636</color>
     <color name="not_now_text_color">#5B5B5B</color>
+    <color name="yellow">#80ffff01</color>
+    <color name="selected_txt_color">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="editor_light_color">#3D73DD</color>
+    <color name="light_txt_color">#3D73DD</color>
+    <color name="selected_button_color">#D6EAFF</color>
+    <color name="unselected_button_color">#F0F8FF</color>
 </resources>
