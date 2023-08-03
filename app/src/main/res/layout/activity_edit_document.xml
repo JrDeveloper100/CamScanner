@@ -48,7 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible"
-            style="@style/edit_document_container_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -60,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:alpha="0.3"
                 android:scaleType="fitXY"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <com.xiaopo.flying.sticker.StickerView
                 android:id="@+id/stickerView"
@@ -71,21 +70,32 @@
 
         </ja.burhanrashid52.photoeditor.PhotoEditorView>
 
+<!--        <ImageView-->
+<!--            android:id="@+id/iv_overlayImg"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:alpha="0.3"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:visibility="visible"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintDimensionRatio="H,16:9"/>-->
+
+<!--        <com.xiaopo.flying.sticker.StickerView-->
+<!--            android:id="@+id/stickerView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:showBorder="true"-->
+<!--            app:showIcons="true"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_overlayImg"-->
-<!--        android:layout_width="330dp"-->
-<!--        android:layout_height="457dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:alpha="0.3"-->
-<!--        android:scaleType="fitXY"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.493"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"/>-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/signatureLayout"

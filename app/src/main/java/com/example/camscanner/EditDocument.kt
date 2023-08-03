@@ -95,8 +95,8 @@ class EditDocument : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
+//        val filteredImagePath = intent.getStringExtra("filteredImagePath")
+//        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
 
         bottomSheetLayoutColorFilter = layoutInflater.inflate(R.layout.bottom_sheet_layout_color_filter, null)
         bottomSheetLayoutColorAdjust = layoutInflater.inflate(R.layout.bottom_sheet_layout_adjust, null)
@@ -154,7 +154,7 @@ class EditDocument : AppCompatActivity() {
         btnColorInner = bottomSheetLayoutColorHighlight.findViewById(R.id.btnColorInner)
         photoEditorView = findViewById(R.id.photoEditorView)
         stickerView = findViewById(R.id.stickerView)
-        photoEditorView.source.setImageBitmap(bitmapImage)
+        photoEditorView.source.setImageBitmap(Constant.original)
         imageLayout = findViewById(R.id.imageLayout)
 
 //        btnColorFilter = findViewById(R.id.btnColorFilter)
@@ -327,6 +327,7 @@ class EditDocument : AppCompatActivity() {
 
     private fun goToActivity() {
          Constant.original = getMainFrameBitmap()
+        finish()
     }
 
     private fun getMainFrameBitmap(): Bitmap? {

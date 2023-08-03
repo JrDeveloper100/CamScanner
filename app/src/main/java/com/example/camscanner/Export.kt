@@ -51,17 +51,17 @@ class Export : AppCompatActivity() {
         btnSingleImagePreview5 = findViewById(R.id.btnSingleImagePreview5)
         // Retrieve the file path from the extras
         // Retrieve the file path from the extras
-        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-
-        // Load the image from the file
-
-        // Load the image from the file
-        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
-
-        // Display the filtered image in the ImageView
+//        val filteredImagePath = intent.getStringExtra("filteredImagePath")
+//
+//        // Load the image from the file
+//
+//        // Load the image from the file
+//        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
 
         // Display the filtered image in the ImageView
-        imageHost.setImageBitmap(filteredImage)
+
+        // Display the filtered image in the ImageView
+        imageHost.setImageBitmap(Constant.original)
         imageHost.setOnClickListener {
             fullScreenPreview()
         }
@@ -169,18 +169,18 @@ class Export : AppCompatActivity() {
     }
 
     private fun goToActivity() {
-        val drawable = imageHost.drawable as BitmapDrawable
-        val originalBitmap = drawable.bitmap
-        var outputStream: FileOutputStream
+//        val drawable = imageHost.drawable as BitmapDrawable
+//        val originalBitmap = drawable.bitmap
+//        var outputStream: FileOutputStream
         try {
-            val outputFile = File(filesDir, "filtered_image.jpg")
-            outputStream = FileOutputStream(outputFile)
-            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.close()
+//            val outputFile = File(filesDir, "filtered_image.jpg")
+//            outputStream = FileOutputStream(outputFile)
+//            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+//            outputStream.close()
 
             // Pass the file path as an extra in the Intent
             val intent = Intent(this, Export2::class.java)
-            intent.putExtra("filteredImagePath", outputFile.absolutePath)
+//            intent.putExtra("filteredImagePath", outputFile.absolutePath)
             startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()

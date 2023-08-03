@@ -68,9 +68,9 @@ class AfterExport : AppCompatActivity() {
         share = findViewById(R.id.share)
         preview = findViewById(R.id.preview)
         btnShare = findViewById(R.id.btnShare)
-        val filteredImagePath = intent.getStringExtra("filteredImage")
-        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
-        val imageByteArray = bitmapToByteArray(bitmapImage)
+//        val filteredImagePath = intent.getStringExtra("filteredImage")
+//        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
+//        val imageByteArray = bitmapToByteArray(bitmapImage)
         btnShare.setOnClickListener {
             openBottomSheet()
         }
@@ -79,7 +79,7 @@ class AfterExport : AppCompatActivity() {
         }
         btnShareAsImage.setOnClickListener {
 //            val imageUri = intent.getParcelableExtra<Uri>("filteredImage")
-            shareImage(imageByteArray)
+//            shareImage(imageByteArray)
         }
         btnShareAsPdf.setOnClickListener {
             val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")

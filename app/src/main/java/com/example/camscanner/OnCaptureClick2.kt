@@ -4,9 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.ColorMatrix
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.Matrix
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -19,19 +24,20 @@ import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.drawToBitmap
 import com.google.android.material.appbar.MaterialToolbar
+import ja.burhanrashid52.photoeditor.PhotoEditorView
 import java.io.File
 import java.io.FileOutputStream
 
 
 class OnCaptureClick2 : AppCompatActivity() {
 
-    private val rotationAngles = listOf(0f, 90f, 180f, 270f)
-    private var currentRotationIndex = 0
     private lateinit var imageView : ImageView
     private lateinit var retakeButton : Button
     private lateinit var btnNoCrop : LinearLayout
-    private lateinit var imageUri: Uri
+    private  var imageUri: Uri? = null
     private lateinit var brightnessSeekBar: SeekBar
     private lateinit var revertButton : ImageView
     private lateinit var improveColorsButton: ImageView
@@ -40,6 +46,9 @@ class OnCaptureClick2 : AppCompatActivity() {
     private lateinit var btnEdit : LinearLayout
     private lateinit var rotateButton : LinearLayout
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var photoEditorView: PhotoEditorView
+    private lateinit var imageLayout : ConstraintLayout
+    private var rotationAngle = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,17 +68,19 @@ class OnCaptureClick2 : AppCompatActivity() {
         sharpBlackButton = findViewById(R.id.sharpBlackButton)
         ocvBlackButton = findViewById(R.id.ocvBlackButton)
         btnEdit = findViewById(R.id.btnEdit)
+        photoEditorView = findViewById(R.id.photoEditorView)
+        imageLayout = findViewById(R.id.imageLayout)
+        initOperations()
+
+
         btnEdit.setOnClickListener {
             goToEditDocumentActivity()
         }
 
-        val imageUriString = intent.getStringExtra("imageUri")
-        imageUri = Uri.parse(imageUriString)
-        imageView = findViewById<ImageView>(R.id.imageView)
-        imageView.setImageURI(imageUri)
-
         rotateButton.setOnClickListener {
-            rotateImage(imageUri)
+//            rotateImage(imageUri)
+            rotationAngle = (rotationAngle + 90) % 360
+            photoEditorView.rotation = rotationAngle.toFloat()
         }
 
         retakeButton.setOnClickListener {
@@ -77,13 +88,12 @@ class OnCaptureClick2 : AppCompatActivity() {
         }
 
         btnNoCrop.setOnClickListener {
-
+            goToCropActivity()
         }
 
         brightnessSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                val brightness = progress - 100
-                adjustBrightness(brightness)
+                photoEditorView.source.colorFilter = setBrightness(progress / 2)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -123,9 +133,28 @@ class OnCaptureClick2 : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        initOperations()
+    }
+
+    private fun initOperations() {
+        val previousActivity = PreviousActivityManager.getPreviousActivity()
+
+        if (previousActivity == OnCaptureClick::class.java){
+            val imageUriString = intent.getStringExtra("imageUri")
+            imageUri = Uri.parse(imageUriString)
+            photoEditorView.source.setImageURI(imageUri)
+            Toast.makeText(this,"Welcome Back Uri",Toast.LENGTH_SHORT).show()
+        }else{
+            photoEditorView.source.setImageBitmap(Constant.original)
+            Toast.makeText(this,"Welcome Back B",Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun revertToOriginal() {
-        imageView.colorFilter = null
-        brightnessSeekBar.progress = 100
+        photoEditorView.source.colorFilter = null
+//        photoEditorView.setFilterEffect(PhotoFilter.NONE)
         buttonSelectionLogic(1)
     }
 
@@ -141,7 +170,8 @@ class OnCaptureClick2 : AppCompatActivity() {
         }
 
         val filter = ColorMatrixColorFilter(matrix)
-        imageView.colorFilter = filter
+        photoEditorView.source.colorFilter = filter
+//        photoEditorView.setFilterEffect(PhotoFilter.TEMPERATURE)
         buttonSelectionLogic(4)
     }
 
@@ -157,7 +187,8 @@ class OnCaptureClick2 : AppCompatActivity() {
         }
 
         val filter = ColorMatrixColorFilter(matrix)
-        imageView.colorFilter = filter
+        photoEditorView.source.colorFilter = filter
+//        photoEditorView.setFilterEffect(PhotoFilter.DOCUMENTARY)
         buttonSelectionLogic(3)
     }
 
@@ -173,7 +204,8 @@ class OnCaptureClick2 : AppCompatActivity() {
         }
 
         val filter = ColorMatrixColorFilter(matrix)
-        imageView.colorFilter = filter
+        photoEditorView.source.colorFilter = filter
+//        photoEditorView.setFilterEffect(PhotoFilter.BLACK_WHITE)
         buttonSelectionLogic(2)
     }
 
@@ -196,16 +228,6 @@ class OnCaptureClick2 : AppCompatActivity() {
         finish()
     }
 
-    private fun rotateImage(imageUri: Uri?) {
-        val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
-        val currentAngle = rotationAngles[currentRotationIndex]
-        val matrix = Matrix()
-        matrix.postRotate(currentAngle)
-        val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-        val imageView = findViewById<ImageView>(R.id.imageView)
-        imageView.setImageBitmap(rotatedBitmap)
-        currentRotationIndex = (currentRotationIndex + 1) % rotationAngles.size
-    }
 
     private fun buttonSelectionLogic(button: Int){
         when (button) {
@@ -261,24 +283,37 @@ class OnCaptureClick2 : AppCompatActivity() {
     }
 
     // Function to check if dark mode is enabled
-    fun isDarkModeEnabled(context: Context): Boolean {
+    private fun isDarkModeEnabled(context: Context): Boolean {
         val configuration = context.resources.configuration
         return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 
+    private fun setBrightness(progress: Int): PorterDuffColorFilter {
+        return if (progress >= 100) {
+            PorterDuffColorFilter(
+                Color.argb((progress - 100) * 255 / 100, 255, 255, 255),
+                PorterDuff.Mode.SRC_OVER
+            )
+        } else PorterDuffColorFilter(
+            Color.argb((100 - progress) * 255 / 100, 0, 0, 0),
+            PorterDuff.Mode.SRC_ATOP
+        )
+    }
+
     private fun goToActivity() {
-        val drawable = imageView.drawable as BitmapDrawable
-        val originalBitmap = drawable.bitmap
-        var outputStream: FileOutputStream
+        Constant.original = getMainFrameBitmap()
+//        val drawable = imageView.drawable as BitmapDrawable
+//        val originalBitmap = drawable.bitmap
+//        var outputStream: FileOutputStream
         try {
-            val outputFile = File(filesDir, "filtered_image.jpg")
-            outputStream = FileOutputStream(outputFile)
-            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.close()
+//            val outputFile = File(filesDir, "filtered_image.jpg")
+//            outputStream = FileOutputStream(outputFile)
+//            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+//            outputStream.close()
 
             // Pass the file path as an extra in the Intent
             val intent = Intent(this, Export::class.java)
-            intent.putExtra("filteredImagePath", outputFile.absolutePath)
+//            intent.putExtra("filteredImagePath", outputFile.absolutePath)
             startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -287,21 +322,60 @@ class OnCaptureClick2 : AppCompatActivity() {
     }
 
     private fun goToEditDocumentActivity() {
-        val drawable = imageView.drawable as BitmapDrawable
-        val originalBitmap = drawable.bitmap
-        var outputStream: FileOutputStream
-        try {
-            val outputFile = File(filesDir, "filtered_image.jpg")
-            outputStream = FileOutputStream(outputFile)
-            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            outputStream.close()
+        Constant.original = getMainFrameBitmap()
+        val intent = Intent(this, EditDocument::class.java)
+        startActivity(intent)
+    }
 
-            // Pass the file path as an extra in the Intent
-            val intent = Intent(this, EditDocument::class.java)
-            intent.putExtra("filteredImagePath", outputFile.absolutePath)
-            startActivity(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun goToCropActivity(){
+        Constant.original = getMainFrameBitmap()
+        val intent = Intent(this, CropActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(intent)
+        finish()
+    }
+
+    private fun getMainFrameBitmap(): Bitmap? {
+        val createBitmap = Bitmap.createBitmap(imageLayout.width, imageLayout.height, Bitmap.Config.ARGB_8888)
+        imageLayout.draw(Canvas(createBitmap))
+        return imageBitmap(createBitmap)
+    }
+
+    private fun imageBitmap(bitmap: Bitmap): Bitmap? {
+
+        val width = bitmap.width
+        var i = -1
+        var height = bitmap.height
+        var i2 = -1
+        var i3 = width
+        var i4 = 0
+        while (i4 < bitmap.height) {
+            var i5 = i2
+            var i6 = i3
+            for (i7 in 0 until bitmap.width) {
+                if (bitmap.getPixel(i7, i4) shr 24 and 255 > 0) {
+                    if (i7 < i6) {
+                        i6 = i7
+                    }
+                    if (i7 > i) {
+                        i = i7
+                    }
+                    if (i4 < height) {
+                        height = i4
+                    }
+                    if (i4 > i5) {
+                        i5 = i4
+                    }
+                }
+            }
+            i4++
+            i3 = i6
+            i2 = i5
+        }
+        return if (i < i3 || i2 < height) {
+            null
+        } else {
+            Bitmap.createBitmap(bitmap, i3, height, i - i3 + 1, i2 - height + 1)
         }
 
     }

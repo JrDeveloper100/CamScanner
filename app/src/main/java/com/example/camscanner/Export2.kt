@@ -66,20 +66,20 @@ class Export2 : AppCompatActivity() {
         btnSingleImagePreview5 = findViewById(R.id.btnSingleImagePreview5)
         btnSingleImagePreview6 = findViewById(R.id.btnSingleImagePreview6)
         // Retrieve the file path from the extras
-        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-
-        // Load the image from the file
-
-        // Load the image from the file
-        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
-
-        // Display the filtered image in the ImageView
+//        val filteredImagePath = intent.getStringExtra("filteredImagePath")
+//
+//        // Load the image from the file
+//
+//        // Load the image from the file
+//        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
 
         // Display the filtered image in the ImageView
-        imageHost.setImageBitmap(filteredImage)
+
+        // Display the filtered image in the ImageView
+        imageHost.setImageBitmap(Constant.original)
         btnExportFile.setOnClickListener {
             // Convert the filtered image to a PDF
-            val pdfFile = convertToPdf(filteredImage)
+            val pdfFile = Constant.original?.let { it1 -> convertToPdf(it1) }
 
             if (pdfFile != null) {
                 // Save the PDF file using MediaStore
@@ -88,7 +88,7 @@ class Export2 : AppCompatActivity() {
                 // Start the next activity and pass the PDF URI as an extra
                 val intent = Intent(this, AfterExport::class.java)
                 intent.putExtra("pdfUri", pdfUri)
-                intent.putExtra("filteredImage", filteredImagePath)
+//                intent.putExtra("filteredImage", filteredImagePath)
                 startActivity(intent)
             }
 

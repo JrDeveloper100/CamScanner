@@ -63,6 +63,7 @@ class OnCaptureClick : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_capture_click)
 
+        PreviousActivityManager.setPreviousActivity(this::class.java)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
