@@ -1,11 +1,14 @@
 package com.example.camscanner
 
 import android.Manifest
+import android.app.Dialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
@@ -17,9 +20,12 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
+import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -58,6 +64,16 @@ class OnCaptureClick : AppCompatActivity() {
     private lateinit var progressBar : ProgressBar
     private var isFlashOn = false
     private var flashAuto = false
+    private lateinit var side : TextView
+    private lateinit var squareLine : ImageView
+
+    private val REQUEST_CODE_SINGLE_SIDE = 101
+    private val REQUEST_CODE_TWO_SIDES = 102
+    private var captureMode: Int = -1
+    private var currentPhotoIndex = 0
+    private var imageUri1: Uri? = null
+    private var imageUri2: Uri? = null
+    private var cameraType : String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,16 +86,26 @@ class OnCaptureClick : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         menu= toolbar.menu
+        cameraType = intent.getStringExtra("cameraType")
 
         cameraManager = getSystemService(Context.CAMERA_SERVICE) as CameraManager
         cameraId = getCameraId()
-         viewFinder = findViewById<PreviewView>(R.id.viewFinder)
+        viewFinder = findViewById<PreviewView>(R.id.viewFinder)
         captureButton = findViewById(R.id.btnCapture)
         btnSwitchCamera = findViewById(R.id.btnSwitchCamera)
         selectImageButton = findViewById(R.id.selectImageButton)
         progressBar = findViewById(R.id.progressBar)
+        side = findViewById(R.id.side)
+        squareLine = findViewById(R.id.squareLine)
         if (allPermissionsGranted()) {
-            startCamera()
+            if (cameraType == "Photo"){
+                squareLine.visibility = View.GONE
+                startCamera()
+            }else if (cameraType == "IDCard"){
+                squareLine.visibility = View.VISIBLE
+                iDCardDialog()
+                startCamera()
+            }
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -88,7 +114,16 @@ class OnCaptureClick : AppCompatActivity() {
             )
         }
 
-        captureButton.setOnClickListener { takePhoto() }
+        captureButton.setOnClickListener {
+            if (cameraType=="IDCard" && Constant.card_type == "Single"){
+                takePhoto()
+            }else if(cameraType=="IDCard" && Constant.card_type == "Double"){
+                takeTwoPhotos()
+            }else{
+                takePhoto()
+            }
+
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -112,6 +147,87 @@ class OnCaptureClick : AppCompatActivity() {
         }else{
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
+
+    }
+
+    private fun takeTwoPhotos() {
+
+        progressBar.visibility = View.VISIBLE
+        squareLine.visibility = View.VISIBLE
+        val imageCapture = imageCapture ?: return
+
+        val photoFile = createImageFile()
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+        if (flashAuto){
+            imageCapture.flashMode = ImageCapture.FLASH_MODE_AUTO
+        }else{
+            // Initialize imageCapture and add flash mode option
+            imageCapture.flashMode = if (isFlashOn) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
+
+        }
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val savedUri = outputFileResults.savedUri ?: photoFile.toUri()
+                    if (currentPhotoIndex == 0) {
+                        imageUri1 = savedUri
+                        currentPhotoIndex = 1
+                        progressBar.visibility = View.GONE
+                        side.text = "Back Side"
+                        // Capture the second photo
+                    } else {
+                        imageUri2 = savedUri
+                        progressBar.visibility = View.GONE
+                        side.visibility = View.GONE
+                        Constant.original = null
+                        val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
+                        intent.putExtra("imageUri1", imageUri1.toString())
+                        intent.putExtra("imageUri2", imageUri2.toString())
+                        startActivity(intent)
+                    }
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    progressBar.visibility = View.GONE
+                    Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
+                }
+            }
+        )
+
+    }
+
+    private fun iDCardDialog() {
+
+        val dialog = Dialog(this, R.style.ThemeWithRoundShape)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.id_card_selection_dialog)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+
+        dialog.findViewById<TextView>(R.id.tv_select1)?.setOnClickListener {
+            Constant.card_type = "Single"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.tv_select2)?.setOnClickListener {
+            side.visibility = View.VISIBLE
+            Constant.card_type = "Double"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
 
     }
 
@@ -218,6 +334,7 @@ class OnCaptureClick : AppCompatActivity() {
                     val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
                     intent.putExtra("imageUri", savedUri.toString())
                     progressBar.visibility = View.GONE
+                    Constant.original = null
                     startActivity(intent)
                 }
 

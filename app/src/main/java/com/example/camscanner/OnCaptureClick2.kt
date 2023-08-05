@@ -136,19 +136,21 @@ class OnCaptureClick2 : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         initOperations()
+        Toast.makeText(this,"OnResume Called",Toast.LENGTH_SHORT).show()
     }
 
     private fun initOperations() {
         val previousActivity = PreviousActivityManager.getPreviousActivity()
 
-        if (previousActivity == OnCaptureClick::class.java){
-            val imageUriString = intent.getStringExtra("imageUri")
+        if (previousActivity == OnCaptureClick::class.java && Constant.original==null){
+//            val imageUriString = intent.getStringExtra("imageUri")
+            val imageUriString = intent.getStringExtra("imageUri1")
             imageUri = Uri.parse(imageUriString)
             photoEditorView.source.setImageURI(imageUri)
-            Toast.makeText(this,"Welcome Back Uri",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Taking Value From Uri",Toast.LENGTH_SHORT).show()
         }else{
             photoEditorView.source.setImageBitmap(Constant.original)
-            Toast.makeText(this,"Welcome Back B",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Taking Value From Constant.original",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -330,9 +332,9 @@ class OnCaptureClick2 : AppCompatActivity() {
     private fun goToCropActivity(){
         Constant.original = getMainFrameBitmap()
         val intent = Intent(this, CropActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
-        finish()
+//        finish()
     }
 
     private fun getMainFrameBitmap(): Bitmap? {

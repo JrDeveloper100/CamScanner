@@ -1,13 +1,13 @@
 package com.example.camscanner
 
+import android.Manifest
+import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.CalendarContract.Colors
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
@@ -16,11 +16,15 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 
 
 class Home : AppCompatActivity() {
@@ -66,6 +70,9 @@ class Home : AppCompatActivity() {
     private lateinit var privacyPolicyIcon : ImageView
     private lateinit var shareIcon : ImageView
     private lateinit var darkModeIcon : ImageView
+    private lateinit var imageView13 : LinearLayout
+    private lateinit var imageView12 : ImageView
+    private lateinit var imageView15 : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -114,6 +121,9 @@ class Home : AppCompatActivity() {
         privacyPolicyIcon = settingsLayout.findViewById(R.id.privacyPolicyIcon)
         shareIcon = settingsLayout.findViewById(R.id.shareIcon)
         darkModeIcon = settingsLayout.findViewById(R.id.darkModeIcon)
+        imageView13 = homeLayout.findViewById(R.id.imageView13)
+        imageView12 = homeLayout.findViewById(R.id.imageView12)
+        imageView15 = homeLayout.findViewById(R.id.imageView15)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
@@ -164,23 +174,23 @@ class Home : AppCompatActivity() {
         }
 
         btnPhoto.setOnClickListener {
-            val intent = Intent(this,OnCaptureClick::class.java)
-            startActivity(intent)
+            openCamera("Photo")
         }
         btnBottomSheetBook.setOnClickListener {
-            openCamera()
+            openCamera("Book")
         }
         btnBottomSheetDocument.setOnClickListener {
-            openCamera()
+            openCamera("Document")
         }
         btnBottomSheetAcademicCard.setOnClickListener {
-            openCamera()
+            openCamera("AcademicCard")
         }
         btnBottomSheetIDCard.setOnClickListener {
-            openCamera()
+            openCamera("IDCard")
         }
         btnBottomSheetBusinessCard.setOnClickListener {
-            openCamera()
+            val intent = Intent(this, BusinessCard::class.java)
+            startActivity(intent)
         }
         addFolder.setOnClickListener {
             openAddFolderDialog()
@@ -190,13 +200,13 @@ class Home : AppCompatActivity() {
             startActivity(intent)
         }
         btnIDCard.setOnClickListener {
-            openCamera()
+            openCamera("IDCard")
         }
         btnAcademicCard.setOnClickListener {
-            openCamera()
+            openCamera("AcademicCard")
         }
         btnBook.setOnClickListener {
-            openCamera()
+            openCamera("Book")
         }
         btnCaptureIcon.setOnClickListener {
             openBottomSheet()
@@ -212,17 +222,42 @@ class Home : AppCompatActivity() {
             replaceLayout(settingsLayout)
         }
         btnDocument.setOnClickListener {
-            openCamera()
+            openCamera("Document")
         }
         btnPhotos.setOnClickListener {
-            val intent = Intent(this, OnCaptureClick::class.java)
-            startActivity(intent)
+            openCamera("Photo")
         }
         btnRateUs.setOnClickListener {
             openRateUsDialog()
         }
         btnFeedback.setOnClickListener {
             openFeedbackDialog()
+        }
+        imageView13.setOnClickListener {
+            if (allPermissionsGranted()){
+                startScanning()
+            }else{
+                ActivityCompat.requestPermissions(
+                    this,
+                    REQUIRED_PERMISSIONS,
+                    REQUEST_CODE_PERMISSIONS
+                )
+            }
+        }
+        imageView12.setOnClickListener {
+            if (allPermissionsGranted()){
+                startScanning()
+            }else{
+                ActivityCompat.requestPermissions(
+                    this,
+                    REQUIRED_PERMISSIONS,
+                    REQUEST_CODE_PERMISSIONS
+                )
+            }
+        }
+        imageView15.setOnClickListener {
+            val intent = Intent(this, QRGenerate::class.java)
+            startActivity(intent)
         }
         btnDarkMode.setOnClickListener {
             isDarkModeEnabled = !isDarkModeEnabled
@@ -235,6 +270,43 @@ class Home : AppCompatActivity() {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
+    }
+
+    private fun startScanning() {
+        val integrator = IntentIntegrator(this)
+        integrator.setOrientationLocked(false) // Allow both portrait and landscape
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+        integrator.initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val result: IntentResult? =
+            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null && result.contents != null) {
+            // Show result in a dialog
+            showQrResultDialog(result.contents)
+        }
+    }
+
+    private fun showQrResultDialog(qrResult: String) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_qr_result, null)
+        val textQrResult = dialogView.findViewById<TextView>(R.id.textQrResult)
+        val btnDismiss = dialogView.findViewById<Button>(R.id.btnDismiss)
+
+        textQrResult.text = qrResult
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
+            .create()
+
+        btnDismiss.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
     }
 
     private fun openFeedbackDialog() {
@@ -278,8 +350,9 @@ class Home : AppCompatActivity() {
     }
 
 
-    private fun openCamera() {
+    private fun openCamera(cameraType: String) {
         val intent = Intent(this, OnCaptureClick::class.java)
+        intent.putExtra("cameraType",cameraType)
         startActivity(intent)
     }
 
@@ -310,6 +383,22 @@ class Home : AppCompatActivity() {
         hostContainer.removeAllViews()
         hostContainer.addView(newLayout)
     }
+
+   private fun allPermissionsGranted() : Boolean{
+       for (permission in REQUIRED_PERMISSIONS) {
+           if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+               return false
+           }
+       }
+       return true
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
+        private const val REQUEST_CODE_PERMISSIONS = 10
+        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    }
+
     private fun openBottomSheet() {
 
         val dialog = BottomSheetDialog(this)
