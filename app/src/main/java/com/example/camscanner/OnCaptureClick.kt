@@ -67,8 +67,6 @@ class OnCaptureClick : AppCompatActivity() {
     private lateinit var side : TextView
     private lateinit var squareLine : ImageView
 
-    private val REQUEST_CODE_SINGLE_SIDE = 101
-    private val REQUEST_CODE_TWO_SIDES = 102
     private var captureMode: Int = -1
     private var currentPhotoIndex = 0
     private var imageUri1: Uri? = null
@@ -187,6 +185,7 @@ class OnCaptureClick : AppCompatActivity() {
                         val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
                         intent.putExtra("imageUri1", imageUri1.toString())
                         intent.putExtra("imageUri2", imageUri2.toString())
+                        intent.putExtra("cameraType",cameraType)
                         startActivity(intent)
                     }
                 }
@@ -332,7 +331,8 @@ class OnCaptureClick : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = outputFileResults.savedUri ?: photoFile.toUri()
                     val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
-                    intent.putExtra("imageUri", savedUri.toString())
+                    intent.putExtra("imageUri1", savedUri.toString())
+                    intent.putExtra("cameraType",cameraType)
                     progressBar.visibility = View.GONE
                     Constant.original = null
                     startActivity(intent)

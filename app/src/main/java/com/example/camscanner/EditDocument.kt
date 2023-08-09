@@ -1,6 +1,7 @@
 package com.example.camscanner
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -327,6 +328,9 @@ class EditDocument : AppCompatActivity() {
 
     private fun goToActivity() {
          Constant.original = getMainFrameBitmap()
+//        val intent = Intent(this, OnCaptureClick2::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                startActivity(intent)
         finish()
     }
 

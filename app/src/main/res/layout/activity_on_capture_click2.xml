@@ -25,6 +25,7 @@
             app:navigationIcon="@drawable/arrow_left_icon_light_mode"
             app:title="CamScanner"
             app:titleTextAppearance="@style/toolbar_text"/>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -43,14 +44,38 @@
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
         app:layout_constraintBottom_toTopOf="@id/imageView22">
 
-        <ja.burhanrashid52.photoeditor.PhotoEditorView
-            android:id="@+id/photoEditorView"
+<!--        <ja.burhanrashid52.photoeditor.PhotoEditorView-->
+<!--            android:id="@+id/photoEditorView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:visibility="visible"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <TextView
+            android:id="@+id/imageIndexTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1/2"
+            android:background="@drawable/idcard_bg"
+            android:padding="@dimen/_5sdp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

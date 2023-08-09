@@ -72,6 +72,7 @@ class Home : AppCompatActivity() {
     private lateinit var darkModeIcon : ImageView
     private lateinit var imageView13 : LinearLayout
     private lateinit var imageView12 : ImageView
+    private lateinit var imageView14 : ImageView
     private lateinit var imageView15 : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,6 +124,7 @@ class Home : AppCompatActivity() {
         darkModeIcon = settingsLayout.findViewById(R.id.darkModeIcon)
         imageView13 = homeLayout.findViewById(R.id.imageView13)
         imageView12 = homeLayout.findViewById(R.id.imageView12)
+        imageView14 = homeLayout.findViewById(R.id.imageView14)
         imageView15 = homeLayout.findViewById(R.id.imageView15)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
@@ -259,6 +261,10 @@ class Home : AppCompatActivity() {
             val intent = Intent(this, QRGenerate::class.java)
             startActivity(intent)
         }
+        imageView14.setOnClickListener {
+            val intent = Intent(this, QRGenerate::class.java)
+            startActivity(intent)
+        }
         btnDarkMode.setOnClickListener {
             isDarkModeEnabled = !isDarkModeEnabled
 
@@ -351,6 +357,7 @@ class Home : AppCompatActivity() {
 
 
     private fun openCamera(cameraType: String) {
+        Constant.imageBasket.clear()
         val intent = Intent(this, OnCaptureClick::class.java)
         intent.putExtra("cameraType",cameraType)
         startActivity(intent)

@@ -5,12 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 
 class Preview : AppCompatActivity() {
-    private lateinit var fullScreenImageView : ImageView
     private lateinit var btnClosePreview : Button
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var recyclerView : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview)
@@ -19,21 +21,12 @@ class Preview : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        fullScreenImageView = findViewById(R.id.fullScreenImageView)
         btnClosePreview = findViewById(R.id.btnClosePreview)
-        // Retrieve the file path from the extras
-        // Retrieve the file path from the extras
-        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-
-        // Load the image from the file
-
-        // Load the image from the file
-        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
-
-        // Display the filtered image in the ImageView
-
-        // Display the filtered image in the ImageView
-        fullScreenImageView.setImageBitmap(filteredImage)
+        recyclerView = findViewById(R.id.recyclerView)
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+        val previewAdapter = PreviewAdapter(Constant.imageBasket)
+        recyclerView.adapter = previewAdapter
         btnClosePreview.setOnClickListener {
             finish()
         }
