@@ -117,30 +117,8 @@ class Export : AppCompatActivity() {
 //        }
 
         btnExport.setOnClickListener {
-
             goToActivity()
-
         }
-//        btnSingleImagePreview1.setOnClickListener {
-//            val intent = Intent(this,SingleImagePreview::class.java)
-//            startActivity(intent)
-//        }
-//        btnSingleImagePreview2.setOnClickListener {
-//            val intent = Intent(this,SingleImagePreview::class.java)
-//            startActivity(intent)
-//        }
-//        btnSingleImagePreview3.setOnClickListener {
-//            val intent = Intent(this,SingleImagePreview::class.java)
-//            startActivity(intent)
-//        }
-//        btnSingleImagePreview4.setOnClickListener {
-//            val intent = Intent(this,SingleImagePreview::class.java)
-//            startActivity(intent)
-//        }
-//        btnSingleImagePreview5.setOnClickListener {
-//            val intent = Intent(this,SingleImagePreview::class.java)
-//            startActivity(intent)
-//        }
 
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
@@ -169,6 +147,12 @@ class Export : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    fun singleImagePreview(position : Int){
+        val intent = Intent(this,SingleImagePreview::class.java)
+        intent.putExtra("position",position)
+        startActivity(intent)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

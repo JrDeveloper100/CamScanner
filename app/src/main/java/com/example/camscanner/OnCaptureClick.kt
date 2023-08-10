@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.hardware.camera2.CameraAccessException
@@ -43,6 +44,7 @@ import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import com.google.android.material.appbar.MaterialToolbar
+import java.io.IOException
 
 class OnCaptureClick : AppCompatActivity() {
 
@@ -102,6 +104,9 @@ class OnCaptureClick : AppCompatActivity() {
             }else if (cameraType == "IDCard"){
                 squareLine.visibility = View.VISIBLE
                 iDCardDialog()
+                startCamera()
+            }else if (cameraType == "Document"){
+                squareLine.visibility = View.GONE
                 startCamera()
             }
         } else {
@@ -183,9 +188,11 @@ class OnCaptureClick : AppCompatActivity() {
                         side.visibility = View.GONE
                         Constant.original = null
                         val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
-                        intent.putExtra("imageUri1", imageUri1.toString())
-                        intent.putExtra("imageUri2", imageUri2.toString())
-                        intent.putExtra("cameraType",cameraType)
+//                        intent.putExtra("imageUri1", imageUri1.toString())
+//                        intent.putExtra("imageUri2", imageUri2.toString())
+//                        intent.putExtra("cameraType",cameraType)
+                        Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri1))
+                        Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri2))
                         startActivity(intent)
                     }
                 }
@@ -331,8 +338,9 @@ class OnCaptureClick : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     val savedUri = outputFileResults.savedUri ?: photoFile.toUri()
                     val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
-                    intent.putExtra("imageUri1", savedUri.toString())
-                    intent.putExtra("cameraType",cameraType)
+//                    intent.putExtra("imageUri1", savedUri.toString())
+//                    intent.putExtra("cameraType",cameraType)
+                    Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick, savedUri))
                     progressBar.visibility = View.GONE
                     Constant.original = null
                     startActivity(intent)
@@ -344,6 +352,15 @@ class OnCaptureClick : AppCompatActivity() {
                 }
             }
         )
+    }
+
+    private fun uriToBitmap(context: Context, uri: Uri?): Bitmap? {
+        return try {
+            MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
     }
 
     private fun createImageFile(): File {
@@ -456,7 +473,7 @@ class OnCaptureClick : AppCompatActivity() {
         }
     }
 
-    fun isDarkModeEnabled(context: Context): Boolean {
+    private fun isDarkModeEnabled(context: Context): Boolean {
         val configuration = context.resources.configuration
         return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }

@@ -20,6 +20,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.itextpdf.text.Document
 import com.itextpdf.text.Paragraph
@@ -32,18 +34,7 @@ import java.io.OutputStream
 class Export2 : AppCompatActivity() {
     private lateinit var btnExportFile : Button
     private lateinit var toolbar : MaterialToolbar
-    private lateinit var imageHost : ImageView
-    private lateinit var imageHost2 : ImageView
-    private lateinit var imageHost3 : ImageView
-    private lateinit var imageHost4 : ImageView
-    private lateinit var imageHost5 : ImageView
-    private lateinit var imageHost6 : ImageView
-    private lateinit var btnSingleImagePreview1 : ImageView
-    private lateinit var btnSingleImagePreview2 : ImageView
-    private lateinit var btnSingleImagePreview3 : ImageView
-    private lateinit var btnSingleImagePreview4 : ImageView
-    private lateinit var btnSingleImagePreview5 : ImageView
-    private lateinit var btnSingleImagePreview6 : ImageView
+    private lateinit var recyclerView : RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export2)
@@ -52,34 +43,14 @@ class Export2 : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = GridLayoutManager(this, 3) // Set spanCount based on your preference
+        val export2Adapter = Export2Adapter(Constant.imageBasket,this)
+        recyclerView.adapter = export2Adapter
         btnExportFile = findViewById(R.id.btnExportFile)
-        imageHost = findViewById(R.id.imageHost)
-        imageHost2 = findViewById(R.id.imageHost2)
-        imageHost3 = findViewById(R.id.imageHost3)
-        imageHost4 = findViewById(R.id.imageHost4)
-        imageHost5 = findViewById(R.id.imageHost5)
-        imageHost6 = findViewById(R.id.imageHost6)
-        btnSingleImagePreview1 = findViewById(R.id.btnSingleImagePreview1)
-        btnSingleImagePreview2 = findViewById(R.id.btnSingleImagePreview2)
-        btnSingleImagePreview3 = findViewById(R.id.btnSingleImagePreview3)
-        btnSingleImagePreview4 = findViewById(R.id.btnSingleImagePreview4)
-        btnSingleImagePreview5 = findViewById(R.id.btnSingleImagePreview5)
-        btnSingleImagePreview6 = findViewById(R.id.btnSingleImagePreview6)
-        // Retrieve the file path from the extras
-//        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-//
-//        // Load the image from the file
-//
-//        // Load the image from the file
-//        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
-
-        // Display the filtered image in the ImageView
-
-        // Display the filtered image in the ImageView
-        imageHost.setImageBitmap(Constant.original)
         btnExportFile.setOnClickListener {
             // Convert the filtered image to a PDF
-            val pdfFile = Constant.original?.let { it1 -> convertToPdf(it1) }
+            val pdfFile = convertToPdf(Constant.imageBasket)
 
             if (pdfFile != null) {
                 // Save the PDF file using MediaStore
@@ -93,54 +64,7 @@ class Export2 : AppCompatActivity() {
             }
 
         }
-        btnSingleImagePreview1.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        btnSingleImagePreview2.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        btnSingleImagePreview3.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        btnSingleImagePreview4.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        btnSingleImagePreview5.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        btnSingleImagePreview6.setOnClickListener {
-            val intent = Intent(this,SingleImagePreview::class.java)
-            startActivity(intent)
-        }
-        imageHost.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
-        imageHost2.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
-        imageHost3.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
-        imageHost4.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
-        imageHost5.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
-        imageHost6.setOnClickListener {
-            val intent = Intent(this,Preview::class.java)
-            startActivity(intent)
-        }
+
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
@@ -181,7 +105,7 @@ class Export2 : AppCompatActivity() {
     private fun savePdfToMediaStore(pdfFile: File): Uri? {
         val resolver = contentResolver
         val contentValues = ContentValues().apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, "filtered_image.pdf")
+            put(MediaStore.MediaColumns.DISPLAY_NAME, "ID_Card.pdf")
             put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
             put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOCUMENTS)
         }
@@ -215,37 +139,53 @@ class Export2 : AppCompatActivity() {
         }
     }
 
-    private fun convertToPdf(bitmap: Bitmap): File? {
+    fun singleImagePreview(position : Int){
+        val intent = Intent(this,SingleImagePreview::class.java)
+        intent.putExtra("position",position)
+        startActivity(intent)
+    }
+
+    fun fullScreenPreview() {
+        try {
+            val intent = Intent(this, Preview::class.java)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun convertToPdf(images: ArrayList<Bitmap?>): File? {
         val pdfDocument = PdfDocument()
-        val pageInfo = PdfDocument.PageInfo.Builder(bitmap.width, bitmap.height, 1).create()
+
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
         val page = pdfDocument.startPage(pageInfo)
         val canvas = page.canvas
         val paint = android.graphics.Paint()
         paint.isAntiAlias = true
 
-        // Calculate the scale to fit the image within the PDF page
-        val scaleX = pageInfo.pageWidth.toFloat() / bitmap.width
-        val scaleY = pageInfo.pageHeight.toFloat() / bitmap.height
-        val scale = minOf(scaleX, scaleY)
+        val imageCount = images.size
+        val imageWidth = pageWidth / imageCount
 
-        // Calculate the new dimensions of the scaled image
-        val scaledWidth = (bitmap.width * scale).toInt()
-        val scaledHeight = (bitmap.height * scale).toInt()
+        for ((index, image) in images.withIndex()) {
+            val scaledImage = image?.let {
+                val scale = imageWidth.toFloat() / it.width
+                Bitmap.createScaledBitmap(it, imageWidth, (it.height * scale).toInt(), true)
+            }
 
-        // Calculate the position to center the image on the PDF page
-        val offsetX = (pageInfo.pageWidth - scaledWidth) / 2
-        val offsetY = (pageInfo.pageHeight - scaledHeight) / 2
+            val offsetX = index * imageWidth
+            val offsetY = (pageHeight - scaledImage?.height!! ?: 0) / 2
 
-        // Create a scaled version of the bitmap
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true)
-
-        // Draw the scaled image on the canvas
-        canvas.drawBitmap(scaledBitmap, offsetX.toFloat(), offsetY.toFloat(), paint)
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+            }
+        }
 
         pdfDocument.finishPage(page)
 
-        // Save the PDF to internal storage
-        val pdfFile = File(filesDir, "filtered_image.pdf")
+        val pdfFile = File(filesDir, "ID_Card.pdf")
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)
@@ -259,6 +199,8 @@ class Export2 : AppCompatActivity() {
     }
 
 
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         if (isDarkModeEnabled(this)) {
@@ -270,7 +212,7 @@ class Export2 : AppCompatActivity() {
     }
 
     // Function to check if dark mode is enabled
-    fun isDarkModeEnabled(context: Context): Boolean {
+    private fun isDarkModeEnabled(context: Context): Boolean {
         val configuration = context.resources.configuration
         return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }

@@ -65,7 +65,7 @@ class OnCaptureClick2 : AppCompatActivity() {
     private var imageCurrentPosition = 0
     private var firstImageBrightness = 100
     private var secondImageBrightness = 100
-    private var cameraType : String? = null
+//    private var cameraType : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +76,7 @@ class OnCaptureClick2 : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        cameraType = intent.getStringExtra("cameraType")
+//        cameraType = intent.getStringExtra("cameraType")
         rotateButton = findViewById(R.id.rotateButton)
         retakeButton = findViewById(R.id.retakeButton)
         btnNoCrop = findViewById(R.id.btnNoCrop)
@@ -91,15 +91,15 @@ class OnCaptureClick2 : AppCompatActivity() {
         viewPager = findViewById(R.id.viewPager)
         imageIndexTextView = findViewById(R.id.imageIndexTextView)
 
-        if (cameraType == "Photo"){
-            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
-            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
-        }else{
-            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
-            val imageUri2 = intent.getStringExtra("imageUri2")?.toUri()
-            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
-            Constant.imageBasket.add(uriToBitmap(this,imageUri2))
-        }
+//        if (cameraType == "Photo"){
+//            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
+//            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
+//        }else{
+//            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
+//            val imageUri2 = intent.getStringExtra("imageUri2")?.toUri()
+//            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
+//            Constant.imageBasket.add(uriToBitmap(this,imageUri2))
+//        }
 
 
         photoEditorAdapter = photoEditorAdapter(Constant.imageBasket, viewPager)
@@ -231,8 +231,8 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         if (previousActivity == OnCaptureClick::class.java && Constant.original==null){
 //            val imageUriString = intent.getStringExtra("imageUri")
-            val imageUriString = intent.getStringExtra("imageUri1")
-            imageUri = Uri.parse(imageUriString)
+//            val imageUriString = intent.getStringExtra("imageUri1")
+//            imageUri = Uri.parse(imageUriString)
 //            photoEditorView.source.setImageURI(imageUri)
             Toast.makeText(this,"Taking Value From Uri",Toast.LENGTH_SHORT).show()
         }else{
