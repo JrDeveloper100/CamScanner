@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.util.Size
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -33,6 +34,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.view.PreviewView
 import androidx.camera.core.Preview
+import androidx.camera.core.impl.CaptureConfig
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -68,8 +70,8 @@ class OnCaptureClick : AppCompatActivity() {
     private var flashAuto = false
     private lateinit var side : TextView
     private lateinit var squareLine : ImageView
+    private lateinit var dottedLine: View
 
-    private var captureMode: Int = -1
     private var currentPhotoIndex = 0
     private var imageUri1: Uri? = null
     private var imageUri2: Uri? = null
@@ -97,16 +99,33 @@ class OnCaptureClick : AppCompatActivity() {
         progressBar = findViewById(R.id.progressBar)
         side = findViewById(R.id.side)
         squareLine = findViewById(R.id.squareLine)
+        dottedLine = findViewById(R.id.dottedLine)
         if (allPermissionsGranted()) {
             if (cameraType == "Photo"){
                 squareLine.visibility = View.GONE
                 startCamera()
             }else if (cameraType == "IDCard"){
                 squareLine.visibility = View.VISIBLE
+                dottedLine.visibility = View.GONE
                 iDCardDialog()
                 startCamera()
             }else if (cameraType == "Document"){
                 squareLine.visibility = View.GONE
+                dottedLine.visibility = View.GONE
+                startCamera()
+            }
+            else if(cameraType == "Export"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.GONE
+                startCamera()
+            }else if (cameraType == "AcademicCard"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.GONE
+                academicCardDialog()
+                startCamera()
+            }else if (cameraType == "Book"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.VISIBLE
                 startCamera()
             }
         } else {
@@ -115,12 +134,19 @@ class OnCaptureClick : AppCompatActivity() {
                 REQUIRED_PERMISSIONS,
                 REQUEST_CODE_PERMISSIONS
             )
+            startCamera()
         }
 
         captureButton.setOnClickListener {
             if (cameraType=="IDCard" && Constant.card_type == "Single"){
                 takePhoto()
             }else if(cameraType=="IDCard" && Constant.card_type == "Double"){
+                takeTwoPhotos()
+            }else if (cameraType=="Book"){
+                takeBookPhoto()
+            }else if (cameraType=="AcademicCard" && Constant.card_type == "Single"){
+                takePhoto()
+            }else if (cameraType=="AcademicCard" && Constant.card_type == "Double"){
                 takeTwoPhotos()
             }else{
                 takePhoto()
@@ -206,11 +232,87 @@ class OnCaptureClick : AppCompatActivity() {
 
     }
 
+    private fun takeBookPhoto(){
+        progressBar.visibility = View.VISIBLE
+        val imageCapture = imageCapture ?: return
+
+        val photoFile = createImageFile()
+
+        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
+
+        if (flashAuto) {
+            imageCapture.flashMode = ImageCapture.FLASH_MODE_AUTO
+        } else {
+            imageCapture.flashMode =
+                if (isFlashOn) ImageCapture.FLASH_MODE_ON else ImageCapture.FLASH_MODE_OFF
+        }
+
+        imageCapture.takePicture(
+            outputOptions,
+            ContextCompat.getMainExecutor(this),
+            object : ImageCapture.OnImageSavedCallback {
+                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                    val savedUri = outputFileResults.savedUri ?: photoFile.toUri()
+
+                    val capturedBitmap = uriToBitmap(this@OnCaptureClick, savedUri)
+                    val height = capturedBitmap?.height ?: 0
+                    val width = capturedBitmap?.width ?: 0
+                    val middleY = height / 2
+                    val upperBitmap = capturedBitmap?.let { Bitmap.createBitmap(it, 0, 0, width, middleY) }
+                    val lowerBitmap = capturedBitmap?.let { Bitmap.createBitmap(it, 0, middleY, width, height-middleY) }
+                    // Display the upper and lower images in the respective ImageViews
+                    Constant.imageBasket.add(upperBitmap)
+                    Constant.imageBasket.add(lowerBitmap)
+                    val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
+                    startActivity(intent)
+                    progressBar.visibility = View.GONE
+                    Constant.original = null
+                }
+
+                override fun onError(exception: ImageCaptureException) {
+                    progressBar.visibility = View.GONE
+                    Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
+                }
+            }
+        )
+    }
+
     private fun iDCardDialog() {
 
         val dialog = Dialog(this, R.style.ThemeWithRoundShape)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.id_card_selection_dialog)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+
+        dialog.findViewById<TextView>(R.id.tv_select1)?.setOnClickListener {
+            Constant.card_type = "Single"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.tv_select2)?.setOnClickListener {
+            side.visibility = View.VISIBLE
+            Constant.card_type = "Double"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+    }
+
+    private fun academicCardDialog() {
+
+        val dialog = Dialog(this, R.style.ThemeWithRoundShape)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.academic_card_selection_dialog)
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(false)
@@ -351,6 +453,7 @@ class OnCaptureClick : AppCompatActivity() {
                     Log.e(TAG, "Photo capture failed: ${exception.message}", exception)
                 }
             }
+
         )
     }
 

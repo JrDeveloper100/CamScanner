@@ -36,85 +36,6 @@ class Export : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 3) // Set spanCount based on your preference
         val exportAdapter = ExportAdapter(Constant.imageBasket,this)
         recyclerView.adapter = exportAdapter
-        // Retrieve the file path from the extras
-        // Retrieve the file path from the extras
-//        val filteredImagePath = intent.getStringExtra("filteredImagePath")
-//
-//        // Load the image from the file
-//
-//        // Load the image from the file
-//        val filteredImage = BitmapFactory.decodeFile(filteredImagePath)
-
-        // Display the filtered image in the ImageView
-
-        // Display the filtered image in the ImageView
-
-//        imageHost.setOnLongClickListener {
-//            // Handle long-press event here
-//            // Return true if the event is consumed and should not be propagated further
-//            // Return false if you want to allow the long-press event to be propagated further
-//
-//            // Example: Show a toast message
-//            val intent = Intent(this,RemoveImages::class.java)
-//            startActivity(intent)
-//            true // Event consumed
-//        }
-//        imageHost2.setOnClickListener {
-//            val intent = Intent(this,Preview::class.java)
-//            startActivity(intent)
-//        }
-//        imageHost2.setOnLongClickListener {
-//            // Handle long-press event here
-//            // Return true if the event is consumed and should not be propagated further
-//            // Return false if you want to allow the long-press event to be propagated further
-//
-//            // Example: Show a toast message
-//            val intent = Intent(this,RemoveImages::class.java)
-//            startActivity(intent)
-//            true // Event consumed
-//        }
-//        imageHost3.setOnClickListener {
-//            val intent = Intent(this,Preview::class.java)
-//            startActivity(intent)
-//        }
-//        imageHost3.setOnLongClickListener {
-//            // Handle long-press event here
-//            // Return true if the event is consumed and should not be propagated further
-//            // Return false if you want to allow the long-press event to be propagated further
-//
-//            // Example: Show a toast message
-//            val intent = Intent(this,RemoveImages::class.java)
-//            startActivity(intent)
-//            true // Event consumed
-//        }
-//        imageHost4.setOnClickListener {
-//            val intent = Intent(this,Preview::class.java)
-//            startActivity(intent)
-//        }
-//        imageHost4.setOnLongClickListener {
-//            // Handle long-press event here
-//            // Return true if the event is consumed and should not be propagated further
-//            // Return false if you want to allow the long-press event to be propagated further
-//
-//            // Example: Show a toast message
-//            val intent = Intent(this,RemoveImages::class.java)
-//            startActivity(intent)
-//            true // Event consumed
-//        }
-//        imageHost5.setOnClickListener {
-//            val intent = Intent(this,Preview::class.java)
-//            startActivity(intent)
-//        }
-//        imageHost5.setOnLongClickListener {
-//            // Handle long-press event here
-//            // Return true if the event is consumed and should not be propagated further
-//            // Return false if you want to allow the long-press event to be propagated further
-//
-//            // Example: Show a toast message
-//            val intent = Intent(this,RemoveImages::class.java)
-//            startActivity(intent)
-//            true // Event consumed
-//        }
 
         btnExport.setOnClickListener {
             goToActivity()
@@ -174,6 +95,16 @@ class Export : AppCompatActivity() {
     fun fullScreenPreview() {
         try {
             val intent = Intent(this, Preview::class.java)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun goToCameraActivity(){
+        try {
+            val intent = Intent(this, OnCaptureClick::class.java)
+            intent.putExtra("cameraType","Export")
             startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()

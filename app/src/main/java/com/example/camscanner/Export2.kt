@@ -49,19 +49,20 @@ class Export2 : AppCompatActivity() {
         recyclerView.adapter = export2Adapter
         btnExportFile = findViewById(R.id.btnExportFile)
         btnExportFile.setOnClickListener {
-            // Convert the filtered image to a PDF
-            val pdfFile = convertToPdf(Constant.imageBasket)
-
-            if (pdfFile != null) {
-                // Save the PDF file using MediaStore
-                val pdfUri = savePdfToMediaStore(pdfFile)
-
-                // Start the next activity and pass the PDF URI as an extra
-                val intent = Intent(this, AfterExport::class.java)
-                intent.putExtra("pdfUri", pdfUri)
-//                intent.putExtra("filteredImage", filteredImagePath)
-                startActivity(intent)
+            if (Constant.conversionType == "Photo"){
+                val pdfFile = convertPhotosToPdf(Constant.imageBasket)
+                check(pdfFile)
+            }else if (Constant.conversionType == "IDCard"){
+                val pdfFile = convertToPdf(Constant.imageBasket)
+                check(pdfFile)
+            }else if (Constant.conversionType == "Document"){
+                val pdfFile = convertDocumentToPdf(Constant.imageBasket)
+                check(pdfFile)
+            }else if (Constant.conversionType == "AcademicCard"){
+                val pdfFile = convertAcademicCardToPdf(Constant.imageBasket)
+                check(pdfFile)
             }
+            // Convert the filtered image to a PDF
 
         }
 
@@ -154,6 +155,106 @@ class Export2 : AppCompatActivity() {
         }
     }
 
+    private fun check(pdfFile: File?){
+        if (pdfFile != null) {
+            // Save the PDF file using MediaStore
+            val pdfUri = savePdfToMediaStore(pdfFile)
+
+            // Start the next activity and pass the PDF URI as an extra
+            val intent = Intent(this, AfterExport::class.java)
+            intent.putExtra("pdfUri", pdfUri)
+//                intent.putExtra("filteredImage", filteredImagePath)
+            startActivity(intent)
+        }
+    }
+
+//    private fun convertToPdf(images: ArrayList<Bitmap?>): File? {
+//        val pdfDocument = PdfDocument()
+//
+//        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+//        val pageHeight = (11 * 72).toInt()
+//
+//        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+//        val page = pdfDocument.startPage(pageInfo)
+//        val canvas = page.canvas
+//        val paint = android.graphics.Paint()
+//        paint.isAntiAlias = true
+//
+//        val imageCount = images.size
+//        val imageWidth = pageWidth / imageCount
+//
+//        for ((index, image) in images.withIndex()) {
+//            val scaledImage = image?.let {
+//                val scale = imageWidth.toFloat() / it.width
+//                Bitmap.createScaledBitmap(it, imageWidth, (it.height * scale).toInt(), true)
+//            }
+//
+//            val offsetX = index * imageWidth
+//            val offsetY = (pageHeight - scaledImage?.height!! ?: 0) / 2
+//
+//            scaledImage?.let {
+//                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+//            }
+//        }
+//
+//        pdfDocument.finishPage(page)
+//
+//        val pdfFile = File(filesDir, "ID_Card.pdf")
+//        return try {
+//            pdfFile.outputStream().use {
+//                pdfDocument.writeTo(it)
+//            }
+//            pdfDocument.close()
+//            pdfFile
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
+
+//    private fun convertToPdf(images: ArrayList<Bitmap?>): File? {
+//        val pdfDocument = PdfDocument()
+//
+//        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+//        val pageHeight = (11 * 72).toInt()
+//
+//        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+//        val page = pdfDocument.startPage(pageInfo)
+//        val canvas = page.canvas
+//        val paint = android.graphics.Paint()
+//        paint.isAntiAlias = true
+//
+//        val totalImageHeight = images.sumBy { it?.height ?: 0 }
+//        val scale = (pageHeight.toFloat() / totalImageHeight)
+//
+//        var offsetY = 0
+//
+//        for (image in images) {
+//            val scaledImage = image?.let {
+//                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+//            }
+//
+//            scaledImage?.let {
+//                canvas.drawBitmap(it, 0f, offsetY.toFloat(), paint)
+//                offsetY += it.height
+//            }
+//        }
+//
+//        pdfDocument.finishPage(page)
+//
+//        val pdfFile = File(filesDir, "ID_Card.pdf")
+//        return try {
+//            pdfFile.outputStream().use {
+//                pdfDocument.writeTo(it)
+//            }
+//            pdfDocument.close()
+//            pdfFile
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//            null
+//        }
+//    }
+
     private fun convertToPdf(images: ArrayList<Bitmap?>): File? {
         val pdfDocument = PdfDocument()
 
@@ -166,20 +267,23 @@ class Export2 : AppCompatActivity() {
         val paint = android.graphics.Paint()
         paint.isAntiAlias = true
 
-        val imageCount = images.size
-        val imageWidth = pageWidth / imageCount
+        val totalImageHeight = images.sumBy { it?.height ?: 0 }
+        val scale = (pageHeight.toFloat() / totalImageHeight)
 
-        for ((index, image) in images.withIndex()) {
+        val centerX = pageWidth / 2
+
+        var offsetY = 0
+
+        for (image in images) {
             val scaledImage = image?.let {
-                val scale = imageWidth.toFloat() / it.width
-                Bitmap.createScaledBitmap(it, imageWidth, (it.height * scale).toInt(), true)
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
             }
 
-            val offsetX = index * imageWidth
-            val offsetY = (pageHeight - scaledImage?.height!! ?: 0) / 2
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
 
             scaledImage?.let {
                 canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+                offsetY += it.height
             }
         }
 
@@ -198,7 +302,135 @@ class Export2 : AppCompatActivity() {
         }
     }
 
+    private fun convertAcademicCardToPdf(images: ArrayList<Bitmap?>): File? {
+        val pdfDocument = PdfDocument()
 
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+        val paint = android.graphics.Paint()
+        paint.isAntiAlias = true
+
+        val totalImageHeight = images.sumBy { it?.height ?: 0 }
+        val scale = (pageHeight.toFloat() / totalImageHeight)
+
+        val centerX = pageWidth / 2
+
+        var offsetY = 0
+
+        for (image in images) {
+            val scaledImage = image?.let {
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+            }
+
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
+
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+                offsetY += it.height
+            }
+        }
+
+        pdfDocument.finishPage(page)
+
+        val pdfFile = File(filesDir, "ID_Card.pdf")
+        return try {
+            pdfFile.outputStream().use {
+                pdfDocument.writeTo(it)
+            }
+            pdfDocument.close()
+            pdfFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun convertPhotosToPdf(images: ArrayList<Bitmap?>): File? {
+        val pdfDocument = PdfDocument()
+
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        for (image in images) {
+            val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+            val page = pdfDocument.startPage(pageInfo)
+            val canvas = page.canvas
+            val paint = android.graphics.Paint()
+            paint.isAntiAlias = true
+
+            val scale = (pageHeight.toFloat() / (image?.height ?: 0))
+
+            val scaledImage = image?.let {
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+            }
+
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
+            val offsetY = (pageHeight - (scaledImage?.height ?: 0)) / 2
+
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+            }
+
+            pdfDocument.finishPage(page)
+        }
+
+        val pdfFile = File(filesDir, "Document.pdf")
+        return try {
+            pdfFile.outputStream().use {
+                pdfDocument.writeTo(it)
+            }
+            pdfDocument.close()
+            pdfFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+    private fun convertDocumentToPdf(images: ArrayList<Bitmap?>): File? {
+        val pdfDocument = PdfDocument()
+
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        for (image in images) {
+            val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+            val page = pdfDocument.startPage(pageInfo)
+            val canvas = page.canvas
+            val paint = android.graphics.Paint()
+            paint.isAntiAlias = true
+
+            val scale = (pageHeight.toFloat() / (image?.height ?: 0))
+
+            val scaledImage = image?.let {
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+            }
+
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
+            val offsetY = (pageHeight - (scaledImage?.height ?: 0)) / 2
+
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+            }
+
+            pdfDocument.finishPage(page)
+        }
+
+        val pdfFile = File(filesDir, "Document.pdf")
+        return try {
+            pdfFile.outputStream().use {
+                pdfDocument.writeTo(it)
+            }
+            pdfDocument.close()
+            pdfFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

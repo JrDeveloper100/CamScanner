@@ -202,12 +202,15 @@ class Home : AppCompatActivity() {
             startActivity(intent)
         }
         btnIDCard.setOnClickListener {
+            Constant.conversionType = "IDCard"
             openCamera("IDCard")
         }
         btnAcademicCard.setOnClickListener {
+            Constant.conversionType = "AcademicCard"
             openCamera("AcademicCard")
         }
         btnBook.setOnClickListener {
+            Constant.conversionType = "Book"
             openCamera("Book")
         }
         btnCaptureIcon.setOnClickListener {
@@ -224,9 +227,11 @@ class Home : AppCompatActivity() {
             replaceLayout(settingsLayout)
         }
         btnDocument.setOnClickListener {
+            Constant.conversionType = "Document"
             openCamera("Document")
         }
         btnPhotos.setOnClickListener {
+            Constant.conversionType = "Photo"
             openCamera("Photo")
         }
         btnRateUs.setOnClickListener {
