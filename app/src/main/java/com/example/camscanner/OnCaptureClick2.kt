@@ -111,6 +111,9 @@ class OnCaptureClick2 : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 imageCurrentPosition = position
+                if (Constant.selectedFilterPosition == imageCurrentPosition){
+                    photoEditorAdapter.keepTrackFilterApplied(imageCurrentPosition)
+                }
                 val imageIndex = position + 1
                 val totalImages = Constant.imageBasket.size
                 imageIndexTextView.text = "$imageIndex/$totalImages"
@@ -207,7 +210,18 @@ class OnCaptureClick2 : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        resumeOperations()
+        val previousActivity = PreviousActivityManager.getPreviousActivity()
+
+        if (previousActivity == OnCaptureClick::class.java && Constant.original==null){
+//            val imageUriString = intent.getStringExtra("imageUri")
+//            val imageUriString = intent.getStringExtra("imageUri1")
+//            imageUri = Uri.parse(imageUriString)
+//            photoEditorView.source.setImageURI(imageUri)
+            Toast.makeText(this,"Taking Value From Uri",Toast.LENGTH_SHORT).show()
+        }else{
+            Constant.imageBasket[Constant.originalImagePosition] = Constant.original
+            photoEditorAdapter.notifyDataSetChanged()
+        }
         Toast.makeText(this,"OnResume Called",Toast.LENGTH_SHORT).show()
     }
 
@@ -224,21 +238,6 @@ class OnCaptureClick2 : AppCompatActivity() {
            e.printStackTrace()
            null
        }
-    }
-
-    private fun resumeOperations() {
-        val previousActivity = PreviousActivityManager.getPreviousActivity()
-
-        if (previousActivity == OnCaptureClick::class.java && Constant.original==null){
-//            val imageUriString = intent.getStringExtra("imageUri")
-//            val imageUriString = intent.getStringExtra("imageUri1")
-//            imageUri = Uri.parse(imageUriString)
-//            photoEditorView.source.setImageURI(imageUri)
-            Toast.makeText(this,"Taking Value From Uri",Toast.LENGTH_SHORT).show()
-        }else{
-            Constant.imageBasket[Constant.originalImagePosition] = Constant.original
-            photoEditorAdapter.notifyDataSetChanged()
-        }
     }
 
     private fun revertToOriginal() {
@@ -318,6 +317,9 @@ class OnCaptureClick2 : AppCompatActivity() {
     }
 
     private fun retakePicture() {
+        Constant.originalImagePosition = imageCurrentPosition
+        Constant.imageRetaking = true
+        Constant.card_type = "Single"
         finish()
     }
 

@@ -217,8 +217,12 @@ class OnCaptureClick : AppCompatActivity() {
 //                        intent.putExtra("imageUri1", imageUri1.toString())
 //                        intent.putExtra("imageUri2", imageUri2.toString())
 //                        intent.putExtra("cameraType",cameraType)
-                        Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri1))
-                        Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri2))
+                        if (Constant.imageRetaking){
+                            Constant.imageBasket[Constant.originalImagePosition] = uriToBitmap(this@OnCaptureClick, savedUri)
+                        }else{
+                            Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri1))
+                            Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri2))
+                        }
                         startActivity(intent)
                     }
                 }
@@ -260,6 +264,7 @@ class OnCaptureClick : AppCompatActivity() {
                     val middleY = height / 2
                     val upperBitmap = capturedBitmap?.let { Bitmap.createBitmap(it, 0, 0, width, middleY) }
                     val lowerBitmap = capturedBitmap?.let { Bitmap.createBitmap(it, 0, middleY, width, height-middleY) }
+                    Constant.imageBasket.clear()
                     // Display the upper and lower images in the respective ImageViews
                     Constant.imageBasket.add(upperBitmap)
                     Constant.imageBasket.add(lowerBitmap)
@@ -442,7 +447,12 @@ class OnCaptureClick : AppCompatActivity() {
                     val intent = Intent(this@OnCaptureClick, OnCaptureClick2::class.java)
 //                    intent.putExtra("imageUri1", savedUri.toString())
 //                    intent.putExtra("cameraType",cameraType)
-                    Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick, savedUri))
+                    if (Constant.imageRetaking){
+                        Constant.imageBasket[Constant.originalImagePosition] = uriToBitmap(this@OnCaptureClick, savedUri)
+                    }else{
+                        Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick, savedUri))
+                    }
+
                     progressBar.visibility = View.GONE
                     Constant.original = null
                     startActivity(intent)

@@ -363,6 +363,7 @@ class Home : AppCompatActivity() {
 
     private fun openCamera(cameraType: String) {
         Constant.imageBasket.clear()
+        Constant.selectedFilter = null
         val intent = Intent(this, OnCaptureClick::class.java)
         intent.putExtra("cameraType",cameraType)
         startActivity(intent)

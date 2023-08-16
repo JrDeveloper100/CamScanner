@@ -6,6 +6,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -327,10 +328,10 @@ class EditDocument : AppCompatActivity() {
     }
 
     private fun goToActivity() {
+        stickerView.isConstrained = false
+        stickerView.isLocked = true
          Constant.original = getMainFrameBitmap()
-//        val intent = Intent(this, OnCaptureClick2::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                startActivity(intent)
+//        Constant.original = (photoEditorView.source.drawable as BitmapDrawable).bitmap
         finish()
     }
 

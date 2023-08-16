@@ -23,6 +23,7 @@ class Export : AppCompatActivity() {
     private lateinit var btnExport : Button
     private lateinit var toolbar : MaterialToolbar
     private lateinit var recyclerView : RecyclerView
+    private lateinit var exportAdapter : ExportAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export)
@@ -34,7 +35,7 @@ class Export : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         btnExport = findViewById(R.id.btnExport)
         recyclerView.layoutManager = GridLayoutManager(this, 3) // Set spanCount based on your preference
-        val exportAdapter = ExportAdapter(Constant.imageBasket,this)
+        exportAdapter = ExportAdapter(Constant.imageBasket,this)
         recyclerView.adapter = exportAdapter
 
         btnExport.setOnClickListener {
@@ -74,6 +75,20 @@ class Export : AppCompatActivity() {
         val intent = Intent(this,SingleImagePreview::class.java)
         intent.putExtra("position",position)
         startActivity(intent)
+    }
+
+    fun deleteItem(position: Int){
+        if (position==0){
+            Constant.imageBasket.removeAt(position)
+            exportAdapter.notifyItemRemoved(1)
+            exportAdapter.notifyItemRangeChanged(position,Constant.imageBasket.size)
+        }else{
+            Constant.imageBasket.removeAt(position)
+            exportAdapter.notifyItemRemoved(position)
+            exportAdapter.notifyItemRangeChanged(position,Constant.imageBasket.size)
+        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
