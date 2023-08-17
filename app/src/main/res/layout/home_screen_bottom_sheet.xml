@@ -227,7 +227,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/btnPhotos"
+                    android:id="@+id/btnBottomSheetPhoto"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:gravity="center"

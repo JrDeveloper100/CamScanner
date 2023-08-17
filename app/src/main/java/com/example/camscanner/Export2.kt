@@ -19,6 +19,7 @@ import android.view.Menu
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.camera.core.TorchState
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +62,9 @@ class Export2 : AppCompatActivity() {
             }else if (Constant.conversionType == "AcademicCard"){
                 val pdfFile = convertAcademicCardToPdf(Constant.imageBasket)
                 check(pdfFile)
+            }else if (Constant.conversionType == "BusinessCard"){
+                val pdfFile = convertBusinessCardToPdf(Constant.imageBasket)
+                check2(pdfFile)
             }
             // Convert the filtered image to a PDF
 
@@ -140,6 +144,27 @@ class Export2 : AppCompatActivity() {
         }
     }
 
+    private fun savePdfToFolder(pdfFile: File): Uri?{
+        val folderName = "Business Card"
+        val folder = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            folder.mkdirs()
+        }
+
+        val pdfFileName = "Business_Card.pdf"
+        val pdfFileInFolder = File(folder, pdfFileName)
+
+        return try {
+            pdfFile.copyTo(pdfFileInFolder, true)
+            Uri.fromFile(pdfFileInFolder)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
     fun singleImagePreview(position : Int){
         val intent = Intent(this,SingleImagePreview::class.java)
         intent.putExtra("position",position)
@@ -163,7 +188,18 @@ class Export2 : AppCompatActivity() {
             // Start the next activity and pass the PDF URI as an extra
             val intent = Intent(this, AfterExport::class.java)
             intent.putExtra("pdfUri", pdfUri)
-//                intent.putExtra("filteredImage", filteredImagePath)
+            startActivity(intent)
+        }
+    }
+
+    private fun check2(pdfFile: File?){
+        if (pdfFile != null) {
+            // Save the PDF file using MediaStore
+            val pdfUri = savePdfToFolder(pdfFile)
+
+            // Start the next activity and pass the PDF URI as an extra
+            val intent = Intent(this, AfterExport::class.java)
+            intent.putExtra("pdfUri", pdfUri)
             startActivity(intent)
         }
     }
@@ -336,7 +372,69 @@ class Export2 : AppCompatActivity() {
 
         pdfDocument.finishPage(page)
 
-        val pdfFile = File(filesDir, "ID_Card.pdf")
+        val pdfFile = File(filesDir, "Academic_Card.pdf")
+        return try {
+            pdfFile.outputStream().use {
+                pdfDocument.writeTo(it)
+            }
+            pdfDocument.close()
+            pdfFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun convertBusinessCardToPdf(images: ArrayList<Bitmap?>): File? {
+        val pdfDocument = PdfDocument()
+
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+        val paint = android.graphics.Paint()
+        paint.isAntiAlias = true
+
+        val totalImageHeight = images.sumBy { it?.height ?: 0 }
+        val scale = (pageHeight.toFloat() / totalImageHeight)
+
+        val centerX = pageWidth / 2
+
+        var offsetY = 0
+
+        for (image in images) {
+            val scaledImage = image?.let {
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+            }
+
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
+
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+                offsetY += it.height
+            }
+        }
+
+        pdfDocument.finishPage(page)
+
+        val folderName = "Converted PDF"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val pdfFileName = "Business Card.pdf"
+        val pdfFile = File(folder, pdfFileName)
+
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)

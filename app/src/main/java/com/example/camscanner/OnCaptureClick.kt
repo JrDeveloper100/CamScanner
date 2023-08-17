@@ -119,13 +119,18 @@ class OnCaptureClick : AppCompatActivity() {
                 dottedLine.visibility = View.GONE
                 startCamera()
             }else if (cameraType == "AcademicCard"){
-                squareLine.visibility = View.GONE
+                squareLine.visibility = View.VISIBLE
                 dottedLine.visibility = View.GONE
                 academicCardDialog()
                 startCamera()
             }else if (cameraType == "Book"){
                 squareLine.visibility = View.GONE
                 dottedLine.visibility = View.VISIBLE
+                startCamera()
+            }else if (cameraType == "BusinessCard"){
+                squareLine.visibility = View.VISIBLE
+                dottedLine.visibility = View.GONE
+                businessCardDialog()
                 startCamera()
             }
         } else {
@@ -147,6 +152,10 @@ class OnCaptureClick : AppCompatActivity() {
             }else if (cameraType=="AcademicCard" && Constant.card_type == "Single"){
                 takePhoto()
             }else if (cameraType=="AcademicCard" && Constant.card_type == "Double"){
+                takeTwoPhotos()
+            }else if(cameraType=="BusinessCard" && Constant.card_type == "Single"){
+                takePhoto()
+            }else if(cameraType=="BusinessCard" && Constant.card_type == "Double"){
                 takeTwoPhotos()
             }else{
                 takePhoto()
@@ -318,6 +327,37 @@ class OnCaptureClick : AppCompatActivity() {
         val dialog = Dialog(this, R.style.ThemeWithRoundShape)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.academic_card_selection_dialog)
+        dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
+
+        dialog.findViewById<TextView>(R.id.tv_select1)?.setOnClickListener {
+            Constant.card_type = "Single"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<TextView>(R.id.tv_select2)?.setOnClickListener {
+            side.visibility = View.VISIBLE
+            Constant.card_type = "Double"
+            currentPhotoIndex = 0
+            dialog.dismiss()
+        }
+
+        dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+
+    }
+
+    private fun businessCardDialog() {
+
+        val dialog = Dialog(this, R.style.ThemeWithRoundShape)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.business_card_selection_dialog)
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(false)
