@@ -54,7 +54,7 @@ class Export2 : AppCompatActivity() {
                 val pdfFile = convertPhotosToPdf(Constant.imageBasket)
                 check(pdfFile)
             }else if (Constant.conversionType == "IDCard"){
-                val pdfFile = convertToPdf(Constant.imageBasket)
+                val pdfFile = convertIDCardToPdf(Constant.imageBasket)
                 check(pdfFile)
             }else if (Constant.conversionType == "Document"){
                 val pdfFile = convertDocumentToPdf(Constant.imageBasket)
@@ -65,6 +65,9 @@ class Export2 : AppCompatActivity() {
             }else if (Constant.conversionType == "BusinessCard"){
                 val pdfFile = convertBusinessCardToPdf(Constant.imageBasket)
                 check2(pdfFile)
+            }else if (Constant.conversionType == "Book"){
+                val pdfFile = convertBookToPdf(Constant.imageBasket)
+                check(pdfFile)
             }
             // Convert the filtered image to a PDF
 
@@ -80,32 +83,6 @@ class Export2 : AppCompatActivity() {
 
     }
 
-    private fun copyTrainedDataToStorage() {
-        val dataPath = File(filesDir, "tessdata")
-        if (!dataPath.exists()) {
-            dataPath.mkdirs()
-        }
-
-        val language = "eng" // Replace "eng" with the language code for the trained data file you want to use
-        val trainedDataFilePath = "$dataPath/$language.traineddata"
-
-        if (!File(trainedDataFilePath).exists()) {
-            try {
-                val inputStream = assets.open("tessdata/$language.traineddata")
-                val outputStream = FileOutputStream(trainedDataFilePath)
-                val buffer = ByteArray(1024)
-                var bytesRead: Int
-                while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                    outputStream.write(buffer, 0, bytesRead)
-                }
-                outputStream.flush()
-                outputStream.close()
-                inputStream.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
 
     private fun savePdfToMediaStore(pdfFile: File): Uri? {
         val resolver = contentResolver
@@ -291,7 +268,8 @@ class Export2 : AppCompatActivity() {
 //        }
 //    }
 
-    private fun convertToPdf(images: ArrayList<Bitmap?>): File? {
+    private fun convertIDCardToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "ID Card 1.pdf"
         val pdfDocument = PdfDocument()
 
         val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
@@ -325,7 +303,97 @@ class Export2 : AppCompatActivity() {
 
         pdfDocument.finishPage(page)
 
-        val pdfFile = File(filesDir, "ID_Card.pdf")
+        val folderName = "ID Cards"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+//            val cardNumber = fileName.substringAfter("ID Card ").toInt() + 1
+//            fileName = "ID Card $cardNumber"
+            val cardNumber = fileName.substringAfter("ID Card ").substringBefore(".pdf").toInt() + 1
+            fileName = "ID Card $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
+
+        return try {
+            pdfFile.outputStream().use {
+                pdfDocument.writeTo(it)
+            }
+            pdfDocument.close()
+            pdfFile
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    private fun convertBookToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "Book 1.pdf"
+        val pdfDocument = PdfDocument()
+
+        val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
+        val pageHeight = (11 * 72).toInt()
+
+        val pageInfo = PdfDocument.PageInfo.Builder(pageWidth, pageHeight, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+        val paint = android.graphics.Paint()
+        paint.isAntiAlias = true
+
+        val totalImageHeight = images.sumBy { it?.height ?: 0 }
+        val scale = (pageHeight.toFloat() / totalImageHeight)
+
+        val centerX = pageWidth / 2
+
+        var offsetY = 0
+
+        for (image in images) {
+            val scaledImage = image?.let {
+                Bitmap.createScaledBitmap(it, (it.width * scale).toInt(), (it.height * scale).toInt(), true)
+            }
+
+            val offsetX = (pageWidth - (scaledImage?.width ?: 0)) / 2
+
+            scaledImage?.let {
+                canvas.drawBitmap(it, offsetX.toFloat(), offsetY.toFloat(), paint)
+                offsetY += it.height
+            }
+        }
+
+        pdfDocument.finishPage(page)
+
+        val folderName = "Book"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+            val cardNumber = fileName.substringAfter("Book ").substringBefore(".pdf").toInt() + 1
+            fileName = "Book $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
+
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)
@@ -339,6 +407,7 @@ class Export2 : AppCompatActivity() {
     }
 
     private fun convertAcademicCardToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "Academic Card 1.pdf"
         val pdfDocument = PdfDocument()
 
         val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
@@ -372,7 +441,27 @@ class Export2 : AppCompatActivity() {
 
         pdfDocument.finishPage(page)
 
-        val pdfFile = File(filesDir, "Academic_Card.pdf")
+        val folderName = "Academic Cards"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+            val cardNumber = fileName.substringAfter("Academic Card ").substringBefore(".pdf").toInt() + 1
+            fileName = "Academic Card $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
+
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)
@@ -386,6 +475,7 @@ class Export2 : AppCompatActivity() {
     }
 
     private fun convertBusinessCardToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "Business Card 1.pdf"
         val pdfDocument = PdfDocument()
 
         val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
@@ -419,7 +509,7 @@ class Export2 : AppCompatActivity() {
 
         pdfDocument.finishPage(page)
 
-        val folderName = "Converted PDF"
+        val folderName = "Business Cards"
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -432,8 +522,13 @@ class Export2 : AppCompatActivity() {
             }
         }
 
-        val pdfFileName = "Business Card.pdf"
-        val pdfFile = File(folder, pdfFileName)
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+            val cardNumber = fileName.substringAfter("Business Card ").substringBefore(".pdf").toInt() + 1
+            fileName = "Business Card $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
 
         return try {
             pdfFile.outputStream().use {
@@ -448,6 +543,7 @@ class Export2 : AppCompatActivity() {
     }
 
     private fun convertPhotosToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "Photo 1.pdf"
         val pdfDocument = PdfDocument()
 
         val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
@@ -476,7 +572,27 @@ class Export2 : AppCompatActivity() {
             pdfDocument.finishPage(page)
         }
 
-        val pdfFile = File(filesDir, "Document.pdf")
+        val folderName = "Photos"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+            val cardNumber = fileName.substringAfter("Photo ").substringBefore(".pdf").toInt() + 1
+            fileName = "Photo $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
+
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)
@@ -489,6 +605,7 @@ class Export2 : AppCompatActivity() {
         }
     }
     private fun convertDocumentToPdf(images: ArrayList<Bitmap?>): File? {
+        var fileName = "Document 1.pdf"
         val pdfDocument = PdfDocument()
 
         val pageWidth = (8.5 * 72).toInt() // Convert inches to points (1 inch = 72 points)
@@ -517,7 +634,27 @@ class Export2 : AppCompatActivity() {
             pdfDocument.finishPage(page)
         }
 
-        val pdfFile = File(filesDir, "Document.pdf")
+        val folderName = "Documents"
+        val folder = File(applicationContext.filesDir, folderName)
+
+        // Create the folder if it doesn't exist
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                println("Folder created successfully")
+                Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        getFileNamesInFolder(folderName)
+        while (Constant.allFilesNames.contains(fileName)) {
+            val cardNumber = fileName.substringAfter("Document ").substringBefore(".pdf").toInt() + 1
+            fileName = "Document $cardNumber.pdf"
+        }
+
+        val pdfFile = File(folder, fileName)
+
         return try {
             pdfFile.outputStream().use {
                 pdfDocument.writeTo(it)
@@ -528,6 +665,12 @@ class Export2 : AppCompatActivity() {
             e.printStackTrace()
             null
         }
+    }
+
+    private fun getFileNamesInFolder(folderName: String){
+        Constant.allFilesNames.clear()
+        val folder = File(applicationContext.filesDir, folderName)
+        folder.listFiles()?.map { Constant.allFilesNames.add(it.name) } ?: emptyList()
     }
 
 
