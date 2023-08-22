@@ -19,6 +19,9 @@
         android:theme="@style/Theme.CamScanner"
         tools:targetApi="31">
         <activity
+            android:name=".SearchFilesActivity"
+            android:exported="false" />
+        <activity
             android:name=".FilesInFolderActivity"
             android:exported="false" />
         <activity
@@ -95,9 +98,8 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"
-                tools:replace="android:resource"/>
+                tools:replace="android:resource" />
         </provider>
-
     </application>
 
 </manifest>
