@@ -16,6 +16,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -52,22 +53,28 @@ class Export2 : AppCompatActivity() {
         btnExportFile.setOnClickListener {
             if (Constant.conversionType == "Photo"){
                 val pdfFile = convertPhotosToPdf(Constant.imageBasket)
-                check(pdfFile)
+                goToAfterExport(pdfFile)
+//                check(pdfFile)
             }else if (Constant.conversionType == "IDCard"){
                 val pdfFile = convertIDCardToPdf(Constant.imageBasket)
-                check(pdfFile)
+                goToAfterExport(pdfFile)
+//                check(pdfFile)
             }else if (Constant.conversionType == "Document"){
                 val pdfFile = convertDocumentToPdf(Constant.imageBasket)
-                check(pdfFile)
+                goToAfterExport(pdfFile)
+//                check(pdfFile)
             }else if (Constant.conversionType == "AcademicCard"){
                 val pdfFile = convertAcademicCardToPdf(Constant.imageBasket)
-                check(pdfFile)
+                goToAfterExport(pdfFile)
+//                check(pdfFile)
             }else if (Constant.conversionType == "BusinessCard"){
                 val pdfFile = convertBusinessCardToPdf(Constant.imageBasket)
-                check2(pdfFile)
+                goToAfterExport(pdfFile)
+//                check2(pdfFile)
             }else if (Constant.conversionType == "Book"){
                 val pdfFile = convertBookToPdf(Constant.imageBasket)
-                check(pdfFile)
+                goToAfterExport(pdfFile)
+//                check(pdfFile)
             }
             // Convert the filtered image to a PDF
 
@@ -81,6 +88,12 @@ class Export2 : AppCompatActivity() {
             toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
         }
 
+    }
+
+    private fun goToAfterExport(pdfFile: File?) {
+        val intent = Intent(this,AfterExport::class.java)
+        intent.putExtra("file_path",pdfFile?.absolutePath)
+        startActivity(intent)
     }
 
 
@@ -304,6 +317,7 @@ class Export2 : AppCompatActivity() {
         pdfDocument.finishPage(page)
 
         val folderName = "ID Cards"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -323,6 +337,7 @@ class Export2 : AppCompatActivity() {
             val cardNumber = fileName.substringAfter("ID Card ").substringBefore(".pdf").toInt() + 1
             fileName = "ID Card $cardNumber.pdf"
         }
+        Constant.fileName = fileName
 
         val pdfFile = File(folder, fileName)
 
@@ -374,6 +389,7 @@ class Export2 : AppCompatActivity() {
         pdfDocument.finishPage(page)
 
         val folderName = "Book"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -391,6 +407,7 @@ class Export2 : AppCompatActivity() {
             val cardNumber = fileName.substringAfter("Book ").substringBefore(".pdf").toInt() + 1
             fileName = "Book $cardNumber.pdf"
         }
+        Constant.fileName = fileName
 
         val pdfFile = File(folder, fileName)
 
@@ -442,12 +459,12 @@ class Export2 : AppCompatActivity() {
         pdfDocument.finishPage(page)
 
         val folderName = "Academic Cards"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
         if (!folder.exists()) {
             if (folder.mkdir()) {
-                println("Folder created successfully")
                 Toast.makeText(this,"Folder Created",Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this,"Failed to create Folder",Toast.LENGTH_SHORT).show()
@@ -459,6 +476,7 @@ class Export2 : AppCompatActivity() {
             val cardNumber = fileName.substringAfter("Academic Card ").substringBefore(".pdf").toInt() + 1
             fileName = "Academic Card $cardNumber.pdf"
         }
+        Constant.fileName = fileName
 
         val pdfFile = File(folder, fileName)
 
@@ -510,6 +528,7 @@ class Export2 : AppCompatActivity() {
         pdfDocument.finishPage(page)
 
         val folderName = "Business Cards"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -527,6 +546,7 @@ class Export2 : AppCompatActivity() {
             val cardNumber = fileName.substringAfter("Business Card ").substringBefore(".pdf").toInt() + 1
             fileName = "Business Card $cardNumber.pdf"
         }
+        Constant.fileName = fileName
 
         val pdfFile = File(folder, fileName)
 
@@ -573,6 +593,7 @@ class Export2 : AppCompatActivity() {
         }
 
         val folderName = "Photos"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -591,6 +612,7 @@ class Export2 : AppCompatActivity() {
             fileName = "Photo $cardNumber.pdf"
         }
 
+        Constant.fileName = fileName
         val pdfFile = File(folder, fileName)
 
         return try {
@@ -635,6 +657,7 @@ class Export2 : AppCompatActivity() {
         }
 
         val folderName = "Documents"
+        Constant.folderName = folderName
         val folder = File(applicationContext.filesDir, folderName)
 
         // Create the folder if it doesn't exist
@@ -652,6 +675,7 @@ class Export2 : AppCompatActivity() {
             val cardNumber = fileName.substringAfter("Document ").substringBefore(".pdf").toInt() + 1
             fileName = "Document $cardNumber.pdf"
         }
+        Constant.fileName = fileName
 
         val pdfFile = File(folder, fileName)
 
@@ -682,6 +706,20 @@ class Export2 : AppCompatActivity() {
             inflater.inflate(R.menu.top_app_bar_4_light_mode, menu)
         }
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed() // Go back to the previous activity
+                true
+            }
+            R.id.edit -> {
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     // Function to check if dark mode is enabled

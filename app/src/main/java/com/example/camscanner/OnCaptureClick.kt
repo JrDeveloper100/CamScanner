@@ -139,7 +139,38 @@ class OnCaptureClick : AppCompatActivity() {
                 REQUIRED_PERMISSIONS,
                 REQUEST_CODE_PERMISSIONS
             )
-            startCamera()
+            if (cameraType == "Photo"){
+                squareLine.visibility = View.GONE
+                startCamera()
+            }else if (cameraType == "IDCard"){
+                squareLine.visibility = View.VISIBLE
+                dottedLine.visibility = View.GONE
+                iDCardDialog()
+                startCamera()
+            }else if (cameraType == "Document"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.GONE
+                startCamera()
+            }
+            else if(cameraType == "Export"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.GONE
+                startCamera()
+            }else if (cameraType == "AcademicCard"){
+                squareLine.visibility = View.VISIBLE
+                dottedLine.visibility = View.GONE
+                academicCardDialog()
+                startCamera()
+            }else if (cameraType == "Book"){
+                squareLine.visibility = View.GONE
+                dottedLine.visibility = View.VISIBLE
+                startCamera()
+            }else if (cameraType == "BusinessCard"){
+                squareLine.visibility = View.VISIBLE
+                dottedLine.visibility = View.GONE
+                businessCardDialog()
+                startCamera()
+            }
         }
 
         captureButton.setOnClickListener {
@@ -316,6 +347,7 @@ class OnCaptureClick : AppCompatActivity() {
 
         dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
             dialog.dismiss()
+            finish()
         }
 
         dialog.show()
@@ -347,6 +379,7 @@ class OnCaptureClick : AppCompatActivity() {
 
         dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
             dialog.dismiss()
+            finish()
         }
 
         dialog.show()
@@ -378,6 +411,7 @@ class OnCaptureClick : AppCompatActivity() {
 
         dialog.findViewById<ImageView>(R.id.iv_close)?.setOnClickListener {
             dialog.dismiss()
+            finish()
         }
 
         dialog.show()

@@ -1,10 +1,13 @@
 package com.example.camscanner
 
+import android.app.Dialog
 import android.content.ContentResolver
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -12,20 +15,25 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.InputType
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.FileProvider
 import com.github.barteksc.pdfviewer.BuildConfig
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
+import com.itextpdf.text.pdf.PdfReader
+import com.itextpdf.text.pdf.PdfStamper
 import com.itextpdf.text.pdf.PdfWriter
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -47,6 +55,9 @@ class AfterExport : AppCompatActivity() {
     private lateinit var share : LinearLayout
     private lateinit var preview : LinearLayout
     private lateinit var btnPreview : LinearLayout
+    private lateinit var btnEmail : LinearLayout
+    private lateinit var btnDelete : LinearLayout
+    private lateinit var textView16 : TextView
     private var showPassword = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +67,7 @@ class AfterExport : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         btnPreview = findViewById(R.id.btnPreview)
         shareBottomSheet = layoutInflater.inflate(R.layout.share_bottom_sheet, null)
         passwordBottomSheet = layoutInflater.inflate(R.layout.password_bottom_sheet, null)
@@ -68,30 +80,76 @@ class AfterExport : AppCompatActivity() {
         share = findViewById(R.id.share)
         preview = findViewById(R.id.preview)
         btnShare = findViewById(R.id.btnShare)
+        btnEmail = findViewById(R.id.btnEmail)
+        btnDelete = findViewById(R.id.btnDelete)
+        textView16 = findViewById(R.id.textView16)
 //        val filteredImagePath = intent.getStringExtra("filteredImage")
 //        val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
 //        val imageByteArray = bitmapToByteArray(bitmapImage)
+        val filePath = intent.getStringExtra("file_path")
+        textView16.text = Constant.fileName
         btnShare.setOnClickListener {
             openBottomSheet()
         }
         btnSharePdfWithPasswordButton.setOnClickListener {
-            openPasswordBottomSheet()
+            openPasswordBottomSheet(filePath)
         }
         btnShareAsImage.setOnClickListener {
 //            val imageUri = intent.getParcelableExtra<Uri>("filteredImage")
 //            shareImage(imageByteArray)
         }
         btnShareAsPdf.setOnClickListener {
-            val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
-            pdfUri?.let {
-                sharePdf(it)
-            }
+//            val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
+//            pdfUri?.let {
+//                sharePdf(it)
+//            }
+            shareAsPDF(filePath)
         }
         btnPreview.setOnClickListener {
-            val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
-            pdfUri?.let {
-                openPreview(it)
+//            val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
+//            pdfUri?.let {
+//                openPreview(it)
+//            }
+            displayPDF(filePath)
+        }
+        btnEmail.setOnClickListener {
+            showEmailDialog(filePath)
+        }
+        btnDelete.setOnClickListener {
+            val file = File(filePath.toString())
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setMessage("Are you sure you want to delete?")
+                .setPositiveButton("Confirm", DialogInterface.OnClickListener { dialog, id ->
+                    if (file.exists()) {
+                        file.delete()
+                        Toast.makeText(this, "File deleted", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, Home::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+                    }
+                    dialog.dismiss()
+                })
+                .setNegativeButton("No", DialogInterface.OnClickListener { dialog, id ->
+                    // User cancelled the dialog
+                    dialog.dismiss()
+                })
+            val dialog: AlertDialog = builder.create()
+            dialog.setOnShowListener {
+                // Get a reference to the positive/negative button
+                val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                val negativeButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+
+                // Set the text color of the positive/negative button
+                positiveButton.setTextColor(resources.getColor(R.color.red))
+                negativeButton.setTextColor(resources.getColor(R.color.black))
+
+                // Show the dialog
+                dialog.show()
             }
+            dialog.show()
         }
 
 
@@ -116,6 +174,84 @@ class AfterExport : AppCompatActivity() {
             preview.setBackgroundResource(R.drawable.after_export_icons_design_light_mode)
         }
 
+    }
+
+    private fun showEmailDialog(filePath: String?) {
+        val file = File(filePath.toString())
+        val uri = FileProvider.getUriForFile(
+            this,
+            "${this.packageName}.fileprovider",
+            file
+        )
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.email_custom_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val buttonCancel =   dialog.findViewById<LinearLayout>(R.id.buttonCancel)
+        val email = dialog.findViewById<EditText>(R.id.email)
+        val btnEmail = dialog.findViewById<Button>(R.id.btnEmail)
+        dialog.setCancelable(true)
+        dialog.show()
+        btnEmail.setOnClickListener {
+            val emailAddress = email.text.toString()
+            if (emailAddress.isNotEmpty()){
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()){
+                    val emailIntent = Intent(Intent.ACTION_SEND).apply {
+                        type = "application/pdf"
+                        putExtra(Intent.EXTRA_EMAIL, arrayOf(emailAddress))
+                        putExtra(Intent.EXTRA_SUBJECT, "PDF File")
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        `package` = "com.google.android.gm"
+                    }
+                    startActivity(Intent.createChooser(emailIntent, "Send Email"))
+                }else{
+                    Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show()
+                }
+            }else{
+                Toast.makeText(this, "Provide Valid Email", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+        buttonCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            buttonCancel.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
+            email.setHintTextColor(resources.getColor(R.color.white))
+        }else{
+            buttonCancel.setBackgroundResource(R.drawable.cancel_icon_design_light_mode)
+        }
+
+    }
+
+    private fun shareAsPDF(filePath: String?) {
+        val file = File(filePath.toString())
+        if (file.exists()) {
+            val uri = FileProvider.getUriForFile(
+                this,
+                "${this.packageName}.fileprovider",
+                file
+            )
+
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
+                putExtra(Intent.EXTRA_STREAM, uri)
+            }
+
+            val chooserIntent = Intent.createChooser(shareIntent, "Share File")
+            startActivity(chooserIntent)
+        } else {
+            Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun displayPDF(path: String?) {
+        val intent = Intent(this, FilePreview::class.java)
+        intent.putExtra("path", path)
+        startActivity(intent)
     }
 
     private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
@@ -164,7 +300,7 @@ class AfterExport : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openPasswordBottomSheet() {
+    private fun openPasswordBottomSheet(filePath: String?) {
         val dialog = BottomSheetDialog(this)
         if (passwordBottomSheet.parent != null) {
             (passwordBottomSheet.parent as ViewGroup).removeView(passwordBottomSheet)
@@ -176,11 +312,6 @@ class AfterExport : AppCompatActivity() {
         password?.setText("")
         confirmPassword?.setText("")
         dialog.findViewById<Button>(R.id.btnSetPassword)?.setOnClickListener {
-            // Retrieve the file path from the extras
-            val filteredImagePath = intent.getStringExtra("filteredImage")
-            Toast.makeText(this, filteredImagePath, Toast.LENGTH_SHORT).show()
-            // Load the image from the file
-            val bitmapImage = BitmapFactory.decodeFile(filteredImagePath)
                 val pass = password?.text.toString()
                 val confirmPass = confirmPassword?.text.toString()
                 if (pass.isEmpty() || confirmPass.isEmpty()) {
@@ -190,19 +321,25 @@ class AfterExport : AppCompatActivity() {
                 }
                 else {
                     // Convert the filtered image to a password-protected PDF
-                    val pdfFileWithPassword =
-                        bitmapImage?.let { it1 -> convertToPasswordProtectedPdf(it1, pass) }
+                    setPasswordToPdf(pass)
+                    val file = File(applicationContext.filesDir, "${Constant.folderName}/${Constant.fileNameWithoutExtension}")
+                    if (file.exists()) {
+                        val uri = FileProvider.getUriForFile(
+                            this,
+                            "${this.packageName}.fileprovider",
+                            file
+                        )
 
-                    if (pdfFileWithPassword != null) {
-                        // Save the password-protected PDF file using MediaStore
-                        val pdfUri = savePdfToMediaStore(pdfFileWithPassword)
-                        // Start the next activity and pass the PDF URI as an extra
-                        val intent = Intent(Intent.ACTION_SEND)
-                        intent.type = "application/pdf"
-                        intent.putExtra(Intent.EXTRA_STREAM, pdfUri)
-                        startActivity(Intent.createChooser(intent, "Share PDF"))
+                        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                            type = "application/pdf"
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                        }
+
+                        val chooserIntent = Intent.createChooser(shareIntent, "Share File")
+                        startActivity(chooserIntent)
+                    } else {
+                        Toast.makeText(this, "File not found", Toast.LENGTH_SHORT).show()
                     }
-
                     dialog.dismiss()
                 }
 
@@ -227,6 +364,33 @@ class AfterExport : AppCompatActivity() {
                 ?.setHintTextColor(resources.getColor(R.color.white))
         }
 
+    }
+
+    private fun setPasswordToPdf(pass: String) {
+        val file = File(applicationContext.filesDir, "${Constant.folderName}/${Constant.fileName}")
+        if (file.exists()){
+            try {
+                val fileNameWithoutExtension = Constant.fileName.replaceFirst(" ", " (Ency) ")
+                val inputFile = File(applicationContext.filesDir, "${Constant.folderName}/${Constant.fileName}")
+                val outputFile = File(applicationContext.filesDir, "${Constant.folderName}/${fileNameWithoutExtension}")
+                Constant.fileNameWithoutExtension = fileNameWithoutExtension
+                val reader = PdfReader(inputFile.absolutePath)
+                val stamper = PdfStamper(reader, FileOutputStream(outputFile))
+                stamper.setEncryption(
+                    pass.toByteArray(),
+                    pass.toByteArray(),
+                    PdfWriter.ALLOW_PRINTING, // Modify permissions as needed
+                    PdfWriter.ENCRYPTION_AES_128
+                )
+                stamper.close()
+                reader.close()
+
+                Toast.makeText(this, "PDF encrypted successfully", Toast.LENGTH_SHORT).show()
+                // Update the adapter or UI if needed
+            }catch (e: java.lang.Exception){
+                Toast.makeText(this, "PDF encryption failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun toggleVisibilityTwo() {
@@ -355,4 +519,15 @@ class AfterExport : AppCompatActivity() {
         dialog.setCancelable(true)
         dialog.show()
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed() // Go back to the previous activity
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 }

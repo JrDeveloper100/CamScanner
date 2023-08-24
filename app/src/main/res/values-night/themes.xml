@@ -42,6 +42,12 @@
         <item name="android:background">@color/edit_document_pic_container_color</item>
     </style>
 
+    <!-- Custom Color in Dark Mode -->
+
+    <style name="customColor">
+        <item name="android:textColor">#F1F1F1</item>
+    </style>
+
     <!-- Edit Document Bottom Menu Color in Dark Mode -->
 
     <style name="edit_document_bottom_menu_color">

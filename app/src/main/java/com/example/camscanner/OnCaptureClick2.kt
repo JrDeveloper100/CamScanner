@@ -208,6 +208,11 @@ class OnCaptureClick2 : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        Constant.imageBasket.clear()
+    }
+
     override fun onResume() {
         super.onResume()
         val previousActivity = PreviousActivityManager.getPreviousActivity()
@@ -217,12 +222,10 @@ class OnCaptureClick2 : AppCompatActivity() {
 //            val imageUriString = intent.getStringExtra("imageUri1")
 //            imageUri = Uri.parse(imageUriString)
 //            photoEditorView.source.setImageURI(imageUri)
-            Toast.makeText(this,"Taking Value From Uri",Toast.LENGTH_SHORT).show()
         }else{
             Constant.imageBasket[Constant.originalImagePosition] = Constant.original
             photoEditorAdapter.notifyDataSetChanged()
         }
-        Toast.makeText(this,"OnResume Called",Toast.LENGTH_SHORT).show()
     }
 
     private fun rotateImage() {

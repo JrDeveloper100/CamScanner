@@ -37,4 +37,5 @@
     <color name="bg_color1">#f5f5f5</color>
     <color name="toolbar_color">#25c4a4</color>
     <color name="square_line_color">#25c4a4</color>
+    <color name="red">#FF4375</color>
 </resources>

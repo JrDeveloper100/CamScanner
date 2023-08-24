@@ -78,6 +78,12 @@
         <item name="android:textColor">@color/light_grey4</item>
     </style>
 
+    <!-- Custom Color in Light Mode -->
+
+    <style name="customColor">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <!-- Text Color of Activity After Export in Light Mode -->
 
     <style name="text_after_export">
@@ -124,5 +130,6 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
     </style>
+
 
 </resources>

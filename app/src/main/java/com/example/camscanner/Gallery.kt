@@ -40,7 +40,7 @@ class Gallery : AppCompatActivity() {
 
 
     // Function to check if dark mode is enabled
-    fun isDarkModeEnabled(context: Context): Boolean {
+    private fun isDarkModeEnabled(context: Context): Boolean {
         val configuration = context.resources.configuration
         return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }

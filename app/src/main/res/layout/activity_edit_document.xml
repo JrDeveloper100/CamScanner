@@ -55,11 +55,13 @@
 
             <ImageView
                 android:id="@+id/iv_overlayImg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="310dp"
+                android:layout_height="410dp"
                 android:alpha="0.3"
                 android:scaleType="fitXY"
-                android:visibility="visible"/>
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="visible" />
 
             <com.xiaopo.flying.sticker.StickerView
                 android:id="@+id/stickerView"

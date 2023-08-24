@@ -38,6 +38,8 @@ class Home : AppCompatActivity() {
     private lateinit var btnBottomSheetAcademicCard : LinearLayout
     private lateinit var btnBottomSheetIDCard : LinearLayout
     private lateinit var btnBottomSheetBusinessCard : LinearLayout
+    lateinit var btnSettings : ImageView
+    lateinit var btnHome : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +52,8 @@ class Home : AppCompatActivity() {
         btnBottomSheetAcademicCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetAcademicCard)
         btnBottomSheetIDCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetIDCard)
         btnBottomSheetBusinessCard = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetBusinessCard)
-        val btnHome : ImageView = findViewById(R.id.btnHome)
-        val btnSettings: ImageView = findViewById(R.id.btnSettings)
+        btnHome = findViewById(R.id.btnHome)
+        btnSettings = findViewById(R.id.btnSettings)
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
         btnBottomSheetPhoto = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetPhoto)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
@@ -124,6 +126,11 @@ class Home : AppCompatActivity() {
 
 
 
+    }
+
+    fun reAdjustButtons(){
+        btnSettings.setImageResource(R.drawable.settings_seleted_icon)
+        btnHome.setImageResource(R.drawable.home_icon)
     }
 
     private fun openCamera(cameraType: String) {
