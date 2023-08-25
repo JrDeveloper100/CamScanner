@@ -44,7 +44,7 @@
 
     <!-- Custom Color in Dark Mode -->
 
-    <style name="customColor">
+    <style name="customTextColor">
         <item name="android:textColor">#F1F1F1</item>
     </style>
 

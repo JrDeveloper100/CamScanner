@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -89,6 +90,7 @@ class EditDocument : AppCompatActivity() {
     private lateinit var photoEditorView : PhotoEditorView
     private lateinit var stickerView : StickerView
     private lateinit var imageLayout : ConstraintLayout
+    private lateinit var watermarkText : EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_document)
@@ -158,6 +160,7 @@ class EditDocument : AppCompatActivity() {
         stickerView = findViewById(R.id.stickerView)
         photoEditorView.source.setImageBitmap(Constant.original)
         imageLayout = findViewById(R.id.imageLayout)
+        watermarkText = findViewById(R.id.watermarkText)
 
 //        btnColorFilter = findViewById(R.id.btnColorFilter)
 //        btnAdjust = findViewById(R.id.btnAdjust)
@@ -216,9 +219,10 @@ class EditDocument : AppCompatActivity() {
 //            replaceLayout(bottom_sheet_layout_watermark_4)
 //        }
 
-//        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
-//        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
-//            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+        val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_dark_mode)
+            watermarkText.setBackgroundResource(R.drawable.white_bg_dark_mode)
 //            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
 //            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
 //            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_dark_mode)
@@ -268,8 +272,9 @@ class EditDocument : AppCompatActivity() {
 //            btnWatermark4Colors.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
 //            btnWatermark4Opacity.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
 //
-//        }else{
-//            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
+        }else{
+            toolbar.setNavigationIcon(R.drawable.arrow_left_icon_light_mode)
+            watermarkText.setBackgroundResource(R.drawable.white_bg)
 //            btnColorFilter.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
 //            btnAdjust.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
 //            btnHighlight.setBackgroundResource(R.drawable.design_with_ripple_effect_light_mode)
@@ -298,7 +303,7 @@ class EditDocument : AppCompatActivity() {
 //            btnWatermark4Fonts.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
 //            btnWatermark4Colors.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
 //            btnWatermark4Opacity.setBackgroundResource(R.drawable.edit_document_bottom_icon_design_light_mode)
-//        }
+        }
 
 
     }

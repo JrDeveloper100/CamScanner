@@ -1,5 +1,6 @@
 package com.example.camscanner
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,8 +13,11 @@ class MainActivity : AppCompatActivity() {
 
         val btnGetStarted : Button = findViewById(R.id.btnGetStarted)
         btnGetStarted.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("isGetStartedShown", true).apply()
             val intent = Intent(this, Home::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }

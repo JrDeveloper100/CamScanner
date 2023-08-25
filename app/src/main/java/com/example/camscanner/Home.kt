@@ -57,6 +57,7 @@ class Home : AppCompatActivity() {
         val btnCaptureIcon : ImageView = findViewById(R.id.btnCaptureIcon)
         btnBottomSheetPhoto = homeScreenBottomSheet.findViewById(R.id.btnBottomSheetPhoto)
         val themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+        Constant.themeMode = resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
         if(themeMode == android.content.res.Configuration.UI_MODE_NIGHT_YES){
             btnBottomSheetBusinessCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)
             btnBottomSheetIDCard.setBackgroundResource(R.drawable.all_cards_rounded_design_dark_mode)

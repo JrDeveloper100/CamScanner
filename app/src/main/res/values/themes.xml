@@ -80,7 +80,7 @@
 
     <!-- Custom Color in Light Mode -->
 
-    <style name="customColor">
+    <style name="customTextColor">
         <item name="android:textColor">@color/black</item>
     </style>
 
