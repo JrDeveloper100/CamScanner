@@ -211,6 +211,8 @@ class OnCaptureClick2 : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         Constant.imageBasket.clear()
+        Constant.imageRetaking = false
+        Constant.firstTime = false
     }
 
     override fun onResume() {

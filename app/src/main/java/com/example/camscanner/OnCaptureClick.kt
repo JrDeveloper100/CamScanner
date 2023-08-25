@@ -219,6 +219,44 @@ class OnCaptureClick : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+       if (!Constant.imageRetaking && !Constant.firstTime){
+           if (cameraType == "Photo"){
+               squareLine.visibility = View.GONE
+               startCamera()
+           }else if (cameraType == "IDCard"){
+               squareLine.visibility = View.VISIBLE
+               dottedLine.visibility = View.GONE
+               iDCardDialog()
+               startCamera()
+           }else if (cameraType == "Document"){
+               squareLine.visibility = View.GONE
+               dottedLine.visibility = View.GONE
+               startCamera()
+           }
+           else if(cameraType == "Export"){
+               squareLine.visibility = View.GONE
+               dottedLine.visibility = View.GONE
+               startCamera()
+           }else if (cameraType == "AcademicCard"){
+               squareLine.visibility = View.VISIBLE
+               dottedLine.visibility = View.GONE
+               academicCardDialog()
+               startCamera()
+           }else if (cameraType == "Book"){
+               squareLine.visibility = View.GONE
+               dottedLine.visibility = View.VISIBLE
+               startCamera()
+           }else if (cameraType == "BusinessCard"){
+               squareLine.visibility = View.VISIBLE
+               dottedLine.visibility = View.GONE
+               businessCardDialog()
+               startCamera()
+           }
+       }
+    }
+
     private fun takeTwoPhotos() {
 
         progressBar.visibility = View.VISIBLE

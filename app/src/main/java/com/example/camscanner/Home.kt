@@ -95,8 +95,10 @@ class Home : AppCompatActivity() {
             openCamera("IDCard")
         }
         btnBottomSheetBusinessCard.setOnClickListener {
-            val intent = Intent(this, BusinessCard::class.java)
-            startActivity(intent)
+//            val intent = Intent(this, BusinessCard::class.java)
+//            startActivity(intent)
+            Constant.conversionType = "BusinessCard"
+            openCamera("BusinessCard")
         }
 
         btnCaptureIcon.setOnClickListener {
