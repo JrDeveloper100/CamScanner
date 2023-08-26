@@ -41,10 +41,8 @@ import java.io.IOException
 
 class OnCaptureClick2 : AppCompatActivity() {
 
-    private lateinit var imageView : ImageView
     private lateinit var retakeButton : Button
     private lateinit var btnNoCrop : LinearLayout
-    private  var imageUri: Uri? = null
     private lateinit var brightnessSeekBar: SeekBar
     private lateinit var revertButton : ImageView
     private lateinit var improveColorsButton: ImageView
@@ -54,18 +52,14 @@ class OnCaptureClick2 : AppCompatActivity() {
     private lateinit var rotateButton : LinearLayout
     private lateinit var toolbar: MaterialToolbar
     private lateinit var imageIndexTextView : TextView
-//    private lateinit var photoEditorView: PhotoEditorView
     private lateinit var imageLayout : ConstraintLayout
-    private var rotationAngle = 0f
     private lateinit var viewPager: ViewPager2
     private lateinit var photoEditorAdapter: photoEditorAdapter
-    private val rotatedBitmaps: MutableList<Bitmap?> = mutableListOf()
     private val allAngles : MutableList<Float> = mutableListOf(90f,180f,270f)
     private var counter = 1;
     private var imageCurrentPosition = 0
     private var firstImageBrightness = 100
     private var secondImageBrightness = 100
-//    private var cameraType : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +70,6 @@ class OnCaptureClick2 : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-//        cameraType = intent.getStringExtra("cameraType")
         rotateButton = findViewById(R.id.rotateButton)
         retakeButton = findViewById(R.id.retakeButton)
         btnNoCrop = findViewById(R.id.btnNoCrop)
@@ -86,25 +79,12 @@ class OnCaptureClick2 : AppCompatActivity() {
         sharpBlackButton = findViewById(R.id.sharpBlackButton)
         ocvBlackButton = findViewById(R.id.ocvBlackButton)
         btnEdit = findViewById(R.id.btnEdit)
-//        photoEditorView = findViewById(R.id.photoEditorView)
         imageLayout = findViewById(R.id.imageLayout)
         viewPager = findViewById(R.id.viewPager)
         imageIndexTextView = findViewById(R.id.imageIndexTextView)
 
-//        if (cameraType == "Photo"){
-//            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
-//            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
-//        }else{
-//            val imageUri1 = intent.getStringExtra("imageUri1")?.toUri()
-//            val imageUri2 = intent.getStringExtra("imageUri2")?.toUri()
-//            Constant.imageBasket.add(uriToBitmap(this,imageUri1))
-//            Constant.imageBasket.add(uriToBitmap(this,imageUri2))
-//        }
-
-
         photoEditorAdapter = photoEditorAdapter(Constant.imageBasket, viewPager)
         viewPager.adapter = photoEditorAdapter
-//        initOperations()
 
 
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -147,7 +127,6 @@ class OnCaptureClick2 : AppCompatActivity() {
 
         brightnessSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-//                photoEditorView.source.colorFilter = setBrightness(progress / 2)
                 val brightness = (progress - 100).toFloat()
                 if (imageCurrentPosition==0){
                     firstImageBrightness = progress
@@ -172,21 +151,18 @@ class OnCaptureClick2 : AppCompatActivity() {
         }
 
         improveColorsButton.setOnClickListener {
-//            applyImprovementColors()
             photoEditorAdapter.applyImprovementColors(imageCurrentPosition)
             buttonSelectionLogic(2)
             updateBasket()
         }
 
         sharpBlackButton.setOnClickListener {
-//            applySharpBlack()
             photoEditorAdapter.applySharpBlack(imageCurrentPosition)
             buttonSelectionLogic(3)
             updateBasket()
         }
 
         ocvBlackButton.setOnClickListener {
-//            applyOcvBlack()
             photoEditorAdapter.applyOcvBlack(imageCurrentPosition)
             buttonSelectionLogic(4)
             updateBasket()
@@ -211,6 +187,7 @@ class OnCaptureClick2 : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         Constant.imageBasket.clear()
+        Constant.imagesPath.clear()
         Constant.imageRetaking = false
         Constant.firstTime = false
     }
@@ -236,90 +213,6 @@ class OnCaptureClick2 : AppCompatActivity() {
         photoEditorAdapter.setRotationAngle(currentPosition, newRotationAngle)
     }
 
-   private fun uriToBitmap(context: Context, uri: Uri?): Bitmap? {
-       return try {
-           MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
-       } catch (e: IOException) {
-           e.printStackTrace()
-           null
-       }
-    }
-
-    private fun revertToOriginal() {
-//        photoEditorView.source.colorFilter = null
-        buttonSelectionLogic(1)
-    }
-
-    private fun applyOcvBlack() {
-        val matrix = ColorMatrix().apply {
-            setSaturation(1f) // Reset the saturation
-            postConcat(ColorMatrix(floatArrayOf(
-                0.2f, 0f, 0f, 0f, 0f,
-                0f, 0.2f, 0f, 0f, 0f,
-                0f, 0f, 0.2f, 0f, 0f,
-                0f, 0f, 0f, 1f, 0f
-            )))
-        }
-
-        val filter = ColorMatrixColorFilter(matrix)
-//        photoEditorView.source.colorFilter = filter
-        buttonSelectionLogic(4)
-    }
-
-    private fun applySharpBlack() {
-        val matrix = ColorMatrix().apply {
-            setSaturation(1f) // Reset the saturation
-            postConcat(ColorMatrix(floatArrayOf(
-                1.3f, 0f, 0f, 0f, -150f,
-                0f, 1.3f, 0f, 0f, -150f,
-                0f, 0f, 1.3f, 0f, -150f,
-                0f, 0f, 0f, 1f, 0f
-            )))
-        }
-
-        val filter = ColorMatrixColorFilter(matrix)
-//        photoEditorView.source.colorFilter = filter
-        buttonSelectionLogic(3)
-    }
-
-    private fun applyImprovementColors() {
-        val matrix = ColorMatrix().apply {
-            setSaturation(1f) // Reset the saturation
-            postConcat(ColorMatrix(floatArrayOf(
-                1.3f, 0f, 0f, 0f, 0f,
-                0f, 1.3f, 0f, 0f, 0f,
-                0f, 0f, 1.3f, 0f, 0f,
-                0f, 0f, 0f, 1f, 0f
-            )))
-        }
-
-        val filter = ColorMatrixColorFilter(matrix)
-//        photoEditorView.source.colorFilter = filter
-        buttonSelectionLogic(2)
-    }
-
-    private fun adjustBrightness(brightness: Float) {
-        try {
-            val currentImageView = viewPager.findViewWithTag<ImageView>("image_$imageCurrentPosition")
-            if (currentImageView == null) {
-                Toast.makeText(applicationContext,"null",Toast.LENGTH_SHORT).show()
-                return
-            }
-            val colorMatrix = ColorMatrix().apply {
-                set(floatArrayOf(
-                    1f, 0f, 0f, 0f, brightness,
-                    0f, 1f, 0f, 0f, brightness,
-                    0f, 0f, 1f, 0f, brightness,
-                    0f, 0f, 0f, 1f, 0f
-                ))
-            }
-
-            val colorFilter = ColorMatrixColorFilter(colorMatrix)
-            currentImageView?.colorFilter = colorFilter
-        }catch (e: Exception){
-
-        }
-    }
 
     private fun retakePicture() {
         Constant.originalImagePosition = imageCurrentPosition
@@ -388,37 +281,10 @@ class OnCaptureClick2 : AppCompatActivity() {
         return (configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     }
 
-    private fun setBrightness(progress: Int): PorterDuffColorFilter {
-        return if (progress >= 100) {
-            PorterDuffColorFilter(
-                Color.argb((progress - 100) * 255 / 100, 255, 255, 255),
-                PorterDuff.Mode.SRC_OVER
-            )
-        } else PorterDuffColorFilter(
-            Color.argb((100 - progress) * 255 / 100, 0, 0, 0),
-            PorterDuff.Mode.SRC_ATOP
-        )
-    }
-
     private fun goToExportActivity() {
-//        for (i in 0..1) {
-//            println(":::::::::::::::::::::::::::::::::$i:::::::::::::::::::::::::::::::::::::::::::")
-//            val bitmap = photoEditorAdapter.getMainFrameBitmap(i)
-//            Constant.bitmapsToExport.add(bitmap)
-//        }
-//        Constant.original = getMainFrameBitmap()
-//        val drawable = imageView.drawable as BitmapDrawable
-//        val originalBitmap = drawable.bitmap
-//        var outputStream: FileOutputStream
         try {
-//            val outputFile = File(filesDir, "filtered_image.jpg")
-//            outputStream = FileOutputStream(outputFile)
-//            originalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-//            outputStream.close()
-
             // Pass the file path as an extra in the Intent
             val intent = Intent(this, Export::class.java)
-//            intent.putExtra("filteredImagePath", outputFile.absolutePath)
             startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -437,61 +303,10 @@ class OnCaptureClick2 : AppCompatActivity() {
         Constant.original = photoEditorAdapter.getMainFrameBitmap(imageCurrentPosition)
         Constant.originalImagePosition = imageCurrentPosition
         val intent = Intent(this, CropActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         startActivity(intent)
-//        finish()
-    }
-
-    private fun getMainFrameBitmap(): Bitmap? {
-        val createBitmap = Bitmap.createBitmap(imageLayout.width, imageLayout.height, Bitmap.Config.ARGB_8888)
-        imageLayout.draw(Canvas(createBitmap))
-        return imageBitmap(createBitmap)
-    }
-
-    private fun imageBitmap(bitmap: Bitmap): Bitmap? {
-
-        val width = bitmap.width
-        var i = -1
-        var height = bitmap.height
-        var i2 = -1
-        var i3 = width
-        var i4 = 0
-        while (i4 < bitmap.height) {
-            var i5 = i2
-            var i6 = i3
-            for (i7 in 0 until bitmap.width) {
-                if (bitmap.getPixel(i7, i4) shr 24 and 255 > 0) {
-                    if (i7 < i6) {
-                        i6 = i7
-                    }
-                    if (i7 > i) {
-                        i = i7
-                    }
-                    if (i4 < height) {
-                        height = i4
-                    }
-                    if (i4 > i5) {
-                        i5 = i4
-                    }
-                }
-            }
-            i4++
-            i3 = i6
-            i2 = i5
-        }
-        return if (i < i3 || i2 < height) {
-            null
-        } else {
-            Bitmap.createBitmap(bitmap, i3, height, i - i3 + 1, i2 - height + 1)
-        }
-
     }
 
     private fun updateBasket(){
         Constant.imageBasket[imageCurrentPosition] = photoEditorAdapter.getMainFrameBitmap(imageCurrentPosition)
-    }
-
-    private fun showToast(msg: String) {
-        Toast.makeText(this,msg, Toast.LENGTH_SHORT).show()
     }
 }

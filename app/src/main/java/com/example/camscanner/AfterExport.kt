@@ -95,8 +95,7 @@ class AfterExport : AppCompatActivity() {
             openPasswordBottomSheet(filePath)
         }
         btnShareAsImage.setOnClickListener {
-//            val imageUri = intent.getParcelableExtra<Uri>("filteredImage")
-//            shareImage(imageByteArray)
+            shareImage()
         }
         btnShareAsPdf.setOnClickListener {
 //            val pdfUri = intent.getParcelableExtra<Uri>("pdfUri")
@@ -229,6 +228,7 @@ class AfterExport : AppCompatActivity() {
 
     private fun shareAsPDF(filePath: String?) {
         val file = File(filePath.toString())
+        println("::::::::::::::::::PDF PATH::::::::::::${filePath.toString()}:::::::::::::::::::::::::::::::")
         if (file.exists()) {
             val uri = FileProvider.getUriForFile(
                 this,
@@ -280,11 +280,28 @@ class AfterExport : AppCompatActivity() {
 
     }
 
-    private fun shareImage(imageByteArray: ByteArray) {
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "image/*"
-        intent.putExtra(Intent.EXTRA_STREAM, imageByteArray)
-        startActivity(Intent.createChooser(intent, "Share Image"))
+    private fun shareImage() {
+        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
+            type = "image/jpeg"
+            val imageUris = ArrayList<Uri>()
+
+            // Convert image paths in the imageList to URIs
+            for (imagePath in Constant.imagesPath) {
+                // Convert the imagePath to a regular file path
+                val filePath = imagePath.toString().removePrefix("file://")
+                val imageFile = File(filePath)
+                val imageUri = FileProvider.getUriForFile(this@AfterExport, "com.example.camscanner.firstfileprovider", imageFile)
+                imageUris.add(imageUri)
+            }
+            // Attach the list of content URIs
+            putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris)
+
+        }
+        // Optionally set a title for the sharing chooser
+        val chooser = Intent.createChooser(shareIntent, "Share Images")
+
+        // Start the sharing chooser
+        startActivity(chooser)
     }
 
     private fun sharePdf(pdfUri: Uri) {

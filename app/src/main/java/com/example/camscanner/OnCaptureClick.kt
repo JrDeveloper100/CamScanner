@@ -226,6 +226,7 @@ class OnCaptureClick : AppCompatActivity() {
                squareLine.visibility = View.GONE
                startCamera()
            }else if (cameraType == "IDCard"){
+               side.text = "Front Side"
                squareLine.visibility = View.VISIBLE
                dottedLine.visibility = View.GONE
                iDCardDialog()
@@ -240,6 +241,7 @@ class OnCaptureClick : AppCompatActivity() {
                dottedLine.visibility = View.GONE
                startCamera()
            }else if (cameraType == "AcademicCard"){
+               side.text = "Front Side"
                squareLine.visibility = View.VISIBLE
                dottedLine.visibility = View.GONE
                academicCardDialog()
@@ -249,6 +251,7 @@ class OnCaptureClick : AppCompatActivity() {
                dottedLine.visibility = View.VISIBLE
                startCamera()
            }else if (cameraType == "BusinessCard"){
+               side.text = "Front Side"
                squareLine.visibility = View.VISIBLE
                dottedLine.visibility = View.GONE
                businessCardDialog()
@@ -297,7 +300,10 @@ class OnCaptureClick : AppCompatActivity() {
 //                        intent.putExtra("cameraType",cameraType)
                         if (Constant.imageRetaking){
                             Constant.imageBasket[Constant.originalImagePosition] = uriToBitmap(this@OnCaptureClick, savedUri)
+                            Constant.imagesPath[Constant.originalImagePosition] = savedUri
                         }else{
+                            Constant.imagesPath.add(imageUri1)
+                            Constant.imagesPath.add(imageUri2)
                             Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri1))
                             Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick,imageUri2))
                         }
@@ -561,7 +567,10 @@ class OnCaptureClick : AppCompatActivity() {
 //                    intent.putExtra("cameraType",cameraType)
                     if (Constant.imageRetaking){
                         Constant.imageBasket[Constant.originalImagePosition] = uriToBitmap(this@OnCaptureClick, savedUri)
+                        Constant.imagesPath[Constant.originalImagePosition] = savedUri
                     }else{
+                        println(":::::::::::::::::::Path:Maybe:::::::::::::::${savedUri}::::::::::::::::::::::::::::::::::::::::::::")
+                        Constant.imagesPath.add(savedUri)
                         Constant.imageBasket.add(uriToBitmap(this@OnCaptureClick, savedUri))
                     }
 
