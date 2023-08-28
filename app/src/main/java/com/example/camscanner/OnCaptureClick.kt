@@ -491,26 +491,6 @@ class OnCaptureClick : AppCompatActivity() {
     }
 
 
-    private fun turnFlashOff() {
-        cameraId?.let { id ->
-            try {
-                cameraManager.setTorchMode(id, false)
-            } catch (e: CameraAccessException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun turnFlashOn() {
-        cameraId?.let { id ->
-            try {
-                cameraManager.setTorchMode(id, true)
-            } catch (e: CameraAccessException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 
@@ -644,7 +624,8 @@ class OnCaptureClick : AppCompatActivity() {
                     }
                 }
                 val intent = Intent(this, OnCaptureClick2::class.java)
-                intent.putExtra("imageUri", imageUri.toString())
+//                intent.putExtra("imageUri", imageUri.toString())
+                Constant.imageBasket.add(uriToBitmap(this,selectedImageUri))
                 startActivity(intent)
             } ?: showToast("Failed to create image file")
         } else {
