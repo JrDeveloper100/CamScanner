@@ -1,4 +1,4 @@
-package com.example.camscanner
+   package com.example.camscanner
 
 import android.Manifest
 import android.app.AlertDialog
