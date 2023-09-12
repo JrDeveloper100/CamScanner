@@ -236,7 +236,6 @@ class AfterExport : AppCompatActivity() {
 
     private fun shareAsPDF(filePath: String?) {
         val file = File(filePath.toString())
-        println("::::::::::::::::::PDF PATH::::::::::::${filePath.toString()}:::::::::::::::::::::::::::::::")
         if (file.exists()) {
             val uri = FileProvider.getUriForFile(
                 this,
